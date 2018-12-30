@@ -1,0 +1,38 @@
+﻿@model WebApplication.Models.User
+@{
+    ViewBag.Title = "修改用户信息";
+}
+
+<div class="page-header">
+    <h1>修改用户信息</h1>
+</div>
+<form method="POST" action="">
+    @Html.ValidationSummary(true)
+    <fieldset>
+
+        <input id="Id" name="Id" type="hidden" value="@Model.Id" />
+         
+        <div class="form-group">
+            <label for="Name">姓&nbsp;&nbsp;&nbsp;&nbsp;名：</label>
+            <input id="Name" name="Name" type="text" value="@Model.Name" class="form-control" placeholder="Digite o nome da sala">
+            @Html.ValidationMessageFor(x => x.Name)
+            <br />
+            <label for="Name">&nbsp;登录名：</label>
+            <input id="LoginName" name="LoginName" type="text" value="@Model.LoginName" class="form-control" readonly="readonly">
+            <br />
+            <label for="Role">角&nbsp;&nbsp;&nbsp;&nbsp;色：</label>
+            <input id="Role" name="Role" type="text" value="@Model.Role" class="form-control" readonly="readonly">
+            <br />
+            <label for="Password">密&nbsp;&nbsp;&nbsp;&nbsp;码：</label>
+            <input id="Password" name="Password" type="password" />
+            <br />
+            <label for="Password">确认密码：</label>
+            <input id="ConfirmPassword" name="ConfirmPassword" type="password" />
+        </div>
+        <hr />
+        <p>
+            <button type="submit">保存</button>
+            <a href="@Url.Action("Index","User")">取消</a>
+        </p>
+    </fieldset>
+</form>

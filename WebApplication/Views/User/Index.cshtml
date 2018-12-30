@@ -1,0 +1,58 @@
+﻿@model  IEnumerable<WebApplication.Models.User>
+@{
+    ViewBag.Title = "User";
+}
+
+<div class="page-header">
+    <h1>用户列表</h1>
+    <a href="@Url.Action("Create","User")" class="btn btn-sm btn-primary">创建新用户</a>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>编号</th>
+                            <th>姓名</th>
+                            <th>登录名</th>
+                            <th>角色</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in @Model)
+                        {
+                            <tr>
+                                <td><a href="@Url.Action("Details", "User" , new { Id=item.Id })">@item.Id</a></td>
+                                <td><a href="@Url.Action("Details", "User" , new { Id=item.Id })">@item.Name</a></td>
+                                <td>@item.LoginName</td>
+                                <td>@item.Role</td>
+                                <td style="width: 100px">
+                                    <a href="@Url.Action("Update", "User" , new { Id=item.Id })">
+                                        <span>编辑</span>
+                                    </a>
+                                    <a href="#" onClick="Delete(@item.Id); return false;">删除</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function Delete(userid)
+    {
+        if (confirm("确定要删除？")) {
+            url = "/User/Delete";
+            parameter = { id: userid };
+            $.post(url, parameter, function (data) {
+                alert("删除成功！");
+                window.location = "/User/Index";
+            });
+        }
+    }
+</script>

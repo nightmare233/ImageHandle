@@ -1,0 +1,21 @@
+﻿@model WebApplication.Models.User
+@{
+    ViewBag.Title = "用户详情";
+}
+
+<div class="page-header">
+    <h1>用户详情</h1> 
+</div>
+<fieldset>
+    @*<legend>用户详情</legend>*@
+    <div class="form-group">
+        <strong>姓名: </strong> @Model.Name <br/>
+        <strong>登录名: </strong> @Model.LoginName<br />
+        <strong>角色: </strong> @Model.Role<br />
+    </div>
+</fieldset>
+<hr />
+<p>
+    <a href="@Url.Action("Update","User", new{Id=Model.Id})">修改</a>
+    <a href="@Url.Action("Index","User")">返回</a>
+</p>
