@@ -1,6 +1,8 @@
 ﻿@model WebApplication.Models.OrderForm
+@using System.Web.Mvc.Html
 @{
     ViewBag.Title = "创建表单";
+    List<WebApplication.Models.ImageType> ImageTypeList = (List<WebApplication.Models.ImageType>)ViewData["ImageTypeList"];
 }
 
 <div class="page-header">
@@ -9,17 +11,16 @@
 
 <form method="POST" action="Add"> 
     <fieldset>
-        <div class="form-group">
-            <label for="ImageType">印章分类</label>
-            <input type="checkbox" name="ImageType" value="全部" />全部
-            <input type="checkbox" name="ImageType" value="圆形章" />圆形章
-            <input type="checkbox" name="ImageType" value="扁章" />扁章
-            <input type="checkbox" name="ImageType" value="闲章" />闲章
+        <div class="form-group"> 
+            @Html.LabelFor(model => model.ImageTypes.ImageType)
+
+            @Html.CheckBoxListFor(model => model.ImageTypes.ImageType, model => model.ImageTypes.ImageType, ImageTypeList, f => f.Id, f => f.Name, false, new Dictionary<string, object> { { "class", "check-inline" } })
+         
         </div>
         <button type="submit">生成</button>
         <br />
 
-        <label id="URL">@Model.URL</label>
+        <a href="@Model.URL">@Model.URL</a>
         <br/>
         <button type="button">复制链接</button> 链接过期时间： @Model.ExpireTime
         <br />

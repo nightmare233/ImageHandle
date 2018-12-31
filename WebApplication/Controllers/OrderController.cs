@@ -107,7 +107,9 @@ namespace WebApplication.Controllers
 
         public ActionResult Add()
         {
+            ViewData["ImageTypeList"] = ImageType.GetAll(); 
             OrderForm orderForm = new OrderForm();
+            orderForm.ImageTypes = new ImageTypeModel();
             return View(orderForm);
         }
 
@@ -117,8 +119,11 @@ namespace WebApplication.Controllers
             orderForm.ExpireTime = DateTime.Now.AddMinutes(20);
             orderForm.formGuid = Guid.NewGuid();
             orderForm.URL = string.Format(@"http://{0}\Order\Create\{1}", Request.Url.Authority, orderForm.formGuid);
-            CacheHelper.SetCache(orderForm.formGuid.ToString(), orderForm.ImageType);
+            CacheHelper.SetCache(orderForm.formGuid.ToString(), orderForm.ImageTypes);
+            ViewData["ImageTypeList"] = ImageType.GetAll();
             return View(orderForm);
         }
     }
 }
+
+ 

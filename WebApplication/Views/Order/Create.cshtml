@@ -8,7 +8,7 @@
 </div>
 
 <form method="POST" action="Create"> 
-    <fieldset> 
+    <fieldset>
         <div class="form-group">
             <label for="Name">淘宝订单号</label>
             <input id="TaobaoId" name="TaobaoId" type="text" value="@Model.TaobaoId" class="form-control" placeholder="淘宝订单号" required="required" />
@@ -51,11 +51,11 @@
             <input id="Text" name="Text" type="text" value="@Model.Text" class="form-control" placeholder="印章文字" required="required" />
             <a href="@Url.Action("","Order")">预览</a>
         </div>
-        <label style="color:red">@ViewBag.Message</label>
-        <hr /> 
         <div>
-            <img src="g:/icon1.png"/>
+            <img src="\Images\icon1.png" />
         </div>
+        <label style="color:red">@ViewBag.Message</label>
+        <hr />
         <p>
             <button type="submit">提交</button>
             <a href="@Url.Action("Index","User")">取消</a>
