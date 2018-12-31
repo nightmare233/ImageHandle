@@ -1,0 +1,64 @@
+﻿@model WebApplication.Models.Order
+@{
+    ViewBag.Title = "提交印章文字";
+}
+
+<div class="page-header">
+    <h1>提交印章文字</h1>
+</div>
+
+<form method="POST" action="Create"> 
+    <fieldset> 
+        <div class="form-group">
+            <label for="Name">淘宝订单号</label>
+            <input id="TaobaoId" name="TaobaoId" type="text" value="@Model.TaobaoId" class="form-control" placeholder="淘宝订单号" required="required" />
+            <br />
+            <label for="ImageType">印章类型</label>
+            <select id="ImageType" name="ImageType">
+                <option value="圆形章" selected="selected">圆形章</option>
+                <option value="正方形章">正方形章</option>
+            </select>
+            <br />
+            <label for="ImageSize">尺寸大小</label>
+            <select id="ImageSize" name="ImageSize">
+                <option value="18" selected="selected">18mm</option>
+                <option value="20">20mm</option>
+                <option value="22">22mm</option>
+            </select>
+            <br />
+            <label for="Font">字体</label>
+            <select id="Font" name="Font">
+                <option value="宋体" selected="selected">宋体</option>
+                <option value="微软雅黑">微软雅黑</option>
+                <option value="方正黑体">方正黑体</option>
+            </select>
+            <br />
+            <label for="Style">样式</label>
+            <select id="Style" name="Style">
+                <option value="阴文" selected="selected">阴文</option>
+                <option value="阳文">阳文</option>
+            </select>
+            <br />
+            <label for="BgImage">背景图片</label>
+            <select id="BgImage" name="BgImage">
+                <option value="背景1" selected="selected">背景1</option>
+                <option value="背景2">背景2</option>
+                <option value="背景3">背景3</option>
+                <option value="背景4">背景4</option>
+            </select>
+            <br />
+            <label for="preview">预览效果</label>
+            <input id="Text" name="Text" type="text" value="@Model.Text" class="form-control" placeholder="印章文字" required="required" />
+            <a href="@Url.Action("","Order")">预览</a>
+        </div>
+        <label style="color:red">@ViewBag.Message</label>
+        <hr /> 
+        <div>
+            <img src="g:/icon1.png"/>
+        </div>
+        <p>
+            <button type="submit">提交</button>
+            <a href="@Url.Action("Index","User")">取消</a>
+        </p>
+    </fieldset>
+</form>

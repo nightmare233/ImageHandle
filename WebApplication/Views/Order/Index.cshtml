@@ -1,0 +1,52 @@
+﻿@model  IEnumerable<WebApplication.Models.Order>
+@{
+    ViewBag.Title = "Orders";
+}
+
+<div class="page-header">
+    <h1>用户列表</h1>
+    <a href="@Url.Action("Add","Order")" class="btn btn-sm btn-primary">创建表单</a>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <table class="table table-hover"> 
+                        @foreach (var item in @Model)
+                        {
+                            <tr>
+                                <td><img  src="g:\\icon1.png"/></td>
+                                <td>
+                                    淘宝订单号：@item.TaobaoId<br />
+                                    时间：@item.SubmitTime<br />
+                                    印章类型：@item.ImageType &nbsp;&nbsp; 尺寸： @item.ImageSize<br />
+                                    字体样式： @item.Style &nbsp;&nbsp; <a href="@Url.Action("", "" , new { Id=item.Id })">下载PNG图片</a>
+                                </td>
+                                <td style="width: 100px">
+                                    <a href="@Url.Action("Update", "Order" , new { Id=item.Id })">
+                                        <span>同意</span>
+                                    </a>
+                                    <a href="@Url.Action("Update", "Order" , new { Id=item.Id })">
+                                        <span>不同意</span>
+                                    </a>
+                                </td>
+                            </tr>
+                        } 
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function Delete(userid)
+    {
+        if (confirm("确定要删除？")) {
+            url = "/User/Delete";
+            parameter = { id: userid };
+            $.post(url, parameter, function (data) {
+                alert("删除成功！");
+                window.location = "/User/Index";
+            });
+        }
+    }
+</script>

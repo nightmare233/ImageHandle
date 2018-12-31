@@ -13,8 +13,11 @@ namespace WebApplication.Models
         public int ImageSize { get; set; }
         public string Font { get; set; }
         public string Style { get; set; }
+        public string Text { get; set; }
+        public string ImageUrl { get; set; }
+        public string BgImage { get; set; }
         public DateTime SubmitTime { get; set; }
-        public int Status { get; set; }
+        public string Status { get; set; }
         public DateTime AuditTime { get; set; }
         public int Auditor { get; set; }
         public string AuditorName { get; set; }

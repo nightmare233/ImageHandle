@@ -1,0 +1,33 @@
+﻿@model WebApplication.Models.OrderForm
+@{
+    ViewBag.Title = "创建表单";
+}
+
+<div class="page-header">
+    <h1>创建表单</h1>
+</div>
+
+<form method="POST" action="Add"> 
+    <fieldset>
+        <div class="form-group">
+            <label for="ImageType">印章分类</label>
+            <input type="checkbox" name="ImageType" value="全部" />全部
+            <input type="checkbox" name="ImageType" value="圆形章" />圆形章
+            <input type="checkbox" name="ImageType" value="扁章" />扁章
+            <input type="checkbox" name="ImageType" value="闲章" />闲章
+        </div>
+        <button type="submit">生成</button>
+        <br />
+
+        <label id="URL">@Model.URL</label>
+        <br/>
+        <button type="button">复制链接</button> 链接过期时间： @Model.ExpireTime
+        <br />
+        <label style="color:red">@ViewBag.Message</label>
+
+        <hr />
+        <p>
+            <a href="@Url.Action("Index","Order")">关闭</a>
+        </p>
+    </fieldset>
+</form>
