@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using WebApplication.Repositories;
 using WebApplication.Models;
+using WebApplication.Common;
 
 namespace WebApplication.Application
 {
@@ -30,15 +31,20 @@ namespace WebApplication.Application
                 {
                     Id = int.Parse(row["Id"].ToString()),
                     TaobaoId = int.Parse(row["TaobaoId"].ToString()),
-                    ImageType = row["ImageType"].ToString(),
+                    ImageType = int.Parse(row["ImageType"].ToString()),
+                    ImageTypeName = ((EnumImageType)int.Parse(row["ImageType"].ToString())).ToString(),
                     ImageSize = int.Parse(row["ImageSize"].ToString()),
-                    Font = row["Font"].ToString(),
-                    Style = row["Style"].ToString(),
+                    Font = int.Parse(row["Font"].ToString()),
+                    FontName = ((EnumFont)int.Parse(row["Font"].ToString())).ToString(),
+                    Style = int.Parse(row["Style"].ToString()),
+                    StyleName = ((EnumImageStyle)int.Parse(row["Style"].ToString())).ToString(),
                     Text = row["Text"].ToString(),
                     ImageUrl = row["ImageUrl"].ToString(),
-                    BgImage = row["BgImage"].ToString(),
+                    BgImage = int.Parse(row["BgImage"].ToString()),
+                    BgImageUrl = "", //to do
                     SubmitTime = DateTime.Parse(row["SubmitTime"].ToString()),
-                    Status = row["Status"].ToString(),
+                    Status = int.Parse(row["Status"].ToString()),
+                    StatusName = ((EnumStatus)int.Parse(row["Status"].ToString())).ToString(),
                     Auditor = int.Parse(row["Auditor"].ToString()),
                     AuditorName = row["AuditorName"] == null ? "" : row["AuditoName"].ToString(),
                     Productor = int.Parse(row["Productor"].ToString()),
@@ -69,19 +75,24 @@ namespace WebApplication.Application
                 {
                     Id = int.Parse(row["Id"].ToString()),
                     TaobaoId = int.Parse(row["TaobaoId"].ToString()),
-                    ImageType = row["ImageType"].ToString(),
+                    ImageType = int.Parse(row["ImageType"].ToString()),
+                    ImageTypeName = ((EnumImageType)int.Parse(row["ImageType"].ToString())).ToString(),
                     ImageSize = int.Parse(row["ImageSize"].ToString()),
-                    Font = row["Font"].ToString(),
-                    Style = row["Style"].ToString(),
+                    Font = int.Parse(row["Font"].ToString()),
+                    FontName = ((EnumFont)int.Parse(row["Font"].ToString())).ToString(),
+                    Style = int.Parse(row["Style"].ToString()),
+                    StyleName = ((EnumImageStyle)int.Parse(row["Style"].ToString())).ToString(),
                     Text = row["Text"].ToString(),
                     ImageUrl = row["ImageUrl"].ToString(),
-                    BgImage = row["BgImage"].ToString(),
+                    BgImage = int.Parse(row["BgImage"].ToString()),
+                    BgImageUrl = "", //to do
                     SubmitTime = DateTime.Parse(row["SubmitTime"].ToString()),
-                    Status = row["Status"].ToString(),
+                    Status = int.Parse(row["Status"].ToString()),
+                    StatusName = ((EnumStatus)int.Parse(row["Status"].ToString())).ToString(),
                     Auditor = int.Parse(row["Auditor"].ToString()),
-                    AuditorName = row["AuditorName"].ToString(),
+                    AuditorName = row["AuditorName"] == null ? "" : row["AuditoName"].ToString(),
                     Productor = int.Parse(row["Productor"].ToString()),
-                    ProductorName = row["ProductorName"].ToString(),
+                    ProductorName = row["ProductorName"] == null ? "" : row["ProductorName"].ToString(),
                     ProductTime = DateTime.Parse(row["ProductTime"].ToString()),
                     DeleteTime = DateTime.Parse(row["DeleteTime"].ToString())
                 };
@@ -111,20 +122,24 @@ namespace WebApplication.Application
             {
                 Id = int.Parse(row["Id"].ToString()),
                 TaobaoId = int.Parse(row["TaobaoId"].ToString()),
-                ImageType = row["ImageType"].ToString(),
+                ImageType = int.Parse(row["ImageType"].ToString()),
+                ImageTypeName = ((EnumImageType)int.Parse(row["ImageType"].ToString())).ToString(),
                 ImageSize = int.Parse(row["ImageSize"].ToString()),
-                Font = row["Font"].ToString(),
-                Style = row["Style"].ToString(),
+                Font = int.Parse(row["Font"].ToString()),
+                FontName = ((EnumFont)int.Parse(row["Font"].ToString())).ToString(),
+                Style = int.Parse(row["Style"].ToString()),
+                StyleName = ((EnumImageStyle)int.Parse(row["Style"].ToString())).ToString(),
                 Text = row["Text"].ToString(),
                 ImageUrl = row["ImageUrl"].ToString(),
-                BgImage = row["BgImage"].ToString(),
+                BgImage = int.Parse(row["BgImage"].ToString()),
+                BgImageUrl = "", //to do
                 SubmitTime = DateTime.Parse(row["SubmitTime"].ToString()),
-                Status = row["Status"].ToString(),
+                Status = int.Parse(row["Status"].ToString()),
+                StatusName = ((EnumStatus)int.Parse(row["Status"].ToString())).ToString(),
                 Auditor = int.Parse(row["Auditor"].ToString()),
-                AuditorName = row["AuditorName"].ToString(),
-                AuditTime = DateTime.Parse(row["AuditTime"].ToString()),
+                AuditorName = row["AuditorName"] == null ? "" : row["AuditoName"].ToString(),
                 Productor = int.Parse(row["Productor"].ToString()),
-                ProductorName = row["ProductorName"].ToString(),
+                ProductorName = row["ProductorName"] == null ? "" : row["ProductorName"].ToString(),
                 ProductTime = DateTime.Parse(row["ProductTime"].ToString()),
                 DeleteTime = DateTime.Parse(row["DeleteTime"].ToString())
             };

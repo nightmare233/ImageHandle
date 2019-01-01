@@ -19,8 +19,8 @@
                                 <td>
                                     淘宝订单号：@item.TaobaoId<br />
                                     时间：@item.SubmitTime<br />
-                                    印章类型：@item.ImageType &nbsp;&nbsp; 尺寸： @item.ImageSize<br />
-                                    字体样式： @item.Style &nbsp;&nbsp; <a href="@Url.Action("", "" , new { Id=item.Id })">下载PNG图片</a>
+                                    印章类型：@item.ImageTypeName &nbsp;&nbsp; 尺寸： @item.ImageSize<br />
+                                    字体样式： @item.StyleName &nbsp;&nbsp; <a href="@Url.Action("", "" , new { Id=item.Id })">下载PNG图片</a>
                                 </td>
                                 <td style="width: 100px">
                                     <a href="@Url.Action("Update", "Order" , new { Id=item.Id })">

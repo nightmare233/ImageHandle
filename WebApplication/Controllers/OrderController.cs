@@ -60,7 +60,7 @@ namespace WebApplication.Controllers
             try
             { 
                 order.SubmitTime = DateTime.Now;
-                order.Status = "待审批";
+                order.Status = (int)EnumStatus.待审批;
                 order.SubmitTime = DateTime.Now;
                 order.ProductTime = DateTime.MinValue;
                 order.AuditTime = DateTime.MinValue;
