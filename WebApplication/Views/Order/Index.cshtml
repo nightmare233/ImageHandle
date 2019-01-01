@@ -1,8 +1,19 @@
 ﻿@model  IEnumerable<WebApplication.Models.Order>
-@{
+@using WebApplication.Common;
+@{ 
     ViewBag.Title = "Orders";
 }
-
+<script type="text/javascript">
+    function ChangeStatus(orderid,status) {
+        if (confirm("确定吗？")) {
+            url = "/Order/Update";
+            parameter = { id: orderid, status: status };
+            $.post(url, parameter, function (data) {
+                window.location = "/Order/Index";
+            });
+        }
+    }
+</script>
 <div class="page-header">
     <h1>用户列表</h1>
     <a href="@Url.Action("Add","Order")" class="btn btn-sm btn-primary">创建表单</a>
@@ -15,20 +26,50 @@
                         @foreach (var item in @Model)
                         {
                             <tr>
-                                <td width="120px"><img src="\Images\icon1.png"/></td>
-                                <td>
+                                <td width="120px">
+                                    <img src="\Images\icon1.png"/></td>
+                                <td align="left">
                                     淘宝订单号：@item.TaobaoId<br />
                                     时间：@item.SubmitTime<br />
                                     印章类型：@item.ImageTypeName &nbsp;&nbsp; 尺寸： @item.ImageSize<br />
                                     字体样式： @item.StyleName &nbsp;&nbsp; <a href="@Url.Action("", "" , new { Id=item.Id })">下载PNG图片</a>
                                 </td>
-                                <td style="width: 100px">
-                                    <a href="@Url.Action("Update", "Order" , new { Id=item.Id })">
-                                        <span>同意</span>
-                                    </a>
-                                    <a href="@Url.Action("Update", "Order" , new { Id=item.Id })">
-                                        <span>不同意</span>
-                                    </a>
+                                <td style="width: 200px">
+                                    @if (item.Status == (int)EnumStatus.待审批)
+                                    {
+                                        <a href="#" onClick="ChangeStatus(@item.Id,@Convert.ToInt32(EnumStatus.待生产)); return false;" class="btn btn-sm btn-primary">同意</a>
+                                        <a href="#" onClick="ChangeStatus(@item.Id,@Convert.ToInt32(EnumStatus.已删除)); return false;" class="btn btn-sm btn-primary">不同意</a>
+                                    }
+                                    else if (item.Status == (int)EnumStatus.待生产)
+                                    {
+                                        <a href="#" onClick="ChangeStatus(@item.Id,@Convert.ToInt32(EnumStatus.生产中)); return false;" class="btn btn-sm btn-primary">生产</a>
+                                        <br />
+                                        <span>审核人：@item.AuditorName</span>
+                                    }
+                                    else if (item.Status == (int)EnumStatus.生产中)
+                                    {
+                                        <a href="#" onClick="ChangeStatus(@item.Id,@Convert.ToInt32(EnumStatus.已完成)); return false;" class="btn btn-sm btn-primary">完成</a>
+                                        <br />
+                                        <span>审核人：@item.AuditorName</span>
+                                        <br />
+                                        <span>生产员：@item.ProductorName</span>
+                                    }
+                                    else if (item.Status == (int)EnumStatus.已完成)
+                                    { 
+                                        <a href="#" onClick="ChangeStatus(@item.Id,@Convert.ToInt32(EnumStatus.已删除)); return false;" class="btn btn-sm btn-primary">删除</a>
+                                        <br />
+                                        <span>已完成</span>
+                                        <br />
+                                        <span>审核人：@item.AuditorName</span>
+                                        <br />
+                                        <span>生产员：@item.ProductorName</span>
+                                    }
+                                    else if (item.Status == (int)EnumStatus.已删除)
+                                    { 
+                                        <span>已删除</span>
+                                        <br />
+                                        <span>删除时间：@item.DeleteTime</span>
+                                    }
                                 </td>
                             </tr>
                         } 
@@ -37,16 +78,4 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    function Delete(userid)
-    {
-        if (confirm("确定要删除？")) {
-            url = "/User/Delete";
-            parameter = { id: userid };
-            $.post(url, parameter, function (data) {
-                alert("删除成功！");
-                window.location = "/User/Index";
-            });
-        }
-    }
-</script>
+

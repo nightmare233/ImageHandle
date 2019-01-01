@@ -77,25 +77,53 @@ namespace WebApplication.Controllers
         }
 
         // GET: Order/Edit/5
-        public ActionResult Update(int id)
-        {
-            return View();
-        }
+        //public ActionResult Update(int id, int status)
+        //{
+        //    Order order = orderService.GetOrderById(id);
+        //    order.Status = status;
+        //    if (status == (int)EnumStatus.待生产)
+        //    {
+        //        order.Auditor = 10; //to do, current login user id.
+        //        order.AuditTime = DateTime.Now;
+        //    }
+        //    else if (status == (int)EnumStatus.生产中)
+        //    {
+        //        order.Productor = 10; //to do, current login user id.
+        //        order.ProductTime = DateTime.Now;
+        //    }
+        //    else if (status == (int)EnumStatus.已删除)
+        //    {
+        //        order.DeleteTime = DateTime.Now;
+        //    }
+
+        //    orderService.Save(order);
+
+        //    return View(order);
+        //}
 
         // POST: Order/Edit/5
         [HttpPost]
-        public ActionResult Update(int id, FormCollection collection)
+        public ActionResult Update(int id, int status)
         {
-            try
+            Order order = orderService.GetOrderById(id);
+            order.Status = status;
+            if (status == (int)EnumStatus.待生产)
             {
-                // TODO: Add update logic here
+                order.Auditor = 10; //to do, current login user id.
+                order.AuditTime = DateTime.Now;
+            }
+            else if (status == (int)EnumStatus.生产中)
+            {
+                order.Productor = 10; //to do, current login user id.
+                order.ProductTime = DateTime.Now;
+            }
+            else if (status == (int)EnumStatus.已删除)
+            {
+                order.DeleteTime = DateTime.Now;
+            }
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            orderService.Save(order); 
+            return RedirectToAction("Index");
         }
 
         // GET: Order/Delete/5

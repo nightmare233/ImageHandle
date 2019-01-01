@@ -20,8 +20,9 @@ namespace WebApplication.Common
     {
         待审批 = 0,
         待生产 = 1,
-        已完成 = 2,
-        已删除 = 3
+        生产中 = 2,
+        已完成 = 3,
+        已删除 = 4
     }
 
     public enum EnumImageStyle

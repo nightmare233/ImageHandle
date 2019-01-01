@@ -22,36 +22,36 @@ namespace WebApplication.Application
             var Orders = new List<Order>();
             const string strQuery = @"SELECT o1.*, u1.`Name` as 'AuditorName',u2.`Name` as 'ProductorName' FROM `orders` o1
                                     left join users as u1 on o1. auditor = u1.id
-                                    left join users as u2 on o1.Productor = u2.id";
+                                    left join users as u2 on o1.Productor = u2.id
+                                    where o1.`Status` <> 4
+                                    order by o1.id desc ";
           
             var rows = contexto.ExecuteCommandSQL(strQuery, null);
             foreach (var row in rows)
             {
-                var tempOrder = new Order
-                {
-                    Id = int.Parse(row["Id"].ToString()),
-                    TaobaoId = int.Parse(row["TaobaoId"].ToString()),
-                    ImageType = int.Parse(row["ImageType"].ToString()),
-                    ImageTypeName = ((EnumImageType)int.Parse(row["ImageType"].ToString())).ToString(),
-                    ImageSize = int.Parse(row["ImageSize"].ToString()),
-                    Font = int.Parse(row["Font"].ToString()),
-                    FontName = ((EnumFont)int.Parse(row["Font"].ToString())).ToString(),
-                    Style = int.Parse(row["Style"].ToString()),
-                    StyleName = ((EnumImageStyle)int.Parse(row["Style"].ToString())).ToString(),
-                    Text = row["Text"].ToString(),
-                    ImageUrl = row["ImageUrl"].ToString(),
-                    BgImage = int.Parse(row["BgImage"].ToString()),
-                    BgImageUrl = "", //to do
-                    SubmitTime = DateTime.Parse(row["SubmitTime"].ToString()),
-                    Status = int.Parse(row["Status"].ToString()),
-                    StatusName = ((EnumStatus)int.Parse(row["Status"].ToString())).ToString(),
-                    Auditor = int.Parse(row["Auditor"].ToString()),
-                    AuditorName = row["AuditorName"] == null ? "" : row["AuditoName"].ToString(),
-                    Productor = int.Parse(row["Productor"].ToString()),
-                    ProductorName = row["ProductorName"] == null ?  "": row["ProductorName"].ToString(),
-                    ProductTime = DateTime.Parse(row["ProductTime"].ToString()),
-                    DeleteTime = DateTime.Parse(row["DeleteTime"].ToString())
-                };
+                Order tempOrder = new Order();
+                tempOrder.Id = int.Parse(row["Id"].ToString());
+                tempOrder.TaobaoId = int.Parse(row["TaobaoId"].ToString());
+                tempOrder.ImageType = int.Parse(row["ImageType"].ToString());
+                tempOrder.ImageTypeName = ((EnumImageType)int.Parse(row["ImageType"].ToString())).ToString();
+                tempOrder.ImageSize = int.Parse(row["ImageSize"].ToString());
+                tempOrder.Font = int.Parse(row["Font"].ToString());
+                tempOrder.FontName = ((EnumFont)int.Parse(row["Font"].ToString())).ToString();
+                tempOrder.Style = int.Parse(row["Style"].ToString());
+                tempOrder.StyleName = ((EnumImageStyle)int.Parse(row["Style"].ToString())).ToString();
+                tempOrder.Text = row["Text"].ToString();
+                tempOrder.ImageUrl = row["ImageUrl"].ToString();
+                tempOrder.BgImage = int.Parse(row["BgImage"].ToString());
+                tempOrder.BgImageUrl = ""; //to do
+                tempOrder.SubmitTime = DateTime.Parse(row["SubmitTime"].ToString());
+                tempOrder.Status = int.Parse(row["Status"].ToString());
+                tempOrder.StatusName = ((EnumStatus)int.Parse(row["Status"].ToString())).ToString();
+                tempOrder.Auditor = int.Parse(row["Auditor"].ToString());
+                tempOrder.AuditorName = row["AuditorName"] == null ? "" : row["AuditorName"].ToString();
+                tempOrder.Productor = int.Parse(row["Productor"].ToString());
+                tempOrder.ProductorName = row["ProductorName"] == null ? "" : row["ProductorName"].ToString();
+                tempOrder.ProductTime = DateTime.Parse(row["ProductTime"].ToString());
+                tempOrder.DeleteTime = DateTime.Parse(row["DeleteTime"].ToString()); 
                 Orders.Add(tempOrder);
             }
             return Orders;
@@ -61,9 +61,10 @@ namespace WebApplication.Application
         {
             var Orders = new List<Order>();
             const string strQuery = @"SELECT o1.*, u1.`Name` as 'AuditorName',u2.`Name` as 'ProductorName' FROM `orders` o1
-                                    inner join users as u1 on o1. auditor = u1.id
-                                    inner join users as u2 on o1.Productor = u2.id 
-                                    where o1.status = @status";
+                                    left join users as u1 on o1. auditor = u1.id
+                                    left join users as u2 on o1.Productor = u2.id 
+                                    where o1.`Status` = @status and o1.`Status` <> 4
+                                    order by o1.id desc";
             var parameters = new Dictionary<string, object>
             {
                 { "Status", status }
@@ -90,7 +91,7 @@ namespace WebApplication.Application
                     Status = int.Parse(row["Status"].ToString()),
                     StatusName = ((EnumStatus)int.Parse(row["Status"].ToString())).ToString(),
                     Auditor = int.Parse(row["Auditor"].ToString()),
-                    AuditorName = row["AuditorName"] == null ? "" : row["AuditoName"].ToString(),
+                    AuditorName = row["AuditorName"] == null ? "" : row["AuditorName"].ToString(),
                     Productor = int.Parse(row["Productor"].ToString()),
                     ProductorName = row["ProductorName"] == null ? "" : row["ProductorName"].ToString(),
                     ProductTime = DateTime.Parse(row["ProductTime"].ToString()),
@@ -105,8 +106,8 @@ namespace WebApplication.Application
         {
             var Orders = new List<Order>();
             const string strQuery = @"SELECT o1.*, u1.`Name` as 'AuditorName',u2.`Name` as 'ProductorName' FROM `orders` o1
-                                    inner join users as u1 on o1. auditor = u1.id
-                                    inner join users as u2 on o1.Productor = u2.id 
+                                    left join users as u1 on o1. auditor = u1.id
+                                    left join users as u2 on o1.Productor = u2.id 
                                     where o1.id = @Id";
             var parameters = new Dictionary<string, object>
             {
@@ -137,7 +138,7 @@ namespace WebApplication.Application
                 Status = int.Parse(row["Status"].ToString()),
                 StatusName = ((EnumStatus)int.Parse(row["Status"].ToString())).ToString(),
                 Auditor = int.Parse(row["Auditor"].ToString()),
-                AuditorName = row["AuditorName"] == null ? "" : row["AuditoName"].ToString(),
+                AuditorName = row["AuditorName"] == null ? "" : row["AuditorName"].ToString(),
                 Productor = int.Parse(row["Productor"].ToString()),
                 ProductorName = row["ProductorName"] == null ? "" : row["ProductorName"].ToString(),
                 ProductTime = DateTime.Parse(row["ProductTime"].ToString()),
@@ -171,9 +172,9 @@ namespace WebApplication.Application
 
         private int update(Order order)
         {
-            var commandSQL = @"UPDATE Orders SET TaobaoId = @TaobaoId, ImageType= @ImageType, ImageSize= @ImageSize, Font= @Font, Style= @Style, Text = @Text, ImageUrl = @ImageUrl, BgImage = @BgImage, SubmitTime= @SubmitTime, 
-                            [Status]= @Status, AuditTime= @AuditTime, Auditor= @Auditor, Productor= @Productor, ProductTime= @ProductTime, DeleteTime= @DeleteTime
-                            WHERE Id = @Id";
+            var commandSQL = @"UPDATE Orders SET TaobaoId = @TaobaoId, ImageType= @ImageType, ImageSize= @ImageSize, Font= @Font, Style= @Style, Text = @Text, 
+                            ImageUrl = @ImageUrl, BgImage = @BgImage, SubmitTime= @SubmitTime, Status= @Status, AuditTime= @AuditTime, Auditor= @Auditor, 
+                            Productor= @Productor, ProductTime= @ProductTime, DeleteTime= @DeleteTime WHERE Id = @Id";
             var parameters = new Dictionary<string, object>
             {
                 {"Id", order.Id},

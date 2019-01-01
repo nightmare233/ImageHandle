@@ -18,11 +18,7 @@ namespace WebApplication.Repositories
         }
 
         public int ExecuteCommand(string sql, Dictionary<string, object> paramsQSL){
-            var result = 0;
-            if (string.IsNullOrEmpty(sql)) 
-            {
-                throw new ArgumentException("O comando não pode ser executado");
-            }
+            var result = 0; 
             try 
             {
                 OpenConnection();
