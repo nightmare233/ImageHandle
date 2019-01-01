@@ -37,6 +37,6 @@ namespace WebApplication.Models
     public class ImageTypeModel
     {
         [Display(Name = "选择印章类型")]
-        public long[] ImageType { get; set; }
-    } 
+        public int[] ImageType { get; set; }
+    }
 }

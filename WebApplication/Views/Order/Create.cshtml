@@ -15,8 +15,13 @@
             <br />
             <label for="ImageType">印章类型</label>
             <select id="ImageType" name="ImageType">
-                <option value="圆形章" selected="selected">圆形章</option>
-                <option value="正方形章">正方形章</option>
+                @foreach (var item in @ViewBag.imageTypes)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+
+                @*<option value="圆形章" selected="selected">圆形章</option>
+                <option value="正方形章">正方形章</option>*@
             </select>
             <br />
             <label for="ImageSize">尺寸大小</label>
