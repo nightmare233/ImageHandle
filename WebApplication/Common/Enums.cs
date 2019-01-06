@@ -37,5 +37,12 @@ namespace WebApplication.Common
         微软雅黑 = 1
     }
 
+    public enum EnumRole
+    {
+        管理员 = 0,
+        客服 = 1,
+        生产员 =2
+    }
+
 
 }

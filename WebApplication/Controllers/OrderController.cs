@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using WebApplication.Application;
 using WebApplication.Models;
 using WebApplication.Common;
+using WebApplication.Filters;
 
 namespace WebApplication.Controllers
 {
