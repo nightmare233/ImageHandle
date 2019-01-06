@@ -25,6 +25,7 @@ namespace WebApplication.Controllers
             return View(user);
         }
          
+        [SkipCheckLogin]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

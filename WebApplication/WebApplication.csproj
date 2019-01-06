@@ -146,6 +146,7 @@
     <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\HtmlHelperCheckBoxListExtensions.cs" />
     <Compile Include="Common\Utils.cs" />
+    <Compile Include="Controllers\FrontController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
@@ -202,12 +203,12 @@
     <Content Include="Views\User\Create.cshtml" />
     <Content Include="Views\User\Update.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
-    <Content Include="Views\Order\Create.cshtml" />
+    <Content Include="Views\Front\Create.cshtml" />
     <Content Include="Views\Order\Details.cshtml" />
     <Content Include="Views\Order\Index.cshtml" />
     <Content Include="Views\Order\Update.cshtml" />
     <Content Include="Views\Order\Add.cshtml" />
-    <Content Include="Views\Order\Error.cshtml" />
+    <Content Include="Views\Front\Error.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
