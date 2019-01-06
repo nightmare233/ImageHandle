@@ -22,7 +22,17 @@ namespace WebApplication.Controllers
         // GET: Order
         public ActionResult Index()
         {
-            var orders = orderService.ListAll();
+            // 管理员和客服可以对订单做任何操作。
+            // 生产员只能看到已经审批后的订单。
+            List<Order> orders = null;
+            if (new UserHelper().GetCurrentUser.Role == EnumRole.生产员.ToString())
+            {
+                orders = orderService.List(new int[] { (int)EnumStatus.待生产, (int)EnumStatus.生产中 });
+            }
+            else
+            {
+                orders = orderService.ListAll();
+            }
             return View(orders);
         }
 

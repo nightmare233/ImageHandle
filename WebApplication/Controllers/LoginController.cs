@@ -35,25 +35,27 @@ namespace WebApplication.Controllers
             string pwd = Utils.Encrypt(user.Password);
             if (userFromDb == null)
             {
-                ViewBag.Message = "用户名不存在！";
+                ViewBag.Message = "登录名不存在！";
                 return View(user);
             }
             if (userFromDb.Password != pwd)
             {
-                ViewBag.Message = "密码不对！";
+                ViewBag.Message = "密码不正确！";
                 return View(user);
             }
-            HttpContext.Session["LoginUser"] = user.LoginName;
+            HttpContext.Session["User"] = userFromDb;
+            //存一份到cookie中，防止session意外丢失。
+            //HttpCookie cookie = new HttpCookie("cookieUser");
+            //cookie["LoginName"] = userFromDb.LoginName;
+            //cookie["Name"] = userFromDb.Name;
+            //cookie["Id"] = userFromDb.Id.ToString();
+            //cookie["Role"] = userFromDb.Role;
+            //DateTime dtNow = DateTime.Now;
+            //TimeSpan tsTime = new TimeSpan(0, 10, 0, 0);
+            //cookie.Expires = dtNow + tsTime;
+            //Response.Cookies.Add(cookie);
 
-            HttpCookie cookie = new HttpCookie("cookieUser");
-            cookie["name"] = user.LoginName;
-            DateTime dtNow = DateTime.Now;
-            TimeSpan tsTime = new TimeSpan(0, 10, 0, 0);
-            cookie.Expires = dtNow + tsTime;
-            Response.Cookies.Add(cookie);
-
-            //if(user.Role == EnumRole.管理员)
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Order");
         }
 
     }

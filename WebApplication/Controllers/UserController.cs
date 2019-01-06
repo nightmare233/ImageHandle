@@ -14,13 +14,17 @@ namespace WebApplication.Controllers
         private UserService userService;
 
         public UserController()
-        {
+        { 
             userService = new UserService();
         }
 
         // GET: User
         public ActionResult Index()
         {
+            if (new UserHelper().GetCurrentUser.Role != EnumRole.管理员.ToString())
+            {
+                return RedirectToAction("Error", "Front", new { Message = "你没有权限!"});
+            }
             var list = userService.ListAll();
             //ViewBag["Model"] = list;
             return View("Index", list);

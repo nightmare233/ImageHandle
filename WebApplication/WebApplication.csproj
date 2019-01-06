@@ -145,6 +145,7 @@
     <Compile Include="Common\CacheHelp.cs" />
     <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\HtmlHelperCheckBoxListExtensions.cs" />
+    <Compile Include="Common\UserHelper.cs" />
     <Compile Include="Common\Utils.cs" />
     <Compile Include="Controllers\FrontController.cs" />
     <Compile Include="Controllers\HomeController.cs" />

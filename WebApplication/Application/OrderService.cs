@@ -20,7 +20,7 @@ namespace WebApplication.Application
         public List<Order> ListAll()
         {
             var Orders = new List<Order>();
-            const string strQuery = @"SELECT o1.*, u1.`Name` as 'AuditorName',u2.`Name` as 'ProductorName' FROM `orders` o1
+            string strQuery = @"SELECT o1.*, u1.`Name` as 'AuditorName',u2.`Name` as 'ProductorName' FROM `orders` o1
                                     left join users as u1 on o1. auditor = u1.id
                                     left join users as u2 on o1.Productor = u2.id
                                     where o1.`Status` <> 4
@@ -57,14 +57,14 @@ namespace WebApplication.Application
             return Orders;
         }
 
-        public List<Order> ListAll(string status)
+        public List<Order> List(int[] status)
         {
             var Orders = new List<Order>();
-            const string strQuery = @"SELECT o1.*, u1.`Name` as 'AuditorName',u2.`Name` as 'ProductorName' FROM `orders` o1
+            string strQuery = @"SELECT o1.*, u1.`Name` as 'AuditorName',u2.`Name` as 'ProductorName' FROM `orders` o1
                                     left join users as u1 on o1. auditor = u1.id
                                     left join users as u2 on o1.Productor = u2.id 
-                                    where o1.`Status` = @status and o1.`Status` <> 4
-                                    order by o1.id desc";
+                                    where o1.`Status` in ({0}) order by o1.id desc";
+            strQuery = string.Format(strQuery, string.Join(",", status)); 
             var parameters = new Dictionary<string, object>
             {
                 { "Status", status }
