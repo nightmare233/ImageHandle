@@ -32,12 +32,10 @@ namespace WebApplication.Models
         public DateTime DeleteTime { get; set; }
     }
 
-    public class ImageSolution
+    public class ImageOrder
     {
         public int Id { get; set; }
-        public int ImageType { get; set; }
-        public int Font { get; set; }
-        public int Style { get; set; }
-        public int BgImage { get; set; }
+        public int TaobaoId { get; set; }
+        public Sample sample { get; set; }
     }
 }

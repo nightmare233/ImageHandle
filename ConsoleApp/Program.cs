@@ -10,11 +10,13 @@ namespace ConsoleApp
 	{
 		static void Main(string[] args)
 		{
-			string sourceImg = @"D:\pictures\source1.png";
+			string sourceImg = @"D:\pictures\SquareBg1.png";
 			string destImg = @"D:\pictures\dest1.png";
 
-			ImageHandle.CombinImage(sourceImg,destImg);
+            //ImageHandle.CombinImage(sourceImg,destImg);
+            ImageHandle.SquareImage(sourceImg, null);
 
-		}
+
+        }
 	}
 }

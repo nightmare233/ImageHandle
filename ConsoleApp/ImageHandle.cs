@@ -10,15 +10,84 @@ namespace ConsoleApp
 {
 	public static class ImageHandle
 	{
-		/// <summary>
-		/// 图片裁剪，生成新图，保存在同一目录下,名字加_new，格式1.png  新图1_new.png
-		/// </summary>
-		/// <param name="picPath">要修改图片完整路径</param>
-		/// <param name="x">修改起点x坐标</param>
-		/// <param name="y">修改起点y坐标</param>
-		/// <param name="width">新图宽度</param>
-		/// <param name="height">新图高度</param>
-		public static void caijianpic(String picPath, int x, int y, int width, int height)
+
+        public static Image SquareImage(string sourceImg, string destImg)
+        {
+
+            Image imgBack = Image.FromFile(sourceImg);     //相框图片 
+            Graphics g = Graphics.FromImage(imgBack);
+
+            if (destImg != null)
+            {
+                Image img = System.Drawing.Image.FromFile(destImg);        //照片图片
+                                                                           //从指定的System.Drawing.Image创建新的System.Drawing.Graphics       
+                                                                           //Graphics g = Graphics.FromImage(imgBack);
+                                                                           //g.DrawImage(imgBack, 0, 0, 148, 124);      // g.DrawImage(imgBack, 0, 0, 相框宽, 相框高);
+                g.FillRectangle(System.Drawing.Brushes.Black, -50, -50, (int)212, ((int)203));//相片四周刷一层黑色边框，这里没有，需要调尺寸
+                                                                                              //g.DrawImage(img, 照片与相框的左边距, 照片与相框的上边距, 照片宽, 照片高);
+                g.DrawImage(img, -50, -50, 212, 203);
+            }
+
+            SolidBrush drawBrush = new SolidBrush(Color.Red);// Create point for upper-left corner of drawing.
+            float boarder = 10F; //边框
+            float blank = 10F;
+            int textSize = 48;
+            float half = 98.0F;
+            //写字1
+            String drawString = "国"; // Create font and brush.
+            Font drawFont = new Font("Arial", textSize);
+            //float x = half + blank; float y = 0.0F + boarder + blank;// Draw string to screen.
+            float x = half; float y = boarder + blank;// Draw string to screen.
+
+            //写字2
+            String drawString2 = "圆"; // Create font and brush.
+            Font drawFont2 = new Font("Arial", textSize);
+            float x2 = half; float y2 = half + blank;// Draw string to screen.
+
+            //写字3
+            String drawString3 = "围"; // Create font and brush.
+            Font drawFont3 = new Font("Arial", textSize);
+            float x3 = boarder;  float y3 = 0.0F + boarder + blank;// Draw string to screen.
+
+            //写字4
+            String drawString4 = "园"; // Create font and brush.
+            Font drawFont4 = new Font("Arial", textSize); 
+            float x4 = boarder; float y4= half + blank;// Draw string to screen.
+
+            g.DrawString(drawString, drawFont, drawBrush, x, y);
+
+            g.DrawString(drawString2, drawFont2, drawBrush, x2, y2);
+
+            g.DrawString(drawString3, drawFont3, drawBrush, x3, y3);
+
+            g.DrawString(drawString4, drawFont4, drawBrush, x4, y4);
+
+            SolidBrush drawBrush1 = new SolidBrush(Color.Green);// Create point for upper-left corner of drawing.
+            g.DrawLine(new Pen(drawBrush1), new Point(0, 0), new Point(196, 196));
+            g.DrawLine(new Pen(drawBrush1), new Point(0, 196), new Point(196, 0));
+            g.DrawLine(new Pen(drawBrush1), new Point(98, 0), new Point(98, 196));
+            g.DrawLine(new Pen(drawBrush1), new Point(0, 98), new Point(196, 98));
+            GC.Collect();
+            string filename = Guid.NewGuid().ToString();
+            string saveImagePath = $"D:/pictures/output/{filename}.png";
+            //save new image to file system.
+            imgBack.Save(saveImagePath, ImageFormat.Png);
+            return imgBack;
+        }
+
+        public static Image CircleImage()
+        {
+            return null;
+        }
+        /// <summary>
+        /// 图片裁剪，生成新图，保存在同一目录下,名字加_new，格式1.png  新图1_new.png
+        /// </summary>
+        /// <param name="picPath">要修改图片完整路径</param>
+        /// <param name="x">修改起点x坐标</param>
+        /// <param name="y">修改起点y坐标</param>
+        /// <param name="width">新图宽度</param>
+        /// <param name="height">新图高度</param>
+        public static void caijianpic(String picPath, int x, int y, int width, int height)
 		{
 			//图片路径
 			String oldPath = picPath;
@@ -63,20 +132,21 @@ namespace ConsoleApp
 			g.FillRectangle(System.Drawing.Brushes.Black, -50, -50, (int)212, ((int)203));//相片四周刷一层黑色边框，这里没有，需要调尺寸
 																						  //g.DrawImage(img, 照片与相框的左边距, 照片与相框的上边距, 照片宽, 照片高);
 			g.DrawImage(img, -50, -50, 212, 203);
-			String drawString = "Sample Text, Hello World!"; // Create font and brush.
+			String drawString = "章子怡"; // Create font and brush.
 
 			Font drawFont = new Font("Arial", 28);
 
-			SolidBrush drawBrush = new SolidBrush(Color.Red);// Create point for upper-left corner of drawing.
+			SolidBrush drawBrush = new SolidBrush(Color.Black);// Create point for upper-left corner of drawing.
 
-			float x = 150.0F; float y = 150.0F;// Draw string to screen.
+			float x = 40.0F; float y = 60.0F;// Draw string to screen.
 
 			g.DrawString(drawString, drawFont, drawBrush, x, y);
 
 
 
 			GC.Collect();
-			string saveImagePath = "D:/pictures/sss.png";
+            string filename = Guid.NewGuid().ToString();
+			string saveImagePath = $"D:/pictures/{filename}.png";
 			//save new image to file system.
 			imgBack.Save(saveImagePath, ImageFormat.Png);
 			return imgBack;
