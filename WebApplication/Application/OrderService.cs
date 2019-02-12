@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using WebApplication.Repositories;
-using WebApplication.Models;
+using Models;
 using WebApplication.Common;
 
 namespace WebApplication.Application
@@ -32,17 +32,10 @@ namespace WebApplication.Application
                 Order tempOrder = new Order();
                 tempOrder.Id = int.Parse(row["Id"].ToString());
                 tempOrder.TaobaoId = int.Parse(row["TaobaoId"].ToString());
-                tempOrder.ImageType = int.Parse(row["ImageType"].ToString());
-                tempOrder.ImageTypeName = ((EnumImageType)int.Parse(row["ImageType"].ToString())).ToString();
-                tempOrder.ImageSize = int.Parse(row["ImageSize"].ToString());
-                tempOrder.Font = int.Parse(row["Font"].ToString());
-                tempOrder.FontName = ((EnumFont)int.Parse(row["Font"].ToString())).ToString();
-                tempOrder.Style = int.Parse(row["Style"].ToString());
-                tempOrder.StyleName = ((EnumImageStyle)int.Parse(row["Style"].ToString())).ToString();
-                tempOrder.Text = row["Text"].ToString();
+                tempOrder.SampleId = int.Parse(row["SampleId"].ToString());
+                tempOrder.MainText = row["MainText"].ToString();
+                tempOrder.SmallText = row["SmallText"].ToString();
                 tempOrder.ImageUrl = row["ImageUrl"].ToString();
-                tempOrder.BgImage = int.Parse(row["BgImage"].ToString());
-                tempOrder.BgImageUrl = ""; //to do
                 tempOrder.SubmitTime = DateTime.Parse(row["SubmitTime"].ToString());
                 tempOrder.Status = int.Parse(row["Status"].ToString());
                 tempOrder.StatusName = ((EnumStatus)int.Parse(row["Status"].ToString())).ToString();
@@ -76,17 +69,17 @@ namespace WebApplication.Application
                 {
                     Id = int.Parse(row["Id"].ToString()),
                     TaobaoId = int.Parse(row["TaobaoId"].ToString()),
-                    ImageType = int.Parse(row["ImageType"].ToString()),
-                    ImageTypeName = ((EnumImageType)int.Parse(row["ImageType"].ToString())).ToString(),
-                    ImageSize = int.Parse(row["ImageSize"].ToString()),
-                    Font = int.Parse(row["Font"].ToString()),
-                    FontName = ((EnumFont)int.Parse(row["Font"].ToString())).ToString(),
-                    Style = int.Parse(row["Style"].ToString()),
-                    StyleName = ((EnumImageStyle)int.Parse(row["Style"].ToString())).ToString(),
-                    Text = row["Text"].ToString(),
-                    ImageUrl = row["ImageUrl"].ToString(),
-                    BgImage = int.Parse(row["BgImage"].ToString()),
-                    BgImageUrl = "", //to do
+                    //ImageType = int.Parse(row["ImageType"].ToString()),
+                    //ImageTypeName = ((EnumImageType)int.Parse(row["ImageType"].ToString())).ToString(),
+                    //ImageSize = int.Parse(row["ImageSize"].ToString()),
+                    //Font = int.Parse(row["Font"].ToString()),
+                    //FontName = ((EnumFont)int.Parse(row["Font"].ToString())).ToString(),
+                    //Style = int.Parse(row["Style"].ToString()),
+                    //StyleName = ((EnumImageStyle)int.Parse(row["Style"].ToString())).ToString(),
+                    //Text = row["Text"].ToString(),
+                    //ImageUrl = row["ImageUrl"].ToString(),
+                    //BgImage = int.Parse(row["BgImage"].ToString()),
+                    //BgImageUrl = "", //to do
                     SubmitTime = DateTime.Parse(row["SubmitTime"].ToString()),
                     Status = int.Parse(row["Status"].ToString()),
                     StatusName = ((EnumStatus)int.Parse(row["Status"].ToString())).ToString(),
@@ -123,17 +116,17 @@ namespace WebApplication.Application
             {
                 Id = int.Parse(row["Id"].ToString()),
                 TaobaoId = int.Parse(row["TaobaoId"].ToString()),
-                ImageType = int.Parse(row["ImageType"].ToString()),
-                ImageTypeName = ((EnumImageType)int.Parse(row["ImageType"].ToString())).ToString(),
-                ImageSize = int.Parse(row["ImageSize"].ToString()),
-                Font = int.Parse(row["Font"].ToString()),
-                FontName = ((EnumFont)int.Parse(row["Font"].ToString())).ToString(),
-                Style = int.Parse(row["Style"].ToString()),
-                StyleName = ((EnumImageStyle)int.Parse(row["Style"].ToString())).ToString(),
-                Text = row["Text"].ToString(),
-                ImageUrl = row["ImageUrl"].ToString(),
-                BgImage = int.Parse(row["BgImage"].ToString()),
-                BgImageUrl = "", //to do
+                //ImageType = int.Parse(row["ImageType"].ToString()),
+                //ImageTypeName = ((EnumImageType)int.Parse(row["ImageType"].ToString())).ToString(),
+                //ImageSize = int.Parse(row["ImageSize"].ToString()),
+                //Font = int.Parse(row["Font"].ToString()),
+                //FontName = ((EnumFont)int.Parse(row["Font"].ToString())).ToString(),
+                //Style = int.Parse(row["Style"].ToString()),
+                //StyleName = ((EnumImageStyle)int.Parse(row["Style"].ToString())).ToString(),
+                //Text = row["Text"].ToString(),
+                //ImageUrl = row["ImageUrl"].ToString(),
+                //BgImage = int.Parse(row["BgImage"].ToString()),
+                //BgImageUrl = "", //to do
                 SubmitTime = DateTime.Parse(row["SubmitTime"].ToString()),
                 Status = int.Parse(row["Status"].ToString()),
                 StatusName = ((EnumStatus)int.Parse(row["Status"].ToString())).ToString(),
@@ -153,19 +146,19 @@ namespace WebApplication.Application
                                         VALUES(@TaobaoId, @ImageType, @ImageSize, @Font, @Style,  @Text, @ImageUrl, @BgImage, @SubmitTime, @Status, @AuditTime, @ProductTime, @DeleteTime)";
             var parameters = new Dictionary<string, object>
             {
-                { "TaobaoId", order.TaobaoId },
-                { "ImageType", order.ImageType },
-                { "ImageSize", order.ImageSize},
-                { "Font", order.Font },
-                { "Style", order.Style },
-                { "Text", order.Text},
-                { "ImageUrl", order.ImageUrl},
-                { "BgImage", order.BgImage },
-                { "SubmitTime", order.SubmitTime },
-                { "Status", order.Status },
-                { "AuditTime", order.AuditTime },
-                { "ProductTime", order.ProductTime },
-                { "DeleteTime", order.DeleteTime},
+                //{ "TaobaoId", order.TaobaoId },
+                //{ "ImageType", order.ImageType },
+                //{ "ImageSize", order.ImageSize},
+                //{ "Font", order.Font },
+                //{ "Style", order.Style },
+                //{ "Text", order.Text},
+                //{ "ImageUrl", order.ImageUrl},
+                //{ "BgImage", order.BgImage },
+                //{ "SubmitTime", order.SubmitTime },
+                //{ "Status", order.Status },
+                //{ "AuditTime", order.AuditTime },
+                //{ "ProductTime", order.ProductTime },
+                //{ "DeleteTime", order.DeleteTime},
             };
             return contexto.ExecuteCommand(commandSQL, parameters);
         }
@@ -177,22 +170,22 @@ namespace WebApplication.Application
                             Productor= @Productor, ProductTime= @ProductTime, DeleteTime= @DeleteTime WHERE Id = @Id";
             var parameters = new Dictionary<string, object>
             {
-                {"Id", order.Id},
-                { "TaobaoId", order.TaobaoId },
-                { "ImageType", order.ImageType },
-                { "ImageSize", order.ImageSize},
-                { "Font", order.Font },
-                { "Style", order.Style },
-                { "Text", order.Text},
-                { "ImageUrl", order.ImageUrl},
-                { "BgImage", order.BgImage},
-                { "SubmitTime", order.SubmitTime },
-                { "Status", order.Status },
-                { "AuditTime", order.AuditTime },
-                { "Auditor", order.Auditor },
-                { "Productor", order.Productor },
-                { "ProductTime", order.ProductTime },
-                { "DeleteTime", order.DeleteTime },
+                //{"Id", order.Id},
+                //{ "TaobaoId", order.TaobaoId },
+                //{ "ImageType", order.ImageType },
+                //{ "ImageSize", order.ImageSize},
+                //{ "Font", order.Font },
+                //{ "Style", order.Style },
+                //{ "Text", order.Text},
+                //{ "ImageUrl", order.ImageUrl},
+                //{ "BgImage", order.BgImage},
+                //{ "SubmitTime", order.SubmitTime },
+                //{ "Status", order.Status },
+                //{ "AuditTime", order.AuditTime },
+                //{ "Auditor", order.Auditor },
+                //{ "Productor", order.Productor },
+                //{ "ProductTime", order.ProductTime },
+                //{ "DeleteTime", order.DeleteTime },
             };
             return contexto.ExecuteCommand(commandSQL, parameters);
         }

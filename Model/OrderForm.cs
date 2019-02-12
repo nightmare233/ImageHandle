@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using WebApplication.Common;
 
-namespace WebApplication.Models
+namespace Model
 {
     public class OrderForm
     {

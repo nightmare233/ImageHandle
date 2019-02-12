@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication.Application;
-using WebApplication.Models;
+using Models;
 using WebApplication.Common;
 
 namespace WebApplication.Controllers
