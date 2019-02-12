@@ -34,6 +34,7 @@ namespace WebApplication.Application
             {
                 Sample tempSample = new Sample();
                 tempSample.Id = int.Parse(row["Id"].ToString());
+                tempSample.Name = row["Name"].ToString();
                 tempSample.IfHasSmallText = Convert.ToBoolean(int.Parse(row["IfHasSmallText"].ToString()));
                 tempSample.MainTextNumber = int.Parse(row["MainTextNumber"].ToString());
                 tempSample.ImageSizeX = int.Parse(row["ImageSizeX"].ToString());
@@ -59,6 +60,7 @@ namespace WebApplication.Application
             if (rows.Count > 0)
             { 
                 tempSample.Id = int.Parse(rows[0]["Id"].ToString());
+                tempSample.Name = rows[0]["Name"].ToString();
                 tempSample.IfHasSmallText = Convert.ToBoolean(int.Parse(rows[0]["IfHasSmallText"].ToString()));
                 tempSample.MainTextNumber = int.Parse(rows[0]["MainTextNumber"].ToString());
                 tempSample.ImageSizeX = int.Parse(rows[0]["ImageSizeX"].ToString());

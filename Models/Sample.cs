@@ -8,6 +8,7 @@ namespace Models
     public class Sample
     {
         public int Id { get; set; }
+        public string Name { get; set; }
         public EnumImageType ImageType { get; set; }  //印章类型, 圆形章,方章
         public int ImageSizeX { get; set; } //尺寸,长
         public int ImageSizeY { get; set; } //尺寸2， 宽，方和圆形章为null

@@ -14,10 +14,12 @@ namespace WebApplication.Controllers
     public class FrontController : Controller
     {
         private OrderService orderService;
+        private SampleService sampleService;
 
         public FrontController()
         {
             orderService = new OrderService();
+            sampleService = new SampleService();
         }
 
         // GET: Order/Create/
@@ -55,6 +57,7 @@ namespace WebApplication.Controllers
                 order.AuditTime = DateTime.MinValue;
                 order.DeleteTime = DateTime.MinValue;
                 order.ImageUrl = string.Empty;
+                // todo ...
                 orderService.Save(order);
                 return RedirectToAction("Index");
             }
@@ -64,6 +67,22 @@ namespace WebApplication.Controllers
                 return View();
             }
         }
+
+        //选完方案后，返回订单页面，输入文字，然后提交订单。
+        public ActionResult Confirm()
+        {
+            //这里要返回之前选过的值。
+            return View();
+        }
+
+        public ActionResult Samples()
+        {
+            //把用户选过的值传过来，选完之后再传回去。
+            List<Sample> samples = null;
+            samples = sampleService.ListAll(null, null, false); // to do..
+            return View(samples);
+        }
+
 
         [HttpGet]
         public ActionResult Error(string message)

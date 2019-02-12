@@ -1,0 +1,44 @@
+﻿@using Models
+@model IEnumerable<Sample>
+@{
+    ViewBag.Title = "Samples";
+}
+
+<h2>选择字体样式</h2>
+<script type="text/javascript">
+    var currentSampleId; 
+    function SelectSample(sampleid) {
+        $("#" + currentSampleId).css("border", "none"); 
+        currentSampleId = sampleid; 
+        $("#" + currentSampleId).css("border", "1px solid red");
+    }
+
+    function Submit() {
+        alert(currentSampleId);
+    }
+</script>
+<div style="margin-top:30px;" >
+    <table class="table table-bordered text-center" cellpadding="0" cellspacing="0">
+        @{int index = 1; }
+        @foreach (Sample sample in Model)
+        {
+            if (index % 4 == 1)
+            {
+                @Html.Raw("<tr>");
+            } 
+            <td style="padding:0px 0px 0px 0px;">
+                <div id=@sample.Id onclick="SelectSample('@sample.Id')" style="height:100%">
+                    <img src=@sample.ImageUrl /><br />
+                    <label>@sample.Name</label>
+                </div>
+            </td>
+            if (index % 4 == 0)
+            {
+                @Html.Raw("</tr>");
+            };
+            index++;
+        }
+    </table>
+    <br />
+    <div><button onclick="Submit()">确认</button></div>
+</div>
