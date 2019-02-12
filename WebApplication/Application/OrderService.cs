@@ -33,6 +33,7 @@ namespace WebApplication.Application
                 tempOrder.Id = int.Parse(row["Id"].ToString());
                 tempOrder.TaobaoId = int.Parse(row["TaobaoId"].ToString());
                 tempOrder.SampleId = int.Parse(row["SampleId"].ToString());
+                tempOrder.Sample = new SampleService().GetSample(tempOrder.SampleId,false);
                 tempOrder.MainText = row["MainText"].ToString();
                 tempOrder.SmallText = row["SmallText"].ToString();
                 tempOrder.ImageUrl = row["ImageUrl"].ToString();
@@ -64,33 +65,25 @@ namespace WebApplication.Application
             };
             var rows = contexto.ExecuteCommandSQL(strQuery, parameters);
             foreach (var row in rows)
-            {
-                var tempOrder = new Order
-                {
-                    Id = int.Parse(row["Id"].ToString()),
-                    TaobaoId = int.Parse(row["TaobaoId"].ToString()),
-                    //ImageType = int.Parse(row["ImageType"].ToString()),
-                    //ImageTypeName = ((EnumImageType)int.Parse(row["ImageType"].ToString())).ToString(),
-                    //ImageSize = int.Parse(row["ImageSize"].ToString()),
-                    //Font = int.Parse(row["Font"].ToString()),
-                    //FontName = ((EnumFont)int.Parse(row["Font"].ToString())).ToString(),
-                    //Style = int.Parse(row["Style"].ToString()),
-                    //StyleName = ((EnumImageStyle)int.Parse(row["Style"].ToString())).ToString(),
-                    //Text = row["Text"].ToString(),
-                    //ImageUrl = row["ImageUrl"].ToString(),
-                    //BgImage = int.Parse(row["BgImage"].ToString()),
-                    //BgImageUrl = "", //to do
-                    SubmitTime = DateTime.Parse(row["SubmitTime"].ToString()),
-                    Status = int.Parse(row["Status"].ToString()),
-                    StatusName = ((EnumStatus)int.Parse(row["Status"].ToString())).ToString(),
-                    Auditor = int.Parse(row["Auditor"].ToString()),
-                    AuditorName = row["AuditorName"] == null ? "" : row["AuditorName"].ToString(),
-                    Productor = int.Parse(row["Productor"].ToString()),
-                    ProductorName = row["ProductorName"] == null ? "" : row["ProductorName"].ToString(),
-                    ProductTime = DateTime.Parse(row["ProductTime"].ToString()),
-                    DeleteTime = DateTime.Parse(row["DeleteTime"].ToString())
-                };
-                Orders.Add(tempOrder);
+            { 
+                Order tempOrder = new Order();
+                tempOrder.Id = int.Parse(row["Id"].ToString());
+                tempOrder.TaobaoId = int.Parse(row["TaobaoId"].ToString());
+                tempOrder.SampleId = int.Parse(row["SampleId"].ToString());
+                tempOrder.Sample = new SampleService().GetSample(tempOrder.SampleId, false);
+                tempOrder.MainText = row["MainText"].ToString();
+                tempOrder.SmallText = row["SmallText"].ToString();
+                tempOrder.ImageUrl = row["ImageUrl"].ToString();
+                tempOrder.SubmitTime = DateTime.Parse(row["SubmitTime"].ToString());
+                tempOrder.Status = int.Parse(row["Status"].ToString());
+                tempOrder.StatusName = ((EnumStatus)int.Parse(row["Status"].ToString())).ToString();
+                tempOrder.Auditor = int.Parse(row["Auditor"].ToString());
+                tempOrder.AuditorName = row["AuditorName"] == null ? "" : row["AuditorName"].ToString();
+                tempOrder.Productor = int.Parse(row["Productor"].ToString());
+                tempOrder.ProductorName = row["ProductorName"] == null ? "" : row["ProductorName"].ToString();
+                tempOrder.ProductTime = DateTime.Parse(row["ProductTime"].ToString());
+                tempOrder.DeleteTime = DateTime.Parse(row["DeleteTime"].ToString());
+                Orders.Add(tempOrder); 
             }
             return Orders;
         }
@@ -112,80 +105,70 @@ namespace WebApplication.Application
             {
                 return null;
             }
-            var tempOrder = new Order
-            {
-                Id = int.Parse(row["Id"].ToString()),
-                TaobaoId = int.Parse(row["TaobaoId"].ToString()),
-                //ImageType = int.Parse(row["ImageType"].ToString()),
-                //ImageTypeName = ((EnumImageType)int.Parse(row["ImageType"].ToString())).ToString(),
-                //ImageSize = int.Parse(row["ImageSize"].ToString()),
-                //Font = int.Parse(row["Font"].ToString()),
-                //FontName = ((EnumFont)int.Parse(row["Font"].ToString())).ToString(),
-                //Style = int.Parse(row["Style"].ToString()),
-                //StyleName = ((EnumImageStyle)int.Parse(row["Style"].ToString())).ToString(),
-                //Text = row["Text"].ToString(),
-                //ImageUrl = row["ImageUrl"].ToString(),
-                //BgImage = int.Parse(row["BgImage"].ToString()),
-                //BgImageUrl = "", //to do
-                SubmitTime = DateTime.Parse(row["SubmitTime"].ToString()),
-                Status = int.Parse(row["Status"].ToString()),
-                StatusName = ((EnumStatus)int.Parse(row["Status"].ToString())).ToString(),
-                Auditor = int.Parse(row["Auditor"].ToString()),
-                AuditorName = row["AuditorName"] == null ? "" : row["AuditorName"].ToString(),
-                Productor = int.Parse(row["Productor"].ToString()),
-                ProductorName = row["ProductorName"] == null ? "" : row["ProductorName"].ToString(),
-                ProductTime = DateTime.Parse(row["ProductTime"].ToString()),
-                DeleteTime = DateTime.Parse(row["DeleteTime"].ToString())
-            };
+            Order tempOrder = new Order();
+            tempOrder.Id = int.Parse(row["Id"].ToString());
+            tempOrder.TaobaoId = int.Parse(row["TaobaoId"].ToString());
+            tempOrder.SampleId = int.Parse(row["SampleId"].ToString());
+            tempOrder.Sample = new SampleService().GetSample(tempOrder.SampleId, false);
+            tempOrder.MainText = row["MainText"].ToString();
+            tempOrder.SmallText = row["SmallText"].ToString();
+            tempOrder.ImageUrl = row["ImageUrl"].ToString();
+            tempOrder.SubmitTime = DateTime.Parse(row["SubmitTime"].ToString());
+            tempOrder.Status = int.Parse(row["Status"].ToString());
+            tempOrder.StatusName = ((EnumStatus)int.Parse(row["Status"].ToString())).ToString();
+            tempOrder.Auditor = int.Parse(row["Auditor"].ToString());
+            tempOrder.AuditorName = row["AuditorName"] == null ? "" : row["AuditorName"].ToString();
+            tempOrder.Productor = int.Parse(row["Productor"].ToString());
+            tempOrder.ProductorName = row["ProductorName"] == null ? "" : row["ProductorName"].ToString();
+            tempOrder.ProductTime = DateTime.Parse(row["ProductTime"].ToString());
+            tempOrder.DeleteTime = DateTime.Parse(row["DeleteTime"].ToString()); 
             return tempOrder;
         }
 
         public int Insert(Order order)
         {
-            const string commandSQL = @"INSERT into orders(TaobaoId, ImageType, ImageSize, Font, Style, Text, ImageUrl, BgImage, SubmitTime, Status, AuditTime, ProductTime, DeleteTime)  
-                                        VALUES(@TaobaoId, @ImageType, @ImageSize, @Font, @Style,  @Text, @ImageUrl, @BgImage, @SubmitTime, @Status, @AuditTime, @ProductTime, @DeleteTime)";
+            const string commandSQL = @"INSERT into orders(TaobaoId, ImageUrl, SubmitTime, Status, AuditTime, ProductTime, DeleteTime, SampleId, MainText,SmallText)  
+                                        VALUES(@TaobaoId, @ImageType, @ImageSize, @Font, @Style,  @Text, @ImageUrl, @BgImage, @SubmitTime, @Status, @AuditTime, @ProductTime, @DeleteTime, 
+                                        @SampleId, @MainText,@SmallText)";
             var parameters = new Dictionary<string, object>
-            {
-                //{ "TaobaoId", order.TaobaoId },
-                //{ "ImageType", order.ImageType },
-                //{ "ImageSize", order.ImageSize},
-                //{ "Font", order.Font },
-                //{ "Style", order.Style },
-                //{ "Text", order.Text},
-                //{ "ImageUrl", order.ImageUrl},
-                //{ "BgImage", order.BgImage },
-                //{ "SubmitTime", order.SubmitTime },
-                //{ "Status", order.Status },
-                //{ "AuditTime", order.AuditTime },
-                //{ "ProductTime", order.ProductTime },
-                //{ "DeleteTime", order.DeleteTime},
+            { 
+                { "TaobaoId", order.TaobaoId },
+                { "ImageUrl", order.ImageUrl},
+                { "SubmitTime", order.SubmitTime },
+                { "Status", order.Status },
+                { "SampleId",order.SampleId },
+                { "MainText", order.MainText},
+                { "SmallText", order.SmallText},
+                { "AuditTime", order.AuditTime },
+                { "Auditor", order.Auditor },
+                { "Productor", order.Productor },
+                { "ProductTime", order.ProductTime },
+                { "DeleteTime", order.DeleteTime },
             };
             return contexto.ExecuteCommand(commandSQL, parameters);
         }
 
-        private int update(Order order)
+        private int Update(Order order)
         {
-            var commandSQL = @"UPDATE Orders SET TaobaoId = @TaobaoId, ImageType= @ImageType, ImageSize= @ImageSize, Font= @Font, Style= @Style, Text = @Text, 
-                            ImageUrl = @ImageUrl, BgImage = @BgImage, SubmitTime= @SubmitTime, Status= @Status, AuditTime= @AuditTime, Auditor= @Auditor, 
-                            Productor= @Productor, ProductTime= @ProductTime, DeleteTime= @DeleteTime WHERE Id = @Id";
+            var commandSQL = @"UPDATE Orders SET TaobaoId = @TaobaoId,ImageUrl = @ImageUrl, SubmitTime= @SubmitTime, Status= @Status, 
+                             SampleId= @SampleId,MainText= @MainText, SmallText= @SmallText,
+                            AuditTime= @AuditTime, Auditor= @Auditor, Productor= @Productor, ProductTime= @ProductTime, DeleteTime= @DeleteTime 
+                            WHERE Id = @Id";
             var parameters = new Dictionary<string, object>
             {
-                //{"Id", order.Id},
-                //{ "TaobaoId", order.TaobaoId },
-                //{ "ImageType", order.ImageType },
-                //{ "ImageSize", order.ImageSize},
-                //{ "Font", order.Font },
-                //{ "Style", order.Style },
-                //{ "Text", order.Text},
-                //{ "ImageUrl", order.ImageUrl},
-                //{ "BgImage", order.BgImage},
-                //{ "SubmitTime", order.SubmitTime },
-                //{ "Status", order.Status },
-                //{ "AuditTime", order.AuditTime },
-                //{ "Auditor", order.Auditor },
-                //{ "Productor", order.Productor },
-                //{ "ProductTime", order.ProductTime },
-                //{ "DeleteTime", order.DeleteTime },
+                {"Id", order.Id},
+                { "TaobaoId", order.TaobaoId }, 
+                { "ImageUrl", order.ImageUrl}, 
+                { "SubmitTime", order.SubmitTime },
+                { "Status", order.Status },
+                { "SampleId",order.SampleId },
+                { "MainText", order.MainText},
+                { "SmallText", order.SmallText},
+                { "AuditTime", order.AuditTime },
+                { "Auditor", order.Auditor },
+                { "Productor", order.Productor },
+                { "ProductTime", order.ProductTime },
+                { "DeleteTime", order.DeleteTime },
             };
             return contexto.ExecuteCommand(commandSQL, parameters);
         }
@@ -193,7 +176,7 @@ namespace WebApplication.Application
         public void Save(Order Order)
         {
             if (Order.Id > 0)
-                update(Order);
+                Update(Order);
             else
                 Insert(Order);
         }
@@ -207,5 +190,6 @@ namespace WebApplication.Application
             };
             return contexto.ExecuteCommand(commandSQL, parameters);
         }
+
     }
 }

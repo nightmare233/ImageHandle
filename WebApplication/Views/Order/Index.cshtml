@@ -1,5 +1,6 @@
 ﻿@model  IEnumerable<Models.Order>
 @using WebApplication.Common;
+@using Models;
 @{ 
     ViewBag.Title = "Orders";
 }
@@ -15,7 +16,7 @@
     }
 </script>
 <div class="page-header">
-    <h1>用户列表</h1>
+    <h1>订单列表</h1>
     <a href="@Url.Action("Add","Order")" class="btn btn-sm btn-primary">创建表单</a>
 </div>
 <div class="row">
@@ -31,8 +32,8 @@
                                 <td align="left">
                                     淘宝订单号：@item.TaobaoId<br />
                                     时间：@item.SubmitTime<br />
-                                    印章类型：@item.ImageTypeName &nbsp;&nbsp; 尺寸： @item.ImageSize<br />
-                                    字体样式： @item.StyleName &nbsp;&nbsp; <a href="@Url.Action("", "" , new { Id=item.Id })">下载PNG图片</a>
+                                    印章类型：@item.Sample.ImageType.ToString()
+                                    字体样式： @item.Sample.Style.ToString()&nbsp;&nbsp; <a href="@Url.Action("", "" , new { Id=item.Id })">下载PNG图片</a>
                                 </td>
                                 <td style="width: 200px">
                                     @if (item.Status == (int)EnumStatus.待审批)

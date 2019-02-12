@@ -27,8 +27,8 @@ namespace WebApplication.Controllers
             //    ImageHelp.CreateImage(sample);
             //}
 
-            Sample sample = sampleService.GetSample(2, true);
-            ImageHelp.CreateImage(sample);
+            //Sample sample = sampleService.GetSample(2, true);
+            //ImageHelp.CreateImage(sample);
         }
         // GET: Login
         public ActionResult Login()
