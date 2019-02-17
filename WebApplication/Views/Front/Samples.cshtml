@@ -14,11 +14,12 @@
     }
 
     function StepTwo() {
-        alert($("#type1").text());
-        alert($("#style1").text());
-        alert($("#ifHasBgImage1").text());
-        alert($("#retURL1").text());
-        //alert("step two"); 
+        var type1 = $("#type1").text()
+        var stype1 = $("#style1").text();
+        var ifhasbgimg1 = $("#ifHasBgImage1").text();
+        var returl = $("#retURL1").text();
+        var sampleId = currentSampleId;
+        location.href = "/Front/Create2?type=" + type1 + "&style=" + stype1 + "&ifHasBgImage=" + ifhasbgimg1 + "&guid=" + returl + "&sampleId=" + sampleId; 
     }
 </script>
  
@@ -46,8 +47,8 @@
     </table>
     <br />
     <div><button onclick="StepTwo()">确认</button></div>
-    <label id="type1" hidden="hidden"> @ViewBag.type1</label>
-    <label id="style1" hidden="hidden"> @ViewBag.style1</label>
-    <label id="ifHasBgImage1" hidden="hidden"> @ViewBag.ifHasBgImage1</label>
-    <label id="retURL1" hidden="hidden"> @ViewBag.retURL1</label>
+    <label id="type1" hidden="hidden">@ViewBag.type1</label>
+    <label id="style1" hidden="hidden">@ViewBag.style1</label>
+    <label id="ifHasBgImage1" hidden="hidden">@ViewBag.ifHasBgImage1</label>
+    <label id="retURL1" hidden="hidden">@ViewBag.retURL1</label>
 </div> 

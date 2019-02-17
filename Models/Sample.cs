@@ -14,6 +14,7 @@ namespace Models
         public int ImageSizeY { get; set; } //尺寸2， 宽，方和圆形章为null
         public EnumImageStyle Style { get; set; }  //印章样式， 阴文阳文
         public string ImageUrl { get; set; } //生成的样品图片地址。
+        public bool IfHasBgImg { get; set; }
         public string BgImage { get; set; } //印章背景图片，阴文和阳文没有图案， 为null
         public int MainTextNumber { get; set; }
         public bool IfHasSmallText { get; set; }
