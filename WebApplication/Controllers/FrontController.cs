@@ -42,11 +42,17 @@ namespace WebApplication.Controllers
 
             Order order = new Order();
             return View(order);
-        }
+        } 
 
+        //选完方案后，返回订单页面，输入文字，然后提交订单。
+        public ActionResult StepOne()
+        {
+            //这里要返回之前选过的值。
+            return View();
+        }
         // POST: Order/Create
         [HttpPost]
-        public ActionResult Create(Order order)
+        public ActionResult StepTwo(Order order)
         {
             try
             {
@@ -68,18 +74,15 @@ namespace WebApplication.Controllers
             }
         }
 
-        //选完方案后，返回订单页面，输入文字，然后提交订单。
-        public ActionResult Confirm()
-        {
-            //这里要返回之前选过的值。
-            return View();
-        }
-
-        public ActionResult Samples()
+        public ActionResult Samples(int type, int style, bool ifHasBgImage, string retURL)
         {
             //把用户选过的值传过来，选完之后再传回去。
             List<Sample> samples = null;
             samples = sampleService.ListAll(null, null, false); // to do..
+            ViewBag.type1 = type;
+            ViewBag.style1 = style;
+            ViewBag.ifHasBgImage1 = ifHasBgImage;
+            ViewBag.retURL1 = retURL;
             return View(samples);
         }
 
