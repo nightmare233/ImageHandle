@@ -27,10 +27,10 @@
             <img src="\Images\icon1.png" />
             <hr />
             <label for="preview">请输入主文字</label>
-            <input id="Text" name="Text" type="text" value="@Model.MainText" class="form-control" placeholder="印章文字" required="required" />
+            <input id="MainText" name="MainText" type="text" value="@Model.MainText" class="form-control" placeholder="印章文字" required="required" />
             <label for="preview">请输入附加文字</label>
             <input id="smallText" name="smallText" type="text" value="@Model.SmallText" class="form-control" placeholder="印章附加文字" />
-            <a href="@Url.Action("","Order")">预览</a>
+            <a href="" onclick="createImage()">预览</a>
         </div>
         <div>
             <img src="\Images\icon1.png" />
@@ -44,6 +44,9 @@
     </fieldset>
 </form>
 <script type="text/javascript">
+    function createImage() {
+
+    }
     //function selectSample() {
     //    var type = $("#ImageType").val();
     //    var style = $("#Style").val();

@@ -17,7 +17,7 @@ namespace WebApplication.Application
             contexto = new Contexto();
         }
 
-        public List<Sample> ListAll(EnumImageType? enumImageType, EnumImageStyle? enumImageStyle, bool ifGetTexts)
+        public List<Sample> ListAll(EnumImageType? enumImageType, EnumImageStyle? enumImageStyle, bool? ifHasBgImage, bool ifGetTexts)
         {
             var samples = new List<Sample>();
             StringBuilder sb = new StringBuilder("SELECT * FROM sample where 1=1 ");
@@ -28,6 +28,13 @@ namespace WebApplication.Application
             if (enumImageStyle != null)
             {
                 sb.Append($" and style = {(int)enumImageStyle}");
+            }
+            if (ifHasBgImage.HasValue)
+            {
+                if(ifHasBgImage.Value)
+                    sb.Append($" and BgImage <> null");
+                else
+                    sb.Append($" and BgImage = null");
             }
             var rows = contexto.ExecuteCommandSQL(sb.ToString(), null);
             foreach (var row in rows)

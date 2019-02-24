@@ -29,7 +29,7 @@ namespace WebApplication.Controllers
             if (string.IsNullOrEmpty(guid))
             {
                 string errorMessage = "您的链接参数不正确，或者已经超时失效了。";
-                return RedirectToAction("Error", "Front", new { message = errorMessage });
+                return RedirectToAction("Result", "Front", new { message = errorMessage });
             }
             ImageTypeModel imageTypeModel = (ImageTypeModel)CacheHelper.GetCache(guid);
 
@@ -50,7 +50,7 @@ namespace WebApplication.Controllers
             if (string.IsNullOrEmpty(guid) || CacheHelper.GetCache(guid) == null)
             {
                 string errorMessage = "您的链接参数不正确，或者已经超时失效了。";
-                return RedirectToAction("Error", "Front", new { message = errorMessage });
+                return RedirectToAction("Result", "Front", new { message = errorMessage });
             }
             Order order = new Order();
             order.SampleId = sampleId;
@@ -63,17 +63,17 @@ namespace WebApplication.Controllers
         public ActionResult Create2(Order order)
         {
             try
-            {
+            { 
                 order.SubmitTime = DateTime.Now;
                 order.Status = (int)EnumStatus.待审批;
                 order.SubmitTime = DateTime.Now;
                 order.ProductTime = DateTime.MinValue;
                 order.AuditTime = DateTime.MinValue;
                 order.DeleteTime = DateTime.MinValue;
-                order.ImageUrl = string.Empty;
-                // todo ...
-                orderService.Save(order); // todo
-                return RedirectToAction("Index");
+                order.ImageUrl = string.Empty; 
+                orderService.Save(order);
+               
+                return RedirectToAction("Result", "Front", new { message = "订单提交成功!" });
             }
             catch (Exception ex)
             {
@@ -87,7 +87,7 @@ namespace WebApplication.Controllers
         {
             //把用户选过的值传过来，选完之后再传回去。
             List<Sample> samples = null;
-            samples = sampleService.ListAll((EnumImageType)type, (EnumImageStyle)style, false); // to do.. 是否有背景图案
+            samples = sampleService.ListAll((EnumImageType)type, (EnumImageStyle)style, ifHasBgImage, false);
             ViewBag.type1 = type;
             ViewBag.style1 = style;
             ViewBag.ifHasBgImage1 = ifHasBgImage;
@@ -95,9 +95,15 @@ namespace WebApplication.Controllers
             return View(samples);
         }
 
+        //生产订单图片
+        public ActionResult CreateImage(Order order)
+        {
+
+            return View();
+        }
 
         [HttpGet]
-        public ActionResult Error(string message)
+        public ActionResult Result(string message)
         {
             ViewBag.Message = message;
             return View();

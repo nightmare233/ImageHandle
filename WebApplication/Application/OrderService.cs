@@ -31,7 +31,7 @@ namespace WebApplication.Application
             {
                 Order tempOrder = new Order();
                 tempOrder.Id = int.Parse(row["Id"].ToString());
-                tempOrder.TaobaoId = int.Parse(row["TaobaoId"].ToString());
+                tempOrder.TaobaoId = row["TaobaoId"].ToString();
                 tempOrder.SampleId = int.Parse(row["SampleId"].ToString());
                 tempOrder.Sample = new SampleService().GetSample(tempOrder.SampleId,false);
                 tempOrder.MainText = row["MainText"].ToString();
@@ -68,7 +68,7 @@ namespace WebApplication.Application
             { 
                 Order tempOrder = new Order();
                 tempOrder.Id = int.Parse(row["Id"].ToString());
-                tempOrder.TaobaoId = int.Parse(row["TaobaoId"].ToString());
+                tempOrder.TaobaoId = row["TaobaoId"].ToString();
                 tempOrder.SampleId = int.Parse(row["SampleId"].ToString());
                 tempOrder.Sample = new SampleService().GetSample(tempOrder.SampleId, false);
                 tempOrder.MainText = row["MainText"].ToString();
@@ -107,7 +107,7 @@ namespace WebApplication.Application
             }
             Order tempOrder = new Order();
             tempOrder.Id = int.Parse(row["Id"].ToString());
-            tempOrder.TaobaoId = int.Parse(row["TaobaoId"].ToString());
+            tempOrder.TaobaoId = row["TaobaoId"].ToString();
             tempOrder.SampleId = int.Parse(row["SampleId"].ToString());
             tempOrder.Sample = new SampleService().GetSample(tempOrder.SampleId, false);
             tempOrder.MainText = row["MainText"].ToString();
@@ -127,19 +127,18 @@ namespace WebApplication.Application
 
         public int Insert(Order order)
         {
-            const string commandSQL = @"INSERT into orders(TaobaoId, ImageUrl, SubmitTime, Status, AuditTime, ProductTime, DeleteTime, SampleId, MainText,SmallText)  
-                                        VALUES(@TaobaoId, @ImageType, @ImageSize, @Font, @Style,  @Text, @ImageUrl, @BgImage, @SubmitTime, @Status, @AuditTime, @ProductTime, @DeleteTime, 
-                                        @SampleId, @MainText,@SmallText)";
+            const string commandSQL = @"INSERT into orders(TaobaoId, SampleId, ImageUrl, SubmitTime, Status, AuditTime, ProductTime, DeleteTime, MainText,SmallText)  
+                                        VALUES(@TaobaoId, @SampleId, @ImageUrl, @SubmitTime, @Status, @AuditTime, @ProductTime, @DeleteTime, @MainText,@SmallText)";
             var parameters = new Dictionary<string, object>
             { 
                 { "TaobaoId", order.TaobaoId },
+                { "SampleId", order.SampleId },
                 { "ImageUrl", order.ImageUrl},
                 { "SubmitTime", order.SubmitTime },
-                { "Status", order.Status },
-                { "SampleId",order.SampleId },
+                { "Status", order.Status }, 
                 { "MainText", order.MainText},
                 { "SmallText", order.SmallText},
-                { "AuditTime", order.AuditTime },
+                { "AuditTime", order.AuditTime }, 
                 { "Auditor", order.Auditor },
                 { "Productor", order.Productor },
                 { "ProductTime", order.ProductTime },
@@ -150,18 +149,17 @@ namespace WebApplication.Application
 
         private int Update(Order order)
         {
-            var commandSQL = @"UPDATE Orders SET TaobaoId = @TaobaoId,ImageUrl = @ImageUrl, SubmitTime= @SubmitTime, Status= @Status, 
-                             SampleId= @SampleId,MainText= @MainText, SmallText= @SmallText,
-                            AuditTime= @AuditTime, Auditor= @Auditor, Productor= @Productor, ProductTime= @ProductTime, DeleteTime= @DeleteTime 
+            var commandSQL = @"UPDATE Orders SET TaobaoId = @TaobaoId, SampleId=@SampleId, ImageUrl = @ImageUrl, SubmitTime= @SubmitTime, Status= @Status, 
+                            MainText= @MainText, SmallText= @SmallText, AuditTime= @AuditTime, Auditor= @Auditor, Productor= @Productor, ProductTime= @ProductTime, DeleteTime= @DeleteTime 
                             WHERE Id = @Id";
             var parameters = new Dictionary<string, object>
             {
                 {"Id", order.Id},
-                { "TaobaoId", order.TaobaoId }, 
-                { "ImageUrl", order.ImageUrl}, 
+                { "TaobaoId", order.TaobaoId },
+                 { "SampleId", order.SampleId },
+                { "ImageUrl", order.ImageUrl},
                 { "SubmitTime", order.SubmitTime },
                 { "Status", order.Status },
-                { "SampleId",order.SampleId },
                 { "MainText", order.MainText},
                 { "SmallText", order.SmallText},
                 { "AuditTime", order.AuditTime },

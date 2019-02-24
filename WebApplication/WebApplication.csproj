@@ -208,7 +208,7 @@
     <Content Include="Views\Order\Index.cshtml" />
     <Content Include="Views\Order\Update.cshtml" />
     <Content Include="Views\Order\Add.cshtml" />
-    <Content Include="Views\Front\Error.cshtml" />
+    <Content Include="Views\Front\Result.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Front\Samples.cshtml" />
     <Content Include="Views\Front\Create2.cshtml" />

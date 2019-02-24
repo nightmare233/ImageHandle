@@ -8,7 +8,7 @@ namespace Models
     public class Order
     {
         public int Id { get; set; }
-        public int TaobaoId { get; set; }
+        public string TaobaoId { get; set; }
         public DateTime SubmitTime { get; set; }
         public int Status { get; set; }
         public string StatusName { get; set; }
