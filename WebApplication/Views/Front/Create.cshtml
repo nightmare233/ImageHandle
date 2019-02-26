@@ -22,23 +22,27 @@
             </select>
             <br />
             @*<label for="ImageSize">尺寸大小</label>
-            <select id="ImageSize" name="ImageSize">
-                <option value="18" selected="selected">18mm</option>
-                <option value="20">20mm</option>
-                <option value="22">22mm</option>
-            </select>
-            <br />*@
+        <select id="ImageSize" name="ImageSize">
+            <option value="18" selected="selected">18mm</option>
+            <option value="20">20mm</option>
+            <option value="22">22mm</option>
+        </select>
+        <br />*@
             <label for="Style">样式</label>
             <select id="Style" name="Style">
                 <option value="0" selected="selected">阴文</option>
                 <option value="1">阳文</option>
             </select>
             <br />
-            <label for="Style">是否有背景图案</label>
-            <input id="IfHasBgImage" type="checkbox"  name="IfHasBgImage" />
+            <label for="Style">是否有背景图案</label> 
+            <select id="IfHasBgImage" name="IfHasBgImage">
+                <option value="0" selected="selected">全部</option>
+                <option value="1">有背景图</option>
+                <option value="2">无背景图</option>
+            </select>
             <br />
             @*<a href="@Url.Action("Samples","Front",)">点击选择预设方案>></a>*@
-            <a  onclick="selectSample()">点击选择预设方案>></a>
+            <a onclick="selectSample()">点击选择预设方案>></a>
             <hr />
             <label>已选择预设方案</label>
             <hr />
@@ -62,7 +66,7 @@
     function selectSample() {
         var type = $("#ImageType").val();
         var style = $("#Style").val();
-        var ifhasBgImage = $("#IfHasBgImage").prop('checked'); 
+        var ifhasBgImage = $("#IfHasBgImage").val();
         //alert("selectSample, type:" + type + ", style:" + style + ", ifhasimag:" + ifhasBgImage);
         location.href = "/Front/Samples?type=" + type + "&style=" + style + "&ifHasBgImage=" + ifhasBgImage + "&retURL=" + window.location.href; 
     }

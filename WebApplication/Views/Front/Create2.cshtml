@@ -15,12 +15,12 @@
             <br />
             <label for="ImageType">印章类型:</label>
             <label for="Sample.Type">@Model.Sample.ImageType</label>
-            <br /> 
-            <label for="Style">样式:</label> 
-            <input name="SampleId" value="@Model.SampleId"  type="text"/>
+            <br />
+            <label for="Style">样式:</label>
+            <input name="SampleId" value="@Model.SampleId" type="text" />
             <br />
             <label for="Style">是否有背景图案</label>
-            <input id="IfHasBgImage" type="checkbox" name="IfHasBgImage" value="@Model.Sample.IfHasBgImg" />   
+            <input name="IfHasBgImage" value="@Model.Sample.IfHasBgImg" type="text" /> 
             <br />
             <label id="SampleId">@Model.SampleId</label>
             <label>已选择预设方案</label>
@@ -38,8 +38,8 @@
         <label style="color:red">@ViewBag.Message</label>
         <hr />
         <p>
-            
-            <button type="submit">提交</button> 
+            <input type="submit" name="action" value="Save"  />
+            <input type="submit" name="action" value="CreateImage" />
         </p>
     </fieldset>
 </form>
