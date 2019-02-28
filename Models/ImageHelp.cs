@@ -95,11 +95,11 @@ namespace Models
             g.DrawLine(new Pen(drawBrush1), new Point(147, 0), new Point(147, 295));
             g.DrawLine(new Pen(drawBrush1), new Point(0, 147), new Point(295, 147));
             GC.Collect();
-            string filename = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss-ms");
-            string saveImagePath = $"../OutputImgs/{filename}.png";  //todo 路径
+            string filename = sample.ImageType.ToString() + sample.Style.ToString() + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss-ms")+".png";
+            string saveImagePath = AppDomain.CurrentDomain.BaseDirectory + $"OutputImgs\\{filename}";  //todo 路径
             //save new image to file system.
             imgBack.Save(saveImagePath, ImageFormat.Png);
-            return saveImagePath;
+            return filename;
         }
 
         private static void DrawMainText(Graphics g, ImageText mainText, EnumImageStyle style)

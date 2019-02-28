@@ -1,0 +1,68 @@
+﻿@model  IEnumerable<Models.Sample>
+@using WebApplication.Common;
+@using Models;
+@{ 
+    ViewBag.Title = "预设样式列表";
+}
+<script type="text/javascript">
+    function Delete(sampleId) {
+        if (confirm("确定要删除？")) {
+            url = "/Sample/Delete";
+            parameter = { id: sampleId };
+            $.post(url, parameter, function (data) {
+                alert("删除成功！");
+                window.location = "/Sample/Index";
+            });
+        }
+    }
+</script>
+<div class="page-header">
+    <h1>预设样式列表</h1>
+    <a href="@Url.Action("Add","Sample")" class="btn btn-sm btn-primary">创建预设样式</a>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>编号</th>
+                            <th>名称</th>
+                            <th>印章类型</th>
+                            <th>风格</th>
+                            <td>背景图</td>
+                            <th>字体</th>
+                            <th>文字数量</th>
+                            <td>副文字</td>
+                            <td>样章</td>
+                            <td>操作</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in @Model)
+                        {
+                        <tr>
+                            <td><a href="@Url.Action("Details", "Sample" , new { Id=item.Id })">@item.Id</a></td>
+                            <td><a href="@Url.Action("Details", "Sample" , new { Id=item.Id })">@item.Name</a></td>
+                            <td>@item.ImageType</td>
+                            <td>@item.Style</td>
+                            <td>@item.IfHasBgImg</td>
+                            <td>????</td>
+                            <td>@item.IfHasSmallText</td>
+                            <td>/SampleImgs/@item.BgImage</td>
+                            <td style="width: 100px">
+                                <a href="@Url.Action("Edit", "User" , new { Id=item.Id })">
+                                    <span>编辑</span>
+                                </a>
+                                <a href="#" onClick="Delete(@item.Id); return false;">删除</a>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

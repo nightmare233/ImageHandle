@@ -129,6 +129,8 @@ namespace WebApplication.Application
         {
             const string commandSQL = @"INSERT into orders(TaobaoId, SampleId, ImageUrl, SubmitTime, Status, AuditTime, ProductTime, DeleteTime, MainText,SmallText)  
                                         VALUES(@TaobaoId, @SampleId, @ImageUrl, @SubmitTime, @Status, @AuditTime, @ProductTime, @DeleteTime, @MainText,@SmallText)";
+            if (order.SmallText == null)
+                order.SmallText = "";
             var parameters = new Dictionary<string, object>
             { 
                 { "TaobaoId", order.TaobaoId },

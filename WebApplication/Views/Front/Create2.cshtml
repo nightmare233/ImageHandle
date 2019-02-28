@@ -20,26 +20,28 @@
             <input name="SampleId" value="@Model.SampleId" type="text" />
             <br />
             <label for="Style">是否有背景图案</label>
-            <input name="IfHasBgImage" value="@Model.Sample.IfHasBgImg" type="text" /> 
+            <input name="IfHasBgImage" value="@Model.Sample.IfHasBgImg" type="text" />
             <br />
             <label id="SampleId">@Model.SampleId</label>
             <label>已选择预设方案</label>
-            <img src="\Images\icon1.png" />
+            <img src="\Images\icon1.png" style="width:198px; height:198px"/>
             <hr />
             <label for="preview">请输入主文字</label>
             <input id="MainText" name="MainText" type="text" value="@Model.MainText" class="form-control" placeholder="印章文字" required="required" />
             <label for="preview">请输入附加文字</label>
             <input id="smallText" name="smallText" type="text" value="@Model.SmallText" class="form-control" placeholder="印章附加文字" />
-            <a href="" onclick="createImage()">预览</a>
+            @*<a href="" onclick="createImage()">预览</a>*@
+            <input type="submit" name="action" value="CreateImage" />
         </div>
         <div>
-            <img src="\Images\icon1.png" />
+            <input name="ImageUrl" value="@Model.ImageUrl" type="text" hidden="hidden"/>
+            <img src="/OutputImgs/@Model.ImageUrl" style="width:198px; height:198px" />
         </div>
         <label style="color:red">@ViewBag.Message</label>
         <hr />
         <p>
             <input type="submit" name="action" value="Save"  />
-            <input type="submit" name="action" value="CreateImage" />
+          
         </p>
     </fieldset>
 </form>

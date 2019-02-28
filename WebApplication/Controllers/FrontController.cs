@@ -88,7 +88,6 @@ namespace WebApplication.Controllers
                     order.ProductTime = DateTime.MinValue;
                     order.AuditTime = DateTime.MinValue;
                     order.DeleteTime = DateTime.MinValue;
-                    order.ImageUrl = string.Empty;
                     orderService.Save(order);
 
                     return RedirectToAction("Result", "Front", new { message = "订单提交成功!" });
@@ -101,7 +100,6 @@ namespace WebApplication.Controllers
             }
             else if (action == "CreateImage")
             {
-                //todo 文字处理
                 order.Sample = sampleService.GetSample(order.SampleId, true);
                 if (order.MainText.Length != order.Sample.MainTextNumber)
                 {

@@ -1,10 +1,10 @@
-﻿@model Models.User
+﻿@model Models.Sample
 @{
-    ViewBag.Title = "修改用户信息";
+    ViewBag.Title = "修改预设样式";
 }
 
 <div class="page-header">
-    <h1>修改用户信息</h1>
+    <h1>修改预设样式</h1>
 </div>
 <form method="POST" action="">
     @Html.ValidationSummary(true)
@@ -13,8 +13,8 @@
         <input id="Id" name="Id" type="hidden" value="@Model.Id" />
          
         <div class="form-group">
-            <label for="Name">姓&nbsp;&nbsp;&nbsp;&nbsp;名：</label>
-            <input id="Name" name="Name" type="text" value="@Model.Name" class="form-control" placeholder="请输入姓名">
+            <label for="Name">名&nbsp;&nbsp;&nbsp;&nbsp;称：</label>
+            <input id="Name" name="Name" type="text" value="@Model.Name" class="form-control" placeholder="名称">
             @Html.ValidationMessageFor(x => x.Name)
             <br />
             <label for="Name">&nbsp;登录名：</label>
