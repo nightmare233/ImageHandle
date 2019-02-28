@@ -53,14 +53,14 @@ namespace WebApplication.Controllers
         }
 
         // GET: Sample/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Update(int id)
         {
             return View();
         }
 
         // POST: Sample/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Update(int id, FormCollection collection)
         {
             try
             {

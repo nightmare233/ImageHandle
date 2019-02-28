@@ -9,10 +9,7 @@
 
 <form method="POST" action="Create"> 
     <fieldset>
-        <div class="form-group">
-            <label for="Name">淘宝订单号</label>
-            <input id="TaobaoId" name="TaobaoId" type="text" value="@Model.TaobaoId" class="form-control" placeholder="淘宝订单号" required="required" />
-            <br />
+        <div class="form-group"> 
             <label for="ImageType">印章类型</label>
             <select id="ImageType" name="ImageType">
                 @foreach (var item in @ViewBag.imageTypes)

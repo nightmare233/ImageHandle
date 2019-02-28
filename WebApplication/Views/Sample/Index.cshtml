@@ -18,7 +18,7 @@
 </script>
 <div class="page-header">
     <h1>预设样式列表</h1>
-    <a href="@Url.Action("Add","Sample")" class="btn btn-sm btn-primary">创建预设样式</a>
+    <a href="@Url.Action("Create","Sample")" class="btn btn-sm btn-primary">创建预设样式</a>
 </div>
 <div class="row">
     <div class="col-lg-12">
@@ -31,20 +31,20 @@
                             <th>名称</th>
                             <th>印章类型</th>
                             <th>风格</th>
-                            <td>背景图</td>
+                            <th>背景图</th>
                             <th>字体</th>
                             <th>文字数量</th>
-                            <td>副文字</td>
-                            <td>样章</td>
-                            <td>操作</td>
+                            <th>副文字</th>
+                            <th>样章</th>
+                            <th>操作</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in @Model)
                         {
                         <tr>
-                            <td><a href="@Url.Action("Details", "Sample" , new { Id=item.Id })">@item.Id</a></td>
-                            <td><a href="@Url.Action("Details", "Sample" , new { Id=item.Id })">@item.Name</a></td>
+                            <td><a href="@Url.Action("Details", "Sample", new { Id = item.Id })">@item.Id</a></td>
+                            <td><a href="@Url.Action("Details", "Sample", new { Id = item.Id })">@item.Name</a></td>
                             <td>@item.ImageType</td>
                             <td>@item.Style</td>
                             <td>@item.IfHasBgImg</td>
@@ -52,7 +52,7 @@
                             <td>@item.IfHasSmallText</td>
                             <td>/SampleImgs/@item.BgImage</td>
                             <td style="width: 100px">
-                                <a href="@Url.Action("Edit", "User" , new { Id=item.Id })">
+                                <a href="@Url.Action("Update", "Sample" , new { Id=item.Id })">
                                     <span>编辑</span>
                                 </a>
                                 <a href="#" onClick="Delete(@item.Id); return false;">删除</a>
