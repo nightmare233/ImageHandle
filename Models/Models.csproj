@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums.cs" />
+    <Compile Include="Font.cs" />
     <Compile Include="ImageHelp.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="OrderForm.cs" />

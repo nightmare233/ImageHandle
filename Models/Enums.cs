@@ -42,5 +42,10 @@ namespace Models
         生产员 = 2
     }
 
+    public enum EnumTextType
+    {
+        MainText = 1,
+        SmallText = 2
+    }
 
 }

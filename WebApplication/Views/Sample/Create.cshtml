@@ -1,53 +1,114 @@
-﻿@model Models.Sample
+﻿@using Models
+@model Models.Sample
 @{
     ViewBag.Title = "添加预设样式";
 }
 
 <div class="page-header">
     <h1>添加预设样式</h1>
+    <script type="text/javascript" language="javascript">
+        $(document).ready(function () {
+            $("#mainText2").hide();
+            $("#mainText3").hide();
+            $("#mainText4").hide();
+        });
+        function AddMainText() {
+            if ($('#mainText2').is(':hidden')) { $("#mainText2").show() }
+            else if ($('#mainText3').is(':hidden')) { $("#mainText3").show() }
+            else if ($('#mainText4').is(':hidden')) { $("#mainText4").show() }
+            else { alert("最多支持4个字"); }
+        }
+
+        function AddSmallText() {
+        }
+        function CreateImage() {
+            $.post("/Sample/CreateImage",
+                {
+                    name: "Donald Duck",
+                    city: "Duckburg"
+                },
+                function (data, status) {
+                    alert("Data: " + data + "\nStatus: " + status);
+                });
+        }
+
+    </script>
 </div>
 
-<form method="POST" action="Create"> 
+<form method="POST" action="Create">
     <fieldset>
-        <div class="form-group"> 
+        <div class="form-group">
             <label for="ImageType">印章类型</label>
+            @*<select id="ImageType" name="ImageType">
+            @foreach (var item in @ViewBag.imageTypes)
+            {
+                <option value="@item.Id">@item.Name</option>
+            }
+        </select>*@
             <select id="ImageType" name="ImageType">
-                @foreach (var item in @ViewBag.imageTypes)
-                {
-                    <option value="@item.Id">@item.Name</option>
-                }
+                <option value="2" selected="selected">圆形章</option>
+                <option value="3">方形章</option>
+                <option value="4">扁章</option>
+                <option value="5">闲章</option>
+                <option value="6">儿童印章</option>
+                <option value="7">个性签名章</option>
             </select>
             <br />
-            @*<label for="ImageSize">尺寸大小</label>
-        <select id="ImageSize" name="ImageSize">
-            <option value="18" selected="selected">18mm</option>
-            <option value="20">20mm</option>
-            <option value="22">22mm</option>
-        </select>
-        <br />*@
             <label for="Style">样式</label>
             <select id="Style" name="Style">
                 <option value="0" selected="selected">阴文</option>
                 <option value="1">阳文</option>
             </select>
             <br />
-            <label for="Style">是否有背景图案</label> 
+            <label for="Style">是否有背景图案</label>
             <select id="IfHasBgImage" name="IfHasBgImage">
-                <option value="0" selected="selected">全部</option>
-                <option value="1">有背景图</option>
-                <option value="2">无背景图</option>
+                <option value="0" selected="selected">无背景图</option>
+                <option value="1">有背景图</option> 
             </select>
+            @*上传背景图片*@
             <br />
-            @*<a href="@Url.Action("Samples","Front",)">点击选择预设方案>></a>*@
-            <a onclick="selectSample()">点击选择预设方案>></a>
-            <hr />
-            <label>已选择预设方案</label>
-            <hr />
-            <label for="preview">请输入主文字</label>
-            <input id="Text" name="Text" type="text" value="@Model.MainText" class="form-control" placeholder="印章文字" required="required" />
-            <label for="preview">请输入附加文字</label>
-            <input id="smallText" name="smallText" type="text" value="@Model.SmallText" class="form-control" placeholder="印章附加文字" />
-            <a href="@Url.Action("","Order")">预览</a>
+            <div id="mainTextDiv">
+                <div id="mainText1">
+                    <label for="Style">主文字1</label>
+                    <input type="text" name="Text1" style="width:40px" />
+                    <label>字体</label>
+                    @Html.DropDownList("Font1", (List<SelectListItem>)ViewData["FontList"], "--Select One--", new { @class = "dropdownlist" })
+                    <label>文字大小</label><input type="text" name="FontSize1" style="width:40px" />
+                    <label>X位置</label><input type="text" name="PositionX1" style="width:40px" />
+                    <label>Y位置</label><input type="text" name="PositionY1" style="width:40px" />
+                </div>
+                <div id="mainText2">
+                    <label for="Style">主文字2</label>
+                    <input type="text" name="Text2" style="width:40px" />
+                    <label>字体</label>
+                    @Html.DropDownList("Font2", (List<SelectListItem>)ViewData["FontList"], "--Select One--", new { @class = "dropdownlist" })
+                    <label>文字大小</label><input type="text" name="FontSize2" style="width:40px" />
+                    <label>X位置</label><input type="text" name="PositionX2" style="width:40px" />
+                    <label>Y位置</label><input type="text" name="PositionY2" style="width:40px" />
+                </div>
+                <div id="mainText3">
+                    <label for="Style">主文字3</label>
+                    <input type="text" name="Text3" style="width:40px" />
+                    <label>字体</label>
+                    @Html.DropDownList("Font3", (List<SelectListItem>)ViewData["FontList"], "--Select One--", new { @class = "dropdownlist" })
+                    <label>文字大小</label><input type="text" name="FontSize3" style="width:40px" />
+                    <label>X位置</label><input type="text" name="PositionX3" style="width:40px" />
+                    <label>Y位置</label><input type="text" name="PositionY3" style="width:40px" />
+                </div>
+                <div id="mainText4">
+                    <label for="Style">主文字4</label>
+                    <input type="text" name="Text4" style="width:40px" />
+                    <label>字体</label>
+                    @Html.DropDownList("Font4", (List<SelectListItem>)ViewData["FontList"], "--Select One--", new { @class = "dropdownlist" })
+                    <label>文字大小</label><input type="text" name="FontSize4" style="width:40px" />
+                    <label>X位置</label><input type="text" name="PositionX4" style="width:40px" />
+                    <label>Y位置</label><input type="text" name="PositionY4" style="width:40px" />
+                </div>
+            </div>
+            <a onclick="AddMainText(); return false;">添加主文字</a>
+            <a onclick="AddSmallText(); return false;">添加副文字</a>
+            @*<a onclick="CreateImage(); return false;">生成预览图</a>*@
+            <input type="submit" name="action" value="CreateImage" />
         </div>
         <div>
             <img src="\Images\icon1.png" />
@@ -55,17 +116,10 @@
         <label style="color:red">@ViewBag.Message</label>
         <hr />
         <p>
-            <button type="submit">提交</button> 
+       
+            <input type="submit" name="action" value="Save" /> 
+            <input type="submit" name="action" value="CreateImage" />
         </p>
     </fieldset>
 </form>
-<script type="text/javascript">
-    function selectSample() {
-        var type = $("#ImageType").val();
-        var style = $("#Style").val();
-        var ifhasBgImage = $("#IfHasBgImage").val();
-        //alert("selectSample, type:" + type + ", style:" + style + ", ifhasimag:" + ifhasBgImage);
-        location.href = "/Front/Samples?type=" + type + "&style=" + style + "&ifHasBgImage=" + ifhasBgImage + "&retURL=" + window.location.href; 
-    }
 
-</script>

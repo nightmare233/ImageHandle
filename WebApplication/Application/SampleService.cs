@@ -88,7 +88,7 @@ namespace WebApplication.Application
         public Sample GetMainTexts(int sampleId, Sample sample)
         {
             List<ImageText> mainTexts = new List<ImageText>();
-            string strQuery = $"SELECT * FROM imageText WHERE sampleId = {sampleId}";
+            string strQuery = $"SELECT * FROM imageText WHERE sampleId = {sampleId} order by id";
 
             var rows = contexto.ExecuteCommandSQL(strQuery, null);
             foreach (var row in rows)
@@ -106,7 +106,7 @@ namespace WebApplication.Application
                 }
                 
 
-                if (imageText.Type == 1)
+                if (imageText.Type == (int)EnumTextType.MainText)
                 {
                     mainTexts.Add(imageText);
                 }

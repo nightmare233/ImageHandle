@@ -5,9 +5,11 @@ using System.Web;
 using System.Web.Mvc;
 using WebApplication.Application;
 using Models;
+using WebApplication.Filters;
 
 namespace WebApplication.Controllers
 {
+    [SkipCheckLogin]
     public class SampleController : Controller
     {
         private SampleService sampleService;
@@ -15,6 +17,20 @@ namespace WebApplication.Controllers
         public SampleController()
         {
             sampleService = new SampleService();
+        }
+
+        private void InitData()
+        { 
+            List<ImageType> imageTypeList = ImageType.GetAll();
+
+            List<SelectListItem> fontList = new List<SelectListItem>();
+            fontList.Add(new SelectListItem { Text = "Arial", Value = "1", Selected = true });
+            fontList.Add(new SelectListItem { Value = "2", Text = "MS Yahei" });
+            fontList.Add(new SelectListItem { Value = "3", Text = "Fangzheng" });
+            fontList.Add(new SelectListItem { Value = "4", Text = "Canala" });
+
+            ViewBag.imageTypes = imageTypeList;
+            ViewBag.FontList = fontList;
         }
 
         // GET: Sample
@@ -33,21 +49,57 @@ namespace WebApplication.Controllers
         // GET: Sample/Create
         public ActionResult Create()
         {
+            InitData();
             return View();
         }
 
         // POST: Sample/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(FormCollection collection, string action)
         {
             try
             {
-                // TODO: Add insert logic here
+                #region init sample data
+                Sample sample = new Sample();
+                sample.ImageType = (EnumImageType)int.Parse(collection["ImageType"]);
+                sample.Style = (EnumImageStyle)int.Parse(collection["Style"]);
+                sample.IfHasBgImg = Convert.ToBoolean(int.Parse(collection["IfHasBgImage"]));
 
+                List<ImageText> mainTexts = new List<ImageText>();
+                ImageText imageText = null;
+                for (int i = 1; i < 5; i++)
+                {
+                    if (!string.IsNullOrEmpty(collection["Text" + i]))
+                    {
+                        imageText = new ImageText();
+                        imageText.Text = collection["Text" + i];
+                        imageText.Font = collection["Font" + i];  //todo  convert
+                        imageText.FontSize = int.Parse(collection["FontSize" + i]);
+                        imageText.PositionX = int.Parse(collection["PositionX" + i]);
+                        imageText.PositionY = int.Parse(collection["PositionY" + i]);
+                        imageText.Type = (int)EnumTextType.MainText;
+                        imageText.Order = true;
+                        mainTexts.Add(imageText);
+                    }
+                }
+                 
+                sample.MainText = mainTexts;
+                #endregion
+                 
+                if (action == "Save")
+                {
+
+                }
+                else if (action == "CreateImage")
+                {
+                
+                } 
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception ex)
             {
+                InitData();
+                ViewBag.Message = ex.Message;
                 return View();
             }
         }
