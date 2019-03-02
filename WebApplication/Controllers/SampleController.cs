@@ -59,7 +59,7 @@ namespace WebApplication.Controllers
 
         // POST: Sample/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection, string action)
+        public ActionResult Create(FormCollection collection, string type)
         {
             try
             {
@@ -70,6 +70,10 @@ namespace WebApplication.Controllers
                 sample.Style = (EnumImageStyle)int.Parse(collection["Style"]);
                 sample.IfHasBgImg = Convert.ToBoolean(int.Parse(collection["IfHasBgImage"]));
                 sample.ImageUrl = collection["ImageUrl"];
+                if (sample.IfHasBgImg)
+                    sample.BgImage = ""; //todo. 上传
+                else
+                    sample.BgImage = "";
 
                 List<ImageText> mainTexts = new List<ImageText>();
                 ImageText imageText = null;
@@ -80,7 +84,7 @@ namespace WebApplication.Controllers
                     {
                         imageText = new ImageText();
                         imageText.Text = collection["Text" + i];
-                        int fontId =  int.Parse(collection["Font" + i]);
+                        int fontId = int.Parse(collection["Font" + i]);
                         imageFont = imageFontService.GetById(fontId);
                         if (imageFont.ifSystem)
                         {
@@ -89,7 +93,7 @@ namespace WebApplication.Controllers
                         else
                         {
                             imageText.Font = imageFont.url;  //系统字体存名字，非系统字体存地址。
-                        } 
+                        }
                         imageText.FontSize = int.Parse(collection["FontSize" + i]);
                         imageText.PositionX = int.Parse(collection["PositionX" + i]);
                         imageText.PositionY = int.Parse(collection["PositionY" + i]);
@@ -97,25 +101,85 @@ namespace WebApplication.Controllers
                         imageText.Order = true;
                         mainTexts.Add(imageText);
                     }
-                } 
+                }
                 sample.MainText = mainTexts;
                 sample.MainTextNumber = mainTexts.Count;
                 #endregion
 
-                if (action == "Save")
+                if (type == "Save")
                 {
-                    //sampleService   //todo
+                    sampleService.Insert(sample);
                     return RedirectToAction("Index");
                 }
-                else if (action == "CreateImage")
+                else if (type == "CreateImage")
                 {
                     InitData();
-                    ViewBag.ImageUrl = ImageHelp.CreateImage(sample, true);
-                    return View();
+                    string imageUrl = ImageHelp.CreateImage(sample, true);
+                    var result  = Json(imageUrl);
+                    return result;
                 }
                 return View();
             }
-            catch(Exception ex)
+            catch (Exception ex)
+            {
+                InitData();
+                ViewBag.Message = ex.Message;
+                return View();
+            }
+        }
+
+        [HttpPost]
+        public ActionResult CreateImage(FormCollection collection)
+        {
+            try
+            {
+                #region init sample data
+                Sample sample = new Sample();
+                sample.Name = collection["Name"];
+                sample.ImageType = (EnumImageType)int.Parse(collection["ImageType"]);
+                sample.Style = (EnumImageStyle)int.Parse(collection["Style"]);
+                sample.IfHasBgImg = Convert.ToBoolean(int.Parse(collection["IfHasBgImage"]));
+                sample.ImageUrl = collection["ImageUrl"];
+                if (sample.IfHasBgImg)
+                    sample.BgImage = ""; //todo. 上传
+                else
+                    sample.BgImage = "";
+
+                List<ImageText> mainTexts = new List<ImageText>();
+                ImageText imageText = null;
+                ImageFont imageFont = null;
+                for (int i = 1; i < 5; i++)
+                {
+                    if (!string.IsNullOrEmpty(collection["Text" + i]))
+                    {
+                        imageText = new ImageText();
+                        imageText.Text = collection["Text" + i];
+                        int fontId = int.Parse(collection["Font" + i]);
+                        imageFont = imageFontService.GetById(fontId);
+                        if (imageFont.ifSystem)
+                        {
+                            imageText.Font = imageFont.name;
+                        }
+                        else
+                        {
+                            imageText.Font = imageFont.url;  //系统字体存名字，非系统字体存地址。
+                        }
+                        imageText.FontSize = int.Parse(collection["FontSize" + i]);
+                        imageText.PositionX = int.Parse(collection["PositionX" + i]);
+                        imageText.PositionY = int.Parse(collection["PositionY" + i]);
+                        imageText.Type = (int)EnumTextType.MainText;
+                        imageText.Order = true;
+                        mainTexts.Add(imageText);
+                    }
+                }
+                sample.MainText = mainTexts;
+                sample.MainTextNumber = mainTexts.Count;
+                #endregion
+ 
+                string imageUrl = ImageHelp.CreateImage(sample, true);
+                return Content(imageUrl);
+            }
+            catch (Exception ex)
             {
                 InitData();
                 ViewBag.Message = ex.Message;

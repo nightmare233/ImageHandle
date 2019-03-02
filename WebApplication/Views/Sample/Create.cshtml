@@ -22,20 +22,31 @@
         function AddSmallText() {
         }
         function CreateImage() {
-            $.post("/Sample/CreateImage",
-                {
-                    name: "Donald Duck",
-                    city: "Duckburg"
+            var itemForm = $('#itemForm');
+            var formData = new FormData($("#itemForm")[0]);
+            $.ajax({
+                dataType: "json",
+                type: "post", // 提交方式 get/post
+                url: '/sample/Create?type=CreateImage', // 需要提交的 url
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    alert(data);
+                    $("#ImageUrl").val(data);
+                    $("#sampleimage").attr('src', data);
+                    $("#sampleimage").show();
                 },
-                function (data, status) {
-                    alert("Data: " + data + "\nStatus: " + status);
-                });
+                error: function (response, ajaxOptions, thrownError) {
+                    alert("error");
+                }
+            }); 
         }
 
     </script>
 </div>
 
-<form method="POST" action="Create">
+<form id="itemForm" method="POST" action="Create">
     <fieldset>
         <div class="form-group">
             <label for="ImageType">名称</label>
@@ -110,24 +121,18 @@
             <a onclick="AddMainText(); return false;">添加主文字</a>
             <a onclick="AddSmallText(); return false;">添加副文字</a>
             @*<a onclick="CreateImage(); return false;">生成预览图</a>*@
-            <input type="submit" name="action" value="CreateImage" />
+            <input type="button"  value="CreateImage" onclick="CreateImage(); return false;" />
         </div>
         <div>
-            @{
-                if (ViewBag.ImageUrl != "")
-                {
-                    <input name="ImageUrl" value="@ViewBag.ImageUrl" type="text" hidden="hidden" />
-                    <img src="/OutputImgs/@ViewBag.ImageUrl" style="width:198px; height:198px" />
-                } 
-            }
-
+            <input id="ImageUrl" name="ImageUrl" value="" type="text" hidden="hidden" />
+            <img id="sampleimage" src="" style="width:198px; height:198px" hidden="hidden"/>
         </div>
         <label style="color:red">@ViewBag.Message</label>
         <hr />
         <p>
        
-            <input type="submit" name="action" value="Save" /> 
-            <input type="submit" name="action" value="CreateImage" />
+            <input type="submit" name="type" value="Save" /> 
+       
         </p>
     </fieldset>
 </form>

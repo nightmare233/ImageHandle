@@ -96,11 +96,11 @@ namespace Models
             g.DrawLine(new Pen(drawBrush1), new Point(0, 147), new Point(295, 147));
             GC.Collect();
             string filename = sample.ImageType.ToString() + sample.Style.ToString() + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss-ms")+".png";
-            string path = ifSample ? $"SampleImgs\\{filename}" : $"OutputImgs\\{filename}";
+            string path = ifSample ? $"\\SampleImgs\\{filename}" : $"\\OutputImgs\\{filename}";
             string saveImagePath = AppDomain.CurrentDomain.BaseDirectory + path;  //todo 路径
             //save new image to file system.
             imgBack.Save(saveImagePath, ImageFormat.Png);
-            return filename;
+            return path;
         }
 
         private static void DrawMainText(Graphics g, ImageText mainText, EnumImageStyle style)

@@ -9,7 +9,7 @@ namespace WebApplication.Repositories
 {
     public class Contexto : IDisposable
     {
-        private MySqlConnection connection;
+        public MySqlConnection connection;
 
         public Contexto() 
         {
@@ -76,7 +76,7 @@ namespace WebApplication.Repositories
             return command;
         }
 
-        private static void AddParams(MySqlCommand commandSQL, Dictionary<string, object> paramsSQL)
+        public void AddParams(MySqlCommand commandSQL, Dictionary<string, object> paramsSQL)
         {
             if (paramsSQL == null)
                 return;
@@ -89,13 +89,13 @@ namespace WebApplication.Repositories
                 commandSQL.Parameters.Add(param);
             }
         }
-        private void OpenConnection() {
-            if (connection.State == ConnectionState.Open) return;
 
+        public void OpenConnection() {
+            if (connection.State == ConnectionState.Open) return;
             connection.Open();
         }
 
-        private void CloseConnection() 
+        public void CloseConnection() 
         {
             if (connection.State == ConnectionState.Open)
                 connection.Close();
@@ -107,6 +107,44 @@ namespace WebApplication.Repositories
 
             connection.Dispose();
             connection = null;
+        }
+
+        public void ExecuteCommandWithTransaction(string sql, string sql2)
+        {
+            try
+            {
+                using (connection)
+                {
+                    OpenConnection();
+                    MySqlTransaction transaction = connection.BeginTransaction();
+                    MySqlCommand cmd = connection.CreateCommand();
+                    cmd.Transaction = transaction;
+
+                    try
+                    {
+                        cmd.CommandText = sql;
+                        int x = cmd.ExecuteNonQuery();
+                        cmd.CommandText = sql2;
+                        int y = cmd.ExecuteNonQuery();
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        try
+                        {
+                            transaction.Rollback();
+                        }
+                        catch (Exception ex2)
+                        {
+                            throw;
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

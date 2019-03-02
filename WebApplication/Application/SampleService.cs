@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using WebApplication.Repositories;
 using Models;
+using MySql.Data.MySqlClient;
 
 namespace WebApplication.Application
 {
@@ -31,7 +32,7 @@ namespace WebApplication.Application
             }
             if (ifHasBgImage.HasValue)
             {
-                if(ifHasBgImage.Value)
+                if (ifHasBgImage.Value)
                     sb.Append($" and BgImage <> null");
                 else
                     sb.Append($" and BgImage = null");
@@ -54,7 +55,7 @@ namespace WebApplication.Application
                     tempSample = GetMainTexts(tempSample.Id, tempSample);
                 }
                 samples.Add(tempSample);
-            } 
+            }
             return samples;
         }
 
@@ -65,7 +66,7 @@ namespace WebApplication.Application
 
             var rows = contexto.ExecuteCommandSQL(strQuery, null);
             if (rows.Count > 0)
-            { 
+            {
                 tempSample.Id = int.Parse(rows[0]["Id"].ToString());
                 tempSample.Name = rows[0]["Name"].ToString();
                 tempSample.IfHasSmallText = Convert.ToBoolean(int.Parse(rows[0]["IfHasSmallText"].ToString()));
@@ -80,7 +81,7 @@ namespace WebApplication.Application
                     tempSample = GetMainTexts(tempSample.Id, tempSample);
                 }
             }
-            
+
             return tempSample;
         }
 
@@ -92,18 +93,18 @@ namespace WebApplication.Application
             var rows = contexto.ExecuteCommandSQL(strQuery, null);
             foreach (var row in rows)
             {
-                ImageText imageText = new ImageText(); 
+                ImageText imageText = new ImageText();
                 imageText.PositionX = int.Parse(row["PositionX"].ToString());
                 imageText.PositionY = int.Parse(row["PositionY"].ToString());
                 imageText.Type = int.Parse(row["Type"].ToString());
                 imageText.FontSize = int.Parse(row["FontSize"].ToString());
                 imageText.Font = row["Font"].ToString();
                 imageText.Text = row["Text"].ToString();
-                if (row["Order"] != null)
+                if (row["FontOrder"] != null)
                 {
-                    imageText.Order = Convert.ToBoolean(int.Parse(row["Order"].ToString()));
+                    imageText.Order = Convert.ToBoolean(int.Parse(row["FontOrder"].ToString()));
                 }
-                
+
 
                 if (imageText.Type == (int)EnumTextType.MainText)
                 {
@@ -112,7 +113,7 @@ namespace WebApplication.Application
                 else
                 {
                     sample.SmallText = imageText;
-                } 
+                }
             }
             if (mainTexts.Count > 0)
             {
@@ -121,6 +122,85 @@ namespace WebApplication.Application
             return sample;
         }
 
-         
+        public int Insert(Sample sample)
+        {
+            const string sql1 = @"INSERT into sample(ImageType, Name, ImageSizeX, ImageSizeY, Style, ImageURL, BgImage, MainTextNumber, IfHasSmallText)  
+                                VALUES(@ImageType, @Name, @ImageSizeX, @ImageSizeY, @Style, @ImageURL, @BgImage, @MainTextNumber, @IfHasSmallText); 
+                                SELECT LAST_INSERT_ID();";
+
+            const string sql2 = @"INSERT into imagetext(SampleId, Type, Text, Font, PositionX, PositionY, FontSize, FontOrder)  
+                                        VALUES(@SampleId, @Type, @Text, @Font, @PositionX, @PositionY, @FontSize, @FontOrder)";
+
+            using (contexto.connection)
+            {
+                contexto.OpenConnection();
+                MySqlTransaction transaction = contexto.connection.BeginTransaction();
+                MySqlCommand cmd = contexto.connection.CreateCommand();
+                cmd.Transaction = transaction;
+
+                try
+                {
+                    cmd.CommandText = sql1;
+                    var parameters = new Dictionary<string, object>
+                            {
+                                { "ImageType", sample.ImageType},
+                                { "Name", sample.Name},
+                                { "ImageSizeX", sample.ImageSizeX},
+                                { "ImageSizeY", sample.ImageSizeY},
+                                { "Style", sample.Style},
+                                { "ImageURL", sample.ImageUrl},
+                                { "BgImage", sample.BgImage},
+                                { "MainTextNumber", sample.MainTextNumber},
+                                { "IfHasSmallText", sample.IfHasSmallText}
+                            };
+                    contexto.AddParams(cmd, parameters);
+                    int sampleId = int.Parse(cmd.ExecuteScalar().ToString());  //insert sample
+                    cmd.CommandText = sql2;
+                    foreach (var item in sample.MainText)  //insert maintext
+                    {
+                        var param = new Dictionary<string, object>
+                            {
+                                { "SampleId", sampleId},
+                                { "Type", item.Type},
+                                { "Text", item.Text},
+                                { "Font", item.Font},
+                                { "PositionX", item.PositionX},
+                                { "PositionY", item.PositionY},
+                                { "FontSize", item.FontSize},
+                                { "FontOrder", item.Order}
+                            };
+                        contexto.AddParams(cmd, param);
+                        cmd.ExecuteNonQuery();
+                    }
+                    if (sample.IfHasSmallText) //add small text
+                    {
+                        var param = new Dictionary<string, object>
+                            {
+                                { "SampleId", sampleId},
+                                { "Type", sample.SmallText.Type},
+                                { "Text", sample.SmallText.Text},
+                                { "Font", sample.SmallText.Font},
+                                { "PositionX", sample.SmallText.PositionX},
+                                { "PositionY", sample.SmallText.PositionY},
+                                { "FontSize", sample.SmallText.FontSize},
+                                { "FontOrder", sample.SmallText.Order}
+                            };
+                        contexto.AddParams(cmd, param);
+                        cmd.ExecuteNonQuery();
+                    }
+                    transaction.Commit();
+                    return sampleId;
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw;
+                }
+                finally
+                {
+                    contexto.CloseConnection();
+                }
+            }
+        }
     }
 }
