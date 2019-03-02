@@ -104,9 +104,33 @@ namespace WebApplication.Controllers
                 }
                 sample.MainText = mainTexts;
                 sample.MainTextNumber = mainTexts.Count;
+
+                if (!string.IsNullOrEmpty(collection["Text5"]))  //small text
+                {
+                    imageText = new ImageText();
+                    imageText.Text = collection["Text5"];
+                    int fontId = int.Parse(collection["Font5"]);
+                    imageFont = imageFontService.GetById(fontId);
+                    if (imageFont.ifSystem)
+                    {
+                        imageText.Font = imageFont.name;
+                    }
+                    else
+                    {
+                        imageText.Font = imageFont.url;  //系统字体存名字，非系统字体存地址。
+                    }
+                    imageText.FontSize = int.Parse(collection["FontSize5"]);
+                    imageText.PositionX = int.Parse(collection["PositionX5"]);
+                    imageText.PositionY = int.Parse(collection["PositionY5"]);
+                    imageText.Type = (int)EnumTextType.SmallText;
+                    imageText.Order = Convert.ToBoolean(int.Parse(collection["FontOrder"]));
+                    sample.IfHasSmallText = true;
+                    sample.SmallText = imageText;
+                }
+                 
                 #endregion
 
-                if (type == "Save")
+                if (type == "保存")
                 {
                     sampleService.Insert(sample);
                     return RedirectToAction("Index");

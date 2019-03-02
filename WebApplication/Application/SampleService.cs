@@ -155,10 +155,11 @@ namespace WebApplication.Application
                             };
                     contexto.AddParams(cmd, parameters);
                     int sampleId = int.Parse(cmd.ExecuteScalar().ToString());  //insert sample
+                    cmd.Parameters.Clear();
                     cmd.CommandText = sql2;
                     foreach (var item in sample.MainText)  //insert maintext
                     {
-                        var param = new Dictionary<string, object>
+                        Dictionary<string, object> param = new Dictionary<string, object>
                             {
                                 { "SampleId", sampleId},
                                 { "Type", item.Type},
@@ -171,6 +172,7 @@ namespace WebApplication.Application
                             };
                         contexto.AddParams(cmd, param);
                         cmd.ExecuteNonQuery();
+                        cmd.Parameters.Clear();
                     }
                     if (sample.IfHasSmallText) //add small text
                     {

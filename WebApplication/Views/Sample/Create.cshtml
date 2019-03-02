@@ -11,6 +11,7 @@
             $("#mainText2").hide();
             $("#mainText3").hide();
             $("#mainText4").hide();
+            $("#smalltext").hide();
         });
         function AddMainText() {
             if ($('#mainText2').is(':hidden')) { $("#mainText2").show() }
@@ -20,6 +21,7 @@
         }
 
         function AddSmallText() {
+            $("#smalltext").toggle();
         }
         function CreateImage() {
             var itemForm = $('#itemForm');
@@ -32,13 +34,13 @@
                 processData: false,
                 contentType: false,
                 success: function (data) {
-                    alert(data);
+                    //alert(data);
                     $("#ImageUrl").val(data);
                     $("#sampleimage").attr('src', data);
                     $("#sampleimage").show();
                 },
                 error: function (response, ajaxOptions, thrownError) {
-                    alert("error");
+                    alert("生成图片发生错误");
                 }
             }); 
         }
@@ -51,13 +53,8 @@
         <div class="form-group">
             <label for="ImageType">名称</label>
             <input type="text" name="Name" />
+            <br />
             <label for="ImageType">印章类型</label>
-            @*<select id="ImageType" name="ImageType">
-            @foreach (var item in @ViewBag.imageTypes)
-            {
-                <option value="@item.Id">@item.Name</option>
-            }
-        </select>*@
             <select id="ImageType" name="ImageType">
                 <option value="2" selected="selected">圆形章</option>
                 <option value="3">方形章</option>
@@ -82,31 +79,31 @@
             <br />
             <div id="mainTextDiv">
                 <div id="mainText1">
-                    <label for="Style">主文字1</label>
+                    <label for="Style">主文字1: </label>
                     <input type="text" name="Text1" style="width:40px" />
-                    <label>字体</label>
+                    <label>字体: </label>
                     @Html.DropDownList("Font1", (List<SelectListItem>)ViewData["FontList"], "--Select One--", new { @class = "dropdownlist" })
-                    <label>文字大小</label><input type="text" name="FontSize1" style="width:40px" value="60"/>
-                    <label>X位置</label><input type="text" name="PositionX1" style="width:40px" value="148"/>
-                    <label>Y位置</label><input type="text" name="PositionY1" style="width:40px" value="0"/>
+                    <label>文字大小: </label><input type="text" name="FontSize1" style="width:40px" value="60" />
+                    <label>X位置: </label><input type="text" name="PositionX1" style="width:40px" value="148" />
+                    <label>Y位置: </label><input type="text" name="PositionY1" style="width:40px" value="50" />
                 </div>
                 <div id="mainText2">
                     <label for="Style">主文字2</label>
                     <input type="text" name="Text2" style="width:40px" />
                     <label>字体</label>
                     @Html.DropDownList("Font2", (List<SelectListItem>)ViewData["FontList"], "--Select One--", new { @class = "dropdownlist" })
-                    <label>文字大小</label><input type="text" name="FontSize2" style="width:40px" value="60"/>
-                    <label>X位置</label><input type="text" name="PositionX2" style="width:40px" value="148"/>
-                    <label>Y位置</label><input type="text" name="PositionY2" style="width:40px" value="148"/>
+                    <label>文字大小</label><input type="text" name="FontSize2" style="width:40px" value="60" />
+                    <label>X位置</label><input type="text" name="PositionX2" style="width:40px" value="148" />
+                    <label>Y位置</label><input type="text" name="PositionY2" style="width:40px" value="158" />
                 </div>
                 <div id="mainText3">
                     <label for="Style">主文字3</label>
                     <input type="text" name="Text3" style="width:40px" />
                     <label>字体</label>
                     @Html.DropDownList("Font3", (List<SelectListItem>)ViewData["FontList"], "--Select One--", new { @class = "dropdownlist" })
-                    <label>文字大小</label><input type="text" name="FontSize3" style="width:40px" value="60"/>
-                    <label>X位置</label><input type="text" name="PositionX3" style="width:40px" value="0"/>
-                    <label>Y位置</label><input type="text" name="PositionY3" style="width:40px" value="0"/>
+                    <label>文字大小</label><input type="text" name="FontSize3" style="width:40px" value="60" />
+                    <label>X位置</label><input type="text" name="PositionX3" style="width:40px" value="35" />
+                    <label>Y位置</label><input type="text" name="PositionY3" style="width:40px" value="50" />
                 </div>
                 <div id="mainText4">
                     <label for="Style">主文字4</label>
@@ -114,14 +111,29 @@
                     <label>字体</label>
                     @Html.DropDownList("Font4", (List<SelectListItem>)ViewData["FontList"], "--Select One--", new { @class = "dropdownlist" })
                     <label>文字大小</label><input type="text" name="FontSize4" style="width:40px" value="60" />
-                    <label>X位置</label><input type="text" name="PositionX4" style="width:40px" value="0" />
-                    <label>Y位置</label><input type="text" name="PositionY4" style="width:40px" value="148" />
+                    <label>X位置</label><input type="text" name="PositionX4" style="width:40px" value="35" />
+                    <label>Y位置</label><input type="text" name="PositionY4" style="width:40px" value="158" />
                 </div>
             </div>
             <a onclick="AddMainText(); return false;">添加主文字</a>
+            <div id="smalltext">
+                <label for="Style">副文字: </label>
+                <input type="text" name="Text5" style="width:40px" />
+                <label>字体: </label>
+                @Html.DropDownList("Font5", (List<SelectListItem>)ViewData["FontList"], "--Select One--", new { @class = "dropdownlist" })
+                <label>文字大小: </label><input type="text" name="FontSize5" style="width:40px" value="25" />
+                <label>X位置: </label><input type="text" name="PositionX5" style="width:40px" value="40" />
+                <label>Y位置: </label><input type="text" name="PositionY5" style="width:40px" value="120" />
+                <label for="Style">文字顺序: </label>
+                <select id="FontOrder" name="FontOrder">
+                    <option value="0" selected="selected">从左往右</option>
+                    <option value="1">从右往左</option>
+                </select>
+            </div>
+            <br />
             <a onclick="AddSmallText(); return false;">添加副文字</a>
-            @*<a onclick="CreateImage(); return false;">生成预览图</a>*@
-            <input type="button"  value="CreateImage" onclick="CreateImage(); return false;" />
+            
+            <input type="button" value="生产预览图" onclick="CreateImage(); return false;" />
         </div>
         <div>
             <input id="ImageUrl" name="ImageUrl" value="" type="text" hidden="hidden" />
@@ -131,7 +143,7 @@
         <hr />
         <p>
        
-            <input type="submit" name="type" value="Save" /> 
+            <input type="submit" name="type" value="保存" /> 
        
         </p>
     </fieldset>
