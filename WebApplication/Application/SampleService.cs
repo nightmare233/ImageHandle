@@ -84,7 +84,6 @@ namespace WebApplication.Application
             return tempSample;
         }
 
-
         public Sample GetMainTexts(int sampleId, Sample sample)
         {
             List<ImageText> mainTexts = new List<ImageText>();

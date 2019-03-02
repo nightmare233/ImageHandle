@@ -124,7 +124,7 @@ namespace WebApplication.Controllers
                     }
                 }
 
-                order.ImageUrl =  ImageHelp.CreateImage(order.Sample);
+                order.ImageUrl =  ImageHelp.CreateImage(order.Sample, false);
                 return View(order);
             }
             return View(order);

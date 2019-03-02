@@ -8,7 +8,7 @@ namespace Models
 {
     public class ImageHelp
     {
-        public static string CreateImage(Sample sample)
+        public static string CreateImage(Sample sample, bool ifSample)
         {
             Image imgBack = null;
             Graphics g = null;
@@ -96,7 +96,8 @@ namespace Models
             g.DrawLine(new Pen(drawBrush1), new Point(0, 147), new Point(295, 147));
             GC.Collect();
             string filename = sample.ImageType.ToString() + sample.Style.ToString() + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss-ms")+".png";
-            string saveImagePath = AppDomain.CurrentDomain.BaseDirectory + $"OutputImgs\\{filename}";  //todo 路径
+            string path = ifSample ? $"SampleImgs\\{filename}" : $"OutputImgs\\{filename}";
+            string saveImagePath = AppDomain.CurrentDomain.BaseDirectory + path;  //todo 路径
             //save new image to file system.
             imgBack.Save(saveImagePath, ImageFormat.Png);
             return filename;

@@ -13,24 +13,28 @@ namespace WebApplication.Controllers
     public class SampleController : Controller
     {
         private SampleService sampleService;
+        private ImageFontService imageFontService;
 
         public SampleController()
         {
             sampleService = new SampleService();
+            imageFontService = new ImageFontService();
         }
 
         private void InitData()
         { 
-            List<ImageType> imageTypeList = ImageType.GetAll();
-
+            //font list
+            List<ImageFont> imageFonts = imageFontService.GetAll();
             List<SelectListItem> fontList = new List<SelectListItem>();
-            fontList.Add(new SelectListItem { Text = "Arial", Value = "1", Selected = true });
-            fontList.Add(new SelectListItem { Value = "2", Text = "MS Yahei" });
-            fontList.Add(new SelectListItem { Value = "3", Text = "Fangzheng" });
-            fontList.Add(new SelectListItem { Value = "4", Text = "Canala" });
-
-            ViewBag.imageTypes = imageTypeList;
+            foreach(var item in imageFonts)
+            {
+                fontList.Add(new SelectListItem { Text = item.name, Value = item.id.ToString() }); 
+            }
             ViewBag.FontList = fontList;
+            //type list
+            List<ImageType> imageTypeList = ImageType.GetAll();
+            ViewBag.imageTypes = imageTypeList;
+            ViewBag.ImageUrl = "";
         }
 
         // GET: Sample
@@ -61,19 +65,31 @@ namespace WebApplication.Controllers
             {
                 #region init sample data
                 Sample sample = new Sample();
+                sample.Name = collection["Name"];
                 sample.ImageType = (EnumImageType)int.Parse(collection["ImageType"]);
                 sample.Style = (EnumImageStyle)int.Parse(collection["Style"]);
                 sample.IfHasBgImg = Convert.ToBoolean(int.Parse(collection["IfHasBgImage"]));
+                sample.ImageUrl = collection["ImageUrl"];
 
                 List<ImageText> mainTexts = new List<ImageText>();
                 ImageText imageText = null;
+                ImageFont imageFont = null;
                 for (int i = 1; i < 5; i++)
                 {
                     if (!string.IsNullOrEmpty(collection["Text" + i]))
                     {
                         imageText = new ImageText();
                         imageText.Text = collection["Text" + i];
-                        imageText.Font = collection["Font" + i];  //todo  convert
+                        int fontId =  int.Parse(collection["Font" + i]);
+                        imageFont = imageFontService.GetById(fontId);
+                        if (imageFont.ifSystem)
+                        {
+                            imageText.Font = imageFont.name;
+                        }
+                        else
+                        {
+                            imageText.Font = imageFont.url;  //系统字体存名字，非系统字体存地址。
+                        } 
                         imageText.FontSize = int.Parse(collection["FontSize" + i]);
                         imageText.PositionX = int.Parse(collection["PositionX" + i]);
                         imageText.PositionY = int.Parse(collection["PositionY" + i]);
@@ -81,20 +97,23 @@ namespace WebApplication.Controllers
                         imageText.Order = true;
                         mainTexts.Add(imageText);
                     }
-                }
-                 
+                } 
                 sample.MainText = mainTexts;
+                sample.MainTextNumber = mainTexts.Count;
                 #endregion
-                 
+
                 if (action == "Save")
                 {
-
+                    //sampleService   //todo
+                    return RedirectToAction("Index");
                 }
                 else if (action == "CreateImage")
                 {
-                
-                } 
-                return RedirectToAction("Index");
+                    InitData();
+                    ViewBag.ImageUrl = ImageHelp.CreateImage(sample, true);
+                    return View();
+                }
+                return View();
             }
             catch(Exception ex)
             {

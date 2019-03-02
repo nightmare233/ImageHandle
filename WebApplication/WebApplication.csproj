@@ -137,6 +137,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\ImageFontService.cs" />
     <Compile Include="Application\OrderService.cs" />
     <Compile Include="Application\SampleService.cs" />
     <Compile Include="Application\UserService.cs" />

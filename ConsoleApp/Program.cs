@@ -17,7 +17,7 @@ namespace ConsoleApp
             //ImageHandle.CombinImage(sourceImg,destImg);
             //ImageHandle.SquareImage(sourceImg, null);
             Sample sample = ImageHandle.CreateYuanXing();
-            ImageHelp.CreateImage(sample);
+            ImageHelp.CreateImage(sample, true);
 
 
         }
