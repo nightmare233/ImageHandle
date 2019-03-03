@@ -6,20 +6,20 @@
 
 <div class="page-header">
     <h1>添加预设样式</h1>
+    <script src="~/Scripts/jquery.form.min.js"></script>
     <script type="text/javascript" language="javascript">
         $(document).ready(function () {
             $("#mainText2").hide();
             $("#mainText3").hide();
             $("#mainText4").hide();
             $("#smalltext").hide();
-        });
+            });
         function AddMainText() {
             if ($('#mainText2').is(':hidden')) { $("#mainText2").show() }
             else if ($('#mainText3').is(':hidden')) { $("#mainText3").show() }
             else if ($('#mainText4').is(':hidden')) { $("#mainText4").show() }
             else { alert("最多支持4个字"); }
         }
-
         function AddSmallText() {
             $("#smalltext").toggle();
         }
@@ -42,9 +42,32 @@
                 error: function (response, ajaxOptions, thrownError) {
                     alert("生成图片发生错误");
                 }
-            }); 
+            });
         }
 
+        function UploadFile() {  //异步提交
+            alert("sddd");
+            $("#fileForm").ajaxSubmit({
+                url: "/FileUpload/AjaxFileUpload",
+                type: "post",
+                success: data => {
+                    alert(data);
+                },
+                error: function (response, ajaxOptions, thrownError) {
+                    alert("发生错误");
+                }
+            });
+            @*$.post({
+                url: "@Url.Action("AjaxFileUpload", "FileUpload")",
+                type: "post",
+                success: data => {
+                    alert(data);
+                },
+                error: () => {
+                    alert("出错了");
+                }
+            });*@
+        }
     </script>
 </div>
 
@@ -77,6 +100,16 @@
             </select>
 
             @*上传背景图片*@
+            @using (Ajax.BeginForm("AjaxFileUpload", "FileUpload", new AjaxOptions
+            {
+                Confirm = "确认上传吗？",
+                HttpMethod = "post",
+                OnSuccess = "func",
+            }, new { enctype = "multipart/form-data", id = "fileForm" }))
+            {
+                <input type="file" name="file" value="" />
+                <button id="btn_fileupload" type="button" onclick="UploadFile(); return false;">上传背景图</button>
+            }
             <br />
             <div id="mainTextDiv">
                 <div id="mainText1">
@@ -133,20 +166,32 @@
             </div>
             <br />
             <a onclick="AddSmallText(); return false;">添加副文字</a>
-            
+
             <input type="button" value="生产预览图" onclick="CreateImage(); return false;" />
         </div>
         <div>
             <input id="ImageUrl" name="ImageUrl" value="" type="text" hidden="hidden" />
-            <img id="sampleimage" src="" style="width:198px; height:198px" hidden="hidden"/>
+            <img id="sampleimage" src="" style="width:198px; height:198px" hidden="hidden" />
         </div>
         <label style="color:red">@ViewBag.Message</label>
         <hr />
         <p>
-       
-            <input type="submit" name="type" value="保存" /> 
-       
+
+            <input type="submit" name="type" value="保存" />
+
         </p>
     </fieldset>
 </form>
 
+
+
+@*@using (Ajax.BeginForm("AjaxFileUpload", "FileUpload", new AjaxOptions
+{
+    Confirm = "确认上传吗？",
+    HttpMethod = "post",
+    OnSuccess = "func",
+}, new { enctype = "multipart/form-data", id = "fileForm" }))
+{
+    <input type="file" name="file" value="" />
+    <button id="btn_fileupload" type="button" onclick="UploadFile(); return false;">上传背景图</button>
+}*@
