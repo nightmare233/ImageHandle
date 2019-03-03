@@ -57,7 +57,7 @@ namespace WebApplication.Controllers
             return View();
         }
 
-        // POST: Sample/Create
+        // POST: create sample
         [HttpPost]
         public ActionResult Create(FormCollection collection, string type)
         {
@@ -258,19 +258,18 @@ namespace WebApplication.Controllers
             return View();
         }
 
-        // POST: Sample/Delete/5
+        // POST: delete sample
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
             try
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
+                sampleService.Delete(id);
+                return Content("success");
             }
-            catch
+            catch(Exception ex)
             {
-                return View();
+                return Json("Faild," + ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
     }

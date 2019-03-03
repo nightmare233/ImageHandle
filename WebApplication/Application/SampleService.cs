@@ -204,5 +204,46 @@ namespace WebApplication.Application
                 }
             }
         }
+
+        public void Delete(int sampleId)
+        {
+            const string sql1 = @"DELETE FROM imagetext WHERE SampleId = @sampleId";
+
+            const string sql2 = @"DELETE FROM sample where id = @sampleId";
+
+            using (contexto.connection)
+            {
+                contexto.OpenConnection();
+                MySqlTransaction transaction = contexto.connection.BeginTransaction();
+                MySqlCommand cmd = contexto.connection.CreateCommand();
+                cmd.Transaction = transaction;
+
+                try
+                {
+                    cmd.CommandText = sql1;
+                    var parameters = new Dictionary<string, object>
+                    {
+                        { "sampleId", sampleId}
+                    };
+                    contexto.AddParams(cmd, parameters);
+                    cmd.ExecuteNonQuery();
+                    cmd.Parameters.Clear();
+
+                    cmd.CommandText = sql2;
+                    contexto.AddParams(cmd, parameters);
+                    cmd.ExecuteNonQuery();
+                    transaction.Commit(); 
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw;
+                }
+                finally
+                {
+                    contexto.CloseConnection();
+                }
+            }
+        }
     }
 }

@@ -37,13 +37,12 @@
             var formData = new FormData($("#itemForm")[0]);
             $.ajax({
                 dataType: "json",
-                type: "post", // 提交方式 get/post
-                url: '/sample/Create?type=CreateImage', // 需要提交的 url
+                type: "post",
+                url: '/sample/Create?type=CreateImage',
                 data: formData,
                 processData: false,
                 contentType: false,
                 success: function (data) {
-                    //alert(data);
                     $("#ImageUrl").val(data);
                     $("#sampleimage").attr('src', data);
                     $("#sampleimage").show();
@@ -57,8 +56,8 @@
             var formData = new FormData($("#itemForm")[0]);
             $.ajax({
                 dataType: "json",
-                type: "post", // 提交方式 get/post
-                url: '/sample/Create?type=UploadFile', // 需要提交的 url
+                type: "post",
+                url: '/sample/Create?type=UploadFile',
                 data: formData,
                 processData: false,
                 contentType: false,

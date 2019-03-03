@@ -6,15 +6,20 @@
 }
 <script type="text/javascript">
     function Delete(sampleId) {
-        if (confirm("确定要删除？")) {
+        if (confirm("确定要删除？")) { 
             url = "/Sample/Delete";
             parameter = { id: sampleId };
-            $.post(url, parameter, function (data) {
-                alert("删除成功！");
-                window.location = "/Sample/Index";
+            $.post(url, parameter, function (data, status) { 
+                if (status == "success") {
+                    alert("删除成功！");
+                    window.location = "/Sample/Index";
+                } else {
+                    alert("删除失败！");
+                }
             });
         }
     }
+    
 </script>
 <div class="page-header">
     <h1>预设样式列表</h1>
