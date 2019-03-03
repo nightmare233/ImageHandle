@@ -63,34 +63,38 @@ namespace WebApplication.Controllers
         {
             try
             {
+                #region init sample data 
                 Sample sample = new Sample();
-                if (type == "UploadFile")
+                sample.IfHasBgImg = Convert.ToBoolean(int.Parse(collection["IfHasBgImage"]));
+                if (!sample.IfHasBgImg)
+                    sample.BgImage = "";
+                else
+                    sample.BgImage = collection["BgImage"];
+                if (type == "UploadFile")  //处理上传背景图片
                 {
                     HttpFileCollection files = System.Web.HttpContext.Current.Request.Files;
-                    if (files.Count == 0) return Json("Faild", JsonRequestBehavior.AllowGet);
+                    if (files.Count == 0)
+                    {
+                        return Json("Faild", JsonRequestBehavior.AllowGet);
+                    }
+                    //int fileSize = files[0].ContentLength;
                     var fullFileName = $"/BgImages/{Guid.NewGuid() + "_" + files[0].FileName}";
                     if (!System.IO.File.Exists(fullFileName))
                     {
                         files[0].SaveAs(Server.MapPath(fullFileName));
                     }
-                    string fileName = files[0].FileName.Substring(files[0].FileName.LastIndexOf("\\") + 1, files[0].FileName.Length - files[0].FileName.LastIndexOf("\\") - 1);
-                    int fileSize = files[0].ContentLength;
-                    sample.BgImage = fileName;
+                    //string fileName = files[0].FileName.Substring(files[0].FileName.LastIndexOf("\\") + 1, files[0].FileName.Length - files[0].FileName.LastIndexOf("\\") - 1);
+                    sample.BgImage = fullFileName;
                     sample.IfHasBgImg = true;
-                    return Json(new { FileName = fileName, FileSize = fileSize }, "text/html", JsonRequestBehavior.AllowGet);
+                    var result = Json(fullFileName);
+                    return result;
                 }
-
-                #region init sample data 
+              
                 sample.Name = collection["Name"];
                 sample.ImageType = (EnumImageType)int.Parse(collection["ImageType"]);
                 sample.Style = (EnumImageStyle)int.Parse(collection["Style"]);
-                //sample.IfHasBgImg = Convert.ToBoolean(int.Parse(collection["IfHasBgImage"]));
                 sample.ImageUrl = collection["ImageUrl"];
-                if (sample.IfHasBgImg)
-                    sample.BgImage = ""; //todo. 上传
-                else
-                    sample.BgImage = "";
-
+            
                 List<ImageText> mainTexts = new List<ImageText>();
                 ImageText imageText = null;
                 ImageFont imageFont = null;
@@ -145,7 +149,6 @@ namespace WebApplication.Controllers
                 }
                  
                 #endregion
-
                 if (type == "保存")
                 {
                     sampleService.Insert(sample);
@@ -168,64 +171,64 @@ namespace WebApplication.Controllers
             }
         }
 
-        [HttpPost]
-        public ActionResult CreateImage(FormCollection collection)
-        {
-            try
-            {
-                #region init sample data
-                Sample sample = new Sample();
-                sample.Name = collection["Name"];
-                sample.ImageType = (EnumImageType)int.Parse(collection["ImageType"]);
-                sample.Style = (EnumImageStyle)int.Parse(collection["Style"]);
-                sample.IfHasBgImg = Convert.ToBoolean(int.Parse(collection["IfHasBgImage"]));
-                sample.ImageUrl = collection["ImageUrl"];
-                if (sample.IfHasBgImg)
-                    sample.BgImage = ""; //todo. 上传
-                else
-                    sample.BgImage = "";
+        //[HttpPost]
+        //public ActionResult CreateImage(FormCollection collection)
+        //{
+        //    try
+        //    {
+        //        #region init sample data
+        //        Sample sample = new Sample();
+        //        sample.Name = collection["Name"];
+        //        sample.ImageType = (EnumImageType)int.Parse(collection["ImageType"]);
+        //        sample.Style = (EnumImageStyle)int.Parse(collection["Style"]);
+        //        sample.IfHasBgImg = Convert.ToBoolean(int.Parse(collection["IfHasBgImage"]));
+        //        sample.ImageUrl = collection["ImageUrl"];
+        //        if (sample.IfHasBgImg)
+        //            sample.BgImage = ""; //todo. 上传
+        //        else
+        //            sample.BgImage = "";
 
-                List<ImageText> mainTexts = new List<ImageText>();
-                ImageText imageText = null;
-                ImageFont imageFont = null;
-                for (int i = 1; i < 5; i++)
-                {
-                    if (!string.IsNullOrEmpty(collection["Text" + i]))
-                    {
-                        imageText = new ImageText();
-                        imageText.Text = collection["Text" + i];
-                        int fontId = int.Parse(collection["Font" + i]);
-                        imageFont = imageFontService.GetById(fontId);
-                        if (imageFont.ifSystem)
-                        {
-                            imageText.Font = imageFont.name;
-                        }
-                        else
-                        {
-                            imageText.Font = imageFont.url;  //系统字体存名字，非系统字体存地址。
-                        }
-                        imageText.FontSize = int.Parse(collection["FontSize" + i]);
-                        imageText.PositionX = int.Parse(collection["PositionX" + i]);
-                        imageText.PositionY = int.Parse(collection["PositionY" + i]);
-                        imageText.Type = (int)EnumTextType.MainText;
-                        imageText.Order = true;
-                        mainTexts.Add(imageText);
-                    }
-                }
-                sample.MainText = mainTexts;
-                sample.MainTextNumber = mainTexts.Count;
-                #endregion
+        //        List<ImageText> mainTexts = new List<ImageText>();
+        //        ImageText imageText = null;
+        //        ImageFont imageFont = null;
+        //        for (int i = 1; i < 5; i++)
+        //        {
+        //            if (!string.IsNullOrEmpty(collection["Text" + i]))
+        //            {
+        //                imageText = new ImageText();
+        //                imageText.Text = collection["Text" + i];
+        //                int fontId = int.Parse(collection["Font" + i]);
+        //                imageFont = imageFontService.GetById(fontId);
+        //                if (imageFont.ifSystem)
+        //                {
+        //                    imageText.Font = imageFont.name;
+        //                }
+        //                else
+        //                {
+        //                    imageText.Font = imageFont.url;  //系统字体存名字，非系统字体存地址。
+        //                }
+        //                imageText.FontSize = int.Parse(collection["FontSize" + i]);
+        //                imageText.PositionX = int.Parse(collection["PositionX" + i]);
+        //                imageText.PositionY = int.Parse(collection["PositionY" + i]);
+        //                imageText.Type = (int)EnumTextType.MainText;
+        //                imageText.Order = true;
+        //                mainTexts.Add(imageText);
+        //            }
+        //        }
+        //        sample.MainText = mainTexts;
+        //        sample.MainTextNumber = mainTexts.Count;
+        //        #endregion
  
-                string imageUrl = ImageHelp.CreateImage(sample, true);
-                return Content(imageUrl);
-            }
-            catch (Exception ex)
-            {
-                InitData();
-                ViewBag.Message = ex.Message;
-                return View();
-            }
-        }
+        //        string imageUrl = ImageHelp.CreateImage(sample, true);
+        //        return Content(imageUrl);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        InitData();
+        //        ViewBag.Message = ex.Message;
+        //        return View();
+        //    }
+        //}
 
         // GET: Sample/Edit/5
         public ActionResult Update(int id)

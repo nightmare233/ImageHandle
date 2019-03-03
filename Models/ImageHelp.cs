@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Drawing.Text;
+using System.Drawing.Text; 
 
 namespace Models
 {
@@ -18,7 +18,8 @@ namespace Models
             {
                 if (!string.IsNullOrEmpty(sample.BgImage))
                 {
-                    imgBack = Image.FromFile(sample.BgImage);     //相框图片 
+                    string bgImgPath = AppDomain.CurrentDomain.BaseDirectory + sample.BgImage;
+                    imgBack = Image.FromFile(bgImgPath);     //相框图片 
                     g = Graphics.FromImage(imgBack);
                 }
                 else
@@ -40,8 +41,9 @@ namespace Models
             else if (sample.ImageType == EnumImageType.圆形章)
             {
                 if (!string.IsNullOrEmpty(sample.BgImage))
-                {
-                    imgBack = Image.FromFile(sample.BgImage);     //相框图片 
+                { 
+                    string bgImgPath = AppDomain.CurrentDomain.BaseDirectory + sample.BgImage;
+                    imgBack = Image.FromFile(bgImgPath);     //相框图片 
                     g = Graphics.FromImage(imgBack);
                 }
                 else
