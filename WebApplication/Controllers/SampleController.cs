@@ -63,6 +63,7 @@ namespace WebApplication.Controllers
         {
             try
             {
+                Sample sample = new Sample();
                 if (type == "UploadFile")
                 {
                     HttpFileCollection files = System.Web.HttpContext.Current.Request.Files;
@@ -74,15 +75,16 @@ namespace WebApplication.Controllers
                     }
                     string fileName = files[0].FileName.Substring(files[0].FileName.LastIndexOf("\\") + 1, files[0].FileName.Length - files[0].FileName.LastIndexOf("\\") - 1);
                     int fileSize = files[0].ContentLength;
+                    sample.BgImage = fileName;
+                    sample.IfHasBgImg = true;
                     return Json(new { FileName = fileName, FileSize = fileSize }, "text/html", JsonRequestBehavior.AllowGet);
                 }
 
-                #region init sample data
-                Sample sample = new Sample();
+                #region init sample data 
                 sample.Name = collection["Name"];
                 sample.ImageType = (EnumImageType)int.Parse(collection["ImageType"]);
                 sample.Style = (EnumImageStyle)int.Parse(collection["Style"]);
-                sample.IfHasBgImg = Convert.ToBoolean(int.Parse(collection["IfHasBgImage"]));
+                //sample.IfHasBgImg = Convert.ToBoolean(int.Parse(collection["IfHasBgImage"]));
                 sample.ImageUrl = collection["ImageUrl"];
                 if (sample.IfHasBgImg)
                     sample.BgImage = ""; //todo. 上传

@@ -14,7 +14,16 @@
             $("#mainText3").hide();
             $("#mainText4").hide();
             $("#smalltext").hide();
+            $("#uploadDiv").hide();
+            $("#IfHasBgImage").change(function () {
+                if ($("#IfHasBgImage").val() == "1") {
+                    $("#uploadDiv").show()
+                }
+                else {
+                    $("#uploadDiv").hide()
+                }
             });
+        });
         function AddMainText() {
             if ($('#mainText2').is(':hidden')) { $("#mainText2").show() }
             else if ($('#mainText3').is(':hidden')) { $("#mainText3").show() }
@@ -44,7 +53,6 @@
                 }
             });
         } 
-
         function UploadFile() {
             var formData = new FormData($("#itemForm")[0]);
             $.ajax({
@@ -61,7 +69,7 @@
                     alert("上传图片发生错误");
                 }
             });
-        } 
+        }
     </script>
 </div>
 
@@ -94,8 +102,10 @@
             </select>
 
             @*上传背景图片*@
-            <input type="file" name="file" />
-            <input type="button" value="上传背景图" onclick="UploadFile(); return false;" />
+            <div id="uploadDiv">
+                <input type="file" name="file" />
+                <input type="button" value="上传背景图" onclick="UploadFile(); return false;" />
+            </div>
             <br />
             <div id="mainTextDiv">
                 <div id="mainText1">
