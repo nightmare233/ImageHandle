@@ -63,6 +63,20 @@ namespace WebApplication.Controllers
         {
             try
             {
+                if (type == "UploadFile")
+                {
+                    HttpFileCollection files = System.Web.HttpContext.Current.Request.Files;
+                    if (files.Count == 0) return Json("Faild", JsonRequestBehavior.AllowGet);
+                    var fullFileName = $"/BgImages/{Guid.NewGuid() + "_" + files[0].FileName}";
+                    if (!System.IO.File.Exists(fullFileName))
+                    {
+                        files[0].SaveAs(Server.MapPath(fullFileName));
+                    }
+                    string fileName = files[0].FileName.Substring(files[0].FileName.LastIndexOf("\\") + 1, files[0].FileName.Length - files[0].FileName.LastIndexOf("\\") - 1);
+                    int fileSize = files[0].ContentLength;
+                    return Json(new { FileName = fileName, FileSize = fileSize }, "text/html", JsonRequestBehavior.AllowGet);
+                }
+
                 #region init sample data
                 Sample sample = new Sample();
                 sample.Name = collection["Name"];

@@ -7,6 +7,7 @@
 <div class="page-header">
     <h1>添加预设样式</h1>
     <script src="~/Scripts/jquery.form.min.js"></script>
+    @*<script src="~/Scripts/ajaxfileupload.js"></script>*@
     <script type="text/javascript" language="javascript">
         $(document).ready(function () {
             $("#mainText2").hide();
@@ -23,8 +24,7 @@
         function AddSmallText() {
             $("#smalltext").toggle();
         }
-        function CreateImage() {
-            var itemForm = $('#itemForm');
+        function CreateImage() { 
             var formData = new FormData($("#itemForm")[0]);
             $.ajax({
                 dataType: "json",
@@ -43,35 +43,29 @@
                     alert("生成图片发生错误");
                 }
             });
-        }
+        } 
 
-        function UploadFile() {  //异步提交
-            alert("sddd");
-            $("#fileForm").ajaxSubmit({
-                url: "/FileUpload/AjaxFileUpload",
-                type: "post",
-                success: data => {
-                    alert(data);
+        function UploadFile() {
+            var formData = new FormData($("#itemForm")[0]);
+            $.ajax({
+                dataType: "json",
+                type: "post", // 提交方式 get/post
+                url: '/sample/Create?type=UploadFile', // 需要提交的 url
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    alert("图片上传成功"); 
                 },
                 error: function (response, ajaxOptions, thrownError) {
-                    alert("发生错误");
+                    alert("上传图片发生错误");
                 }
             });
-            @*$.post({
-                url: "@Url.Action("AjaxFileUpload", "FileUpload")",
-                type: "post",
-                success: data => {
-                    alert(data);
-                },
-                error: () => {
-                    alert("出错了");
-                }
-            });*@
-        }
+        } 
     </script>
 </div>
 
-<form id="itemForm" method="POST" action="Create">
+<form id="itemForm" method="POST" action="Create" enctype = "multipart/form-data">
     <fieldset>
         <div class="form-group">
             <label for="ImageType">名称</label>
@@ -100,16 +94,8 @@
             </select>
 
             @*上传背景图片*@
-            @using (Ajax.BeginForm("AjaxFileUpload", "FileUpload", new AjaxOptions
-            {
-                Confirm = "确认上传吗？",
-                HttpMethod = "post",
-                OnSuccess = "func",
-            }, new { enctype = "multipart/form-data", id = "fileForm" }))
-            {
-                <input type="file" name="file" value="" />
-                <button id="btn_fileupload" type="button" onclick="UploadFile(); return false;">上传背景图</button>
-            }
+            <input type="file" name="file" />
+            <input type="button" value="上传背景图" onclick="UploadFile(); return false;" />
             <br />
             <div id="mainTextDiv">
                 <div id="mainText1">
@@ -175,10 +161,8 @@
         </div>
         <label style="color:red">@ViewBag.Message</label>
         <hr />
-        <p>
-
-            <input type="submit" name="type" value="保存" />
-
+        <p> 
+            <input type="submit" name="type" value="保存" /> 
         </p>
     </fieldset>
 </form>
