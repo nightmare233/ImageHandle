@@ -1,0 +1,55 @@
+﻿@model  IEnumerable<Models.ImageFont>
+@{
+    ViewBag.Title = "字体列表";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-header">
+    <h1>字体列表</h1>
+    <a href="@Url.Action("UploadFile","ImageFont")" class="btn btn-sm btn-primary">上传新字体</a>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>编号</th>
+                            <th>名称</th>
+                            <th>系统字段</th>
+                            <th>字体文件</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in @Model)
+                        {
+                            <tr>
+                                <td><span>@item.id</span></td>
+                                <td>@item.name</td>
+                                <td>@item.ifSystem</td>
+                                <td>@item.url</td>
+                                <td style="width: 100px"> 
+                                    <a href="#" onClick="Delete(@item.id); return false;">删除</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function Delete(fontId) {
+        if (confirm("确定要删除？")) {
+            url = "/ImageFont/Delete";
+            parameter = { id: fontId };
+            $.post(url, parameter, function (data) {
+                alert("删除成功！");
+                window.location = "/ImageFont/Index";
+            });
+        }
+    }
+</script>

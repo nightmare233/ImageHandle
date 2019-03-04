@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewBag.Title = "UploadFile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#ifSystem").change(function () {
+            if ($("#ifSystem").val() == "0") {
+                $("#uploadDiv").show()
+            }
+            else {
+                $("#uploadDiv").hide()
+            }
+        });
+    });
+
+    function UploadFile() {
+            var formData = new FormData($("#itemForm")[0]);
+            $.ajax({
+                dataType: "json",
+                type: "post",
+                url: '/ImageFont/UploadFile?type=UploadFile',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    $("#imageFont").val(data);
+                    alert("背景图片上传成功");
+                },
+                error: function (response, ajaxOptions, thrownError) {
+                    alert("背景图片上传发生错误");
+                }
+            });
+        }
+</script>
+<h2>UploadFile</h2>
+<form id="itemForm" method="post" action="@Url.Action("UploadFile","ImageFont")" enctype="multipart/form-data">
+    <label>名称</label>
+    <input type="text" name="Name" />
+    <br />
+    <label>是否为系统字体</label>
+    <select id="ifSystem" name="ifSystem">
+        <option value="1" selected="selected">系统字段</option>
+        <option value="0">非系统字段</option>
+    </select>
+    <br />
+    <input id="" type="file" name="file" />
+    <input type="button" value="上传字体文件" onclick="UploadFile(); return false;" />
+    <input id="imageFont" name="imageFont" value="" type="text" hidden="hidden" />
+    <br />
+    <input type="submit" value="提交" />
+</form>

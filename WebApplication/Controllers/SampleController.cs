@@ -9,7 +9,7 @@ using WebApplication.Filters;
 
 namespace WebApplication.Controllers
 {
-    [SkipCheckLogin]
+    //[SkipCheckLogin]
     public class SampleController : Controller
     {
         private SampleService sampleService;
