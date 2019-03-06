@@ -54,7 +54,7 @@ namespace WebApplication.Controllers
                 ////创建文件夹，保存文件
                 //string path = Path.GetDirectoryName(fullFileName);
                 //Directory.CreateDirectory(path);
-                var fullFileName = $"/FontFiles/{files[0].FileName + "_" + Guid.NewGuid()}";
+                var fullFileName = $"/UploadFiles/FontFiles/{files[0].FileName + "_" + Guid.NewGuid()}";
                 if (!System.IO.File.Exists(fullFileName))
                 {
                     files[0].SaveAs(Server.MapPath(fullFileName));
@@ -98,22 +98,7 @@ namespace WebApplication.Controllers
             else
                 return decimal.Round(decimal.Divide(bytes, mbLength), 2).ToString() + "MB";
         }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="file"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public ActionResult AjaxFileUpload(HttpPostedFileBase file)
-        {
-            //var myfile = Request.Files["file"]; //也可以拿到
-            var path = $"/BgImages/{file.FileName + "_" + Guid.NewGuid()}";
-            file.SaveAs(Server.MapPath(path));      //保存文件
-            return Content(path);
-        }
-
+         
         [HttpPost]
         public ActionResult Delete(int id)
         {

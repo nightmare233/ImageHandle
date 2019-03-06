@@ -78,7 +78,7 @@ namespace WebApplication.Controllers
                         return Json("Faild", JsonRequestBehavior.AllowGet);
                     }
                     //int fileSize = files[0].ContentLength;
-                    var fullFileName = $"/BgImages/{Guid.NewGuid() + "_" + files[0].FileName}";
+                    var fullFileName = $"/UploadFiles/BgImages/{Guid.NewGuid() + "_" + files[0].FileName}";
                     if (!System.IO.File.Exists(fullFileName))
                     {
                         files[0].SaveAs(Server.MapPath(fullFileName));
