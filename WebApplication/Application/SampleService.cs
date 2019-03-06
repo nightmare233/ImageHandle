@@ -52,7 +52,7 @@ namespace WebApplication.Application
                 tempSample.ImageUrl = row["ImageURL"].ToString();
                 if (ifGetTexts)
                 {
-                    tempSample = GetMainTexts(tempSample.Id, tempSample);
+                    tempSample = GetTexts(tempSample.Id, tempSample);
                 }
                 samples.Add(tempSample);
             }
@@ -78,15 +78,17 @@ namespace WebApplication.Application
                 tempSample.ImageUrl = rows[0]["ImageURL"].ToString();
                 if (ifGetTexts)
                 {
-                    tempSample = GetMainTexts(tempSample.Id, tempSample);
+                    tempSample = GetTexts(tempSample.Id, tempSample); 
                 }
             }
 
             return tempSample;
         }
 
-        public Sample GetMainTexts(int sampleId, Sample sample)
+        public Sample GetTexts(int sampleId, Sample sample) //main text and small text
         {
+            ImageFontService imageFontService = new ImageFontService();
+            
             List<ImageText> mainTexts = new List<ImageText>();
             string strQuery = $"SELECT * FROM imageText WHERE sampleId = {sampleId} order by id";
 
@@ -99,13 +101,13 @@ namespace WebApplication.Application
                 imageText.Type = int.Parse(row["Type"].ToString());
                 imageText.FontSize = int.Parse(row["FontSize"].ToString());
                 imageText.Font = row["Font"].ToString();
+                imageText.imageFont = imageFontService.GetByName(imageText.Font);
                 imageText.Text = row["Text"].ToString();
                 if (row["FontOrder"] != null)
                 {
                     imageText.Order = Convert.ToBoolean(int.Parse(row["FontOrder"].ToString()));
                 }
-
-
+                 
                 if (imageText.Type == (int)EnumTextType.MainText)
                 {
                     mainTexts.Add(imageText);
