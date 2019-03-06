@@ -145,7 +145,7 @@ namespace Models
             if (!smallText.imageFont.ifSystem)
             {
                 //读取字体文件             
-                string path = smallText.imageFont.url;
+                string path = AppDomain.CurrentDomain.BaseDirectory + smallText.imageFont.url;
                 PrivateFontCollection pfc = new PrivateFontCollection();
                 pfc.AddFontFile(path);
                 font = pfc.Families[0];
@@ -154,8 +154,15 @@ namespace Models
             {
                 font = new FontFamily(smallText.imageFont.name);
             }
-          
-            String drawString = smallText.Text; // Create font and brush.
+            string drawString = "";
+            if (smallText.Order)
+            {
+                drawString = smallText.Text; // Create font and brush.
+            }
+            else //反向打印
+            {
+                drawString = WebApplication.Common.Utils.ReverseCharArray(smallText.Text);
+            }
             Font drawFont = new Font(font, smallText.FontSize); //实例化字体             
             SolidBrush drawBrush;
             float x = smallText.PositionX; float y = smallText.PositionY;

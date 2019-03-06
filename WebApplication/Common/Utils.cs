@@ -17,5 +17,16 @@ namespace WebApplication.Common
 
             return BitConverter.ToString(hashedBytes);
         }
+
+        public static string ReverseCharArray(string s)
+        {
+            char[] array = s.ToCharArray();
+            String reverse = "";
+            for (int i = array.Length - 1; i >= 0; i--)
+            {
+                reverse += array[i];
+            }
+            return reverse;
+        }
     }
 }
