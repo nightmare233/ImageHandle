@@ -32,6 +32,7 @@ namespace Models
         public int PositionY { get; set; } //第1个字的Y坐标位置。
         public int FontSize { get; set; }
         public bool Order { get; set; } //副文字的顺序，从左到右还是从右到左。 主文字根据id的顺序
+        public ImageFont imageFont { get; set; }
     }
 
     //public class SmallText

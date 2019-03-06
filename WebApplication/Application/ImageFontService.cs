@@ -36,9 +36,8 @@ namespace WebApplication.Application
 
         public ImageFont GetById(int id)
         {
-          
             ImageFont imageFont = null;
-            string sql = "SELECT * FROM imagefont where id = @id;";
+            string sql = "SELECT * FROM imagefont where id = @id limit 1;";
             var parameters = new Dictionary<string, object>
             {
                 { "id", id}
@@ -55,6 +54,25 @@ namespace WebApplication.Application
             return imageFont;
         }
 
+        public ImageFont GetByName(string name)
+        {
+            ImageFont imageFont = null;
+            string sql = "SELECT * FROM imagefont where name = @name limit 1;";
+            var parameters = new Dictionary<string, object>
+            {
+                { "name", name}
+            };
+            var rows = contexto.ExecuteCommandSQL(sql, parameters);
+            foreach (var row in rows)
+            {
+                imageFont = new ImageFont();
+                imageFont.id = int.Parse(row["id"].ToString());
+                imageFont.name = row["Name"].ToString();
+                imageFont.url = row["URL"].ToString();
+                imageFont.ifSystem = Convert.ToBoolean(int.Parse(row["IfSystem"].ToString()));
+            }
+            return imageFont;
+        }
 
         public int Add(ImageFont imageFont)
         {

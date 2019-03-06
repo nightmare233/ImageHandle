@@ -54,7 +54,7 @@ namespace WebApplication.Controllers
                 ////创建文件夹，保存文件
                 //string path = Path.GetDirectoryName(fullFileName);
                 //Directory.CreateDirectory(path);
-                var fullFileName = $"/UploadFiles/FontFiles/{files[0].FileName + "_" + Guid.NewGuid()}";
+                var fullFileName = $"/UploadFiles/FontFiles/{Guid.NewGuid() + "_" + files[0].FileName}";
                 if (!System.IO.File.Exists(fullFileName))
                 {
                     files[0].SaveAs(Server.MapPath(fullFileName));

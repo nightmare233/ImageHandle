@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Drawing.Text; 
+using System.Drawing.Text;
 
 namespace Models
 {
@@ -90,43 +90,44 @@ namespace Models
             {
                 DrawSmallText(g, sample.SmallText, sample.Style);
             }
-            
+            #region 测试 瞄准线，后面要删掉。
             SolidBrush drawBrush1 = new SolidBrush(Color.Green);// Create point for upper-left corner of drawing.
             g.DrawLine(new Pen(drawBrush1), new Point(0, 0), new Point(295, 295));
             g.DrawLine(new Pen(drawBrush1), new Point(0, 295), new Point(295, 0));
             g.DrawLine(new Pen(drawBrush1), new Point(147, 0), new Point(147, 295));
             g.DrawLine(new Pen(drawBrush1), new Point(0, 147), new Point(295, 147));
+            #endregion
+
             GC.Collect();
             string filename = sample.ImageType.ToString() + sample.Style.ToString() + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss-ms")+".png";
             string path = ifSample ? $"\\UploadFiles\\SampleImgs\\{filename}" : $"\\UploadFiles\\OutputImgs\\{filename}";
             string saveImagePath = AppDomain.CurrentDomain.BaseDirectory + path;  //todo 路径
-            //save new image to file system.
-            imgBack.Save(saveImagePath, ImageFormat.Png);
+            
+            imgBack.Save(saveImagePath, ImageFormat.Png);//save new image to file system.
             return path;
         }
 
         private static void DrawMainText(Graphics g, ImageText mainText, EnumImageStyle style)
         {
-            FontFamily font = null;
-            if (mainText.Font.Contains("."))
+            FontFamily font = null; 
+            if (!mainText.imageFont.ifSystem)
             {
-                string path = mainText.Font;
                 //读取字体文件             
+                string path = AppDomain.CurrentDomain.BaseDirectory + mainText.imageFont.url;
                 PrivateFontCollection pfc = new PrivateFontCollection();
                 pfc.AddFontFile(path);
                 font = pfc.Families[0];
             }
             else
             {
-                font = new FontFamily(mainText.Font);
+                font = new FontFamily(mainText.imageFont.name);
             }
-             
-            //写字1
+              
             String drawString = mainText.Text; // Create font and brush.
-                                               //实例化字体             
-            Font drawFont = new Font(font, mainText.FontSize);
+                                              
+            Font drawFont = new Font(font, mainText.FontSize);    //实例化字体            
             SolidBrush drawBrush;
-            float x = mainText.PositionX; float y = mainText.PositionY;
+            float x = mainText.PositionX, y = mainText.PositionY;
             if (style == EnumImageStyle.阳文)
             {
                 drawBrush = new SolidBrush(Color.Red);
@@ -141,22 +142,21 @@ namespace Models
         private static void DrawSmallText(Graphics g, ImageText smallText, EnumImageStyle style)
         {
             FontFamily font = null;
-            if (smallText.Font.Contains("."))
+            if (!smallText.imageFont.ifSystem)
             {
-                string path = smallText.Font;
                 //读取字体文件             
+                string path = smallText.imageFont.url;
                 PrivateFontCollection pfc = new PrivateFontCollection();
                 pfc.AddFontFile(path);
                 font = pfc.Families[0];
             }
             else
             {
-                font = new FontFamily(smallText.Font);
+                font = new FontFamily(smallText.imageFont.name);
             }
-            //写字1
+          
             String drawString = smallText.Text; // Create font and brush.
-                                                //实例化字体             
-            Font drawFont = new Font(font, smallText.FontSize);
+            Font drawFont = new Font(font, smallText.FontSize); //实例化字体             
             SolidBrush drawBrush;
             float x = smallText.PositionX; float y = smallText.PositionY;
             if (style == EnumImageStyle.阳文)

@@ -106,14 +106,8 @@ namespace WebApplication.Controllers
                         imageText.Text = collection["Text" + i];
                         int fontId = int.Parse(collection["Font" + i]);
                         imageFont = imageFontService.GetById(fontId);
-                        if (imageFont.ifSystem)
-                        {
-                            imageText.Font = imageFont.name;
-                        }
-                        else
-                        {
-                            imageText.Font = imageFont.url;  //系统字体存名字，非系统字体存地址。
-                        }
+                        imageText.Font = imageFont.name;
+                        imageText.imageFont = imageFont;
                         imageText.FontSize = int.Parse(collection["FontSize" + i]);
                         imageText.PositionX = int.Parse(collection["PositionX" + i]);
                         imageText.PositionY = int.Parse(collection["PositionY" + i]);
@@ -131,14 +125,8 @@ namespace WebApplication.Controllers
                     imageText.Text = collection["Text5"];
                     int fontId = int.Parse(collection["Font5"]);
                     imageFont = imageFontService.GetById(fontId);
-                    if (imageFont.ifSystem)
-                    {
-                        imageText.Font = imageFont.name;
-                    }
-                    else
-                    {
-                        imageText.Font = imageFont.url;  //系统字体存名字，非系统字体存地址。
-                    }
+                    imageText.Font = imageFont.name;
+                    imageText.imageFont = imageFont;
                     imageText.FontSize = int.Parse(collection["FontSize5"]);
                     imageText.PositionX = int.Parse(collection["PositionX5"]);
                     imageText.PositionY = int.Parse(collection["PositionY5"]);
