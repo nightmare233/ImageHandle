@@ -46,9 +46,13 @@
         if (confirm("确定要删除？")) {
             url = "/ImageFont/Delete";
             parameter = { id: fontId };
-            $.post(url, parameter, function (data) {
-                alert("删除成功！");
-                window.location = "/ImageFont/Index";
+            $.post(url, parameter, function (data, status) {
+                if (status == "success") {
+                    alert("删除成功！");
+                    window.location = "/ImageFont/Index";
+                } else {
+                    alert("删除失败！");
+                }
             });
         }
     }

@@ -5,6 +5,7 @@
 }
 <script type="text/javascript">
     $(document).ready(function () {
+        $("#uploadDiv").hide();
         $("#ifSystem").change(function () {
             if ($("#ifSystem").val() == "0") {
                 $("#uploadDiv").show()
@@ -18,7 +19,6 @@
     function UploadFile() {
             var formData = new FormData($("#itemForm")[0]);
             $.ajax({
-                dataType: "json",
                 type: "post",
                 url: '/ImageFont/UploadFile?type=UploadFile',
                 data: formData,
@@ -26,10 +26,10 @@
                 contentType: false,
                 success: function (data) {
                     $("#imageFont").val(data);
-                    alert("背景图片上传成功");
+                    alert("字体文件上传成功");
                 },
                 error: function (response, ajaxOptions, thrownError) {
-                    alert("背景图片上传发生错误");
+                    alert("字体文件上传发生错误");
                 }
             });
         }
@@ -40,14 +40,17 @@
     <input type="text" name="Name" />
     <br />
     <label>是否为系统字体</label>
+
     <select id="ifSystem" name="ifSystem">
         <option value="1" selected="selected">系统字段</option>
         <option value="0">非系统字段</option>
-    </select>
+    </select> 
     <br />
-    <input id="" type="file" name="file" />
-    <input type="button" value="上传字体文件" onclick="UploadFile(); return false;" />
-    <input id="imageFont" name="imageFont" value="" type="text" hidden="hidden" />
-    <br />
-    <input type="submit" value="提交" />
+    <div id="uploadDiv">
+        <input id="" type="file" name="file" />
+        <input type="button" value="上传字体文件" onclick="UploadFile(); return false;" />
+    </div>
+        <input id="imageFont" name="imageFont" value="" type="text" hidden="hidden" />
+        <br />
+        <input type="submit" value="提交" />
 </form>

@@ -40,7 +40,8 @@ namespace WebApplication.Controllers
             if (type == "UploadFile")
             {
                 HttpFileCollection files = System.Web.HttpContext.Current.Request.Files;
-                if (files.Count == 0) return Json("Faild", JsonRequestBehavior.AllowGet);
+                if (files.Count == 0)
+                    return Json("Faild", JsonRequestBehavior.AllowGet);
                 //MD5 md5Hasher = new MD5CryptoServiceProvider();
                 ///*计算指定Stream对象的哈希值*/
                 //byte[] arrbytHashValue = md5Hasher.ComputeHash(files[0].InputStream);
@@ -53,25 +54,32 @@ namespace WebApplication.Controllers
                 ////创建文件夹，保存文件
                 //string path = Path.GetDirectoryName(fullFileName);
                 //Directory.CreateDirectory(path);
-                var fullFileName = $"/BgImages/{files[0].FileName + "_" + Guid.NewGuid()}";
+                var fullFileName = $"/FontFiles/{files[0].FileName + "_" + Guid.NewGuid()}";
                 if (!System.IO.File.Exists(fullFileName))
                 {
                     files[0].SaveAs(Server.MapPath(fullFileName));
                 }
-                string fileName = files[0].FileName.Substring(files[0].FileName.LastIndexOf("\\") + 1, files[0].FileName.Length - files[0].FileName.LastIndexOf("\\") - 1);
-                string fileSize = GetFileSize(files[0].ContentLength);
-                return Json(new { FileName = fileName, FileSize = fileSize }, "text/html", JsonRequestBehavior.AllowGet);
+                //string fileName = files[0].FileName.Substring(files[0].FileName.LastIndexOf("\\") + 1, files[0].FileName.Length - files[0].FileName.LastIndexOf("\\") - 1);
+                //string fileSize = GetFileSize(files[0].ContentLength);
+                return Content(fullFileName);
             }
         
             ImageFont imageFont = new ImageFont();
             imageFont.name = collection["Name"];
             imageFont.ifSystem = false;
-            var dd = collection["ifSystem"];
-            if(true)
+            var ifSystem = int.Parse(collection["ifSystem"]);
+            if(0 == ifSystem)
             {
+                imageFont.ifSystem = false;
                 imageFont.url = collection["imageFont"];
             }
-            return View("Index");
+            else
+            {
+                imageFont.ifSystem = true;
+                imageFont.url = ""; 
+            }
+            imageFontService.Add(imageFont);
+            return RedirectToAction("Index");
       
         }
         /// <summary>
@@ -106,14 +114,18 @@ namespace WebApplication.Controllers
             return Content(path);
         }
 
-        //[HttpPost]
-        //public ActionResult AjaxFileUpload()
-        //{
-        //    //var myfile = Request.Files["file"]; //也可以拿到
-        //    //var path = $"/BgImages/{file.FileName + "_" + Guid.NewGuid()}";
-        //    //file.SaveAs(Server.MapPath(path));      //保存文件
-        //    //return Content(path);
-        //    return Content("ddd");
-        //}
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {
+            try
+            {
+                imageFontService.Delete(id);
+                return Content("success");
+            }
+            catch (Exception ex)
+            {
+                return Json("Faild," + ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }
