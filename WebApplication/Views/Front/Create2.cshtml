@@ -1,4 +1,4 @@
-﻿@model Models.Order
+﻿@model Models.Sample
 @{
     ViewBag.Title = "提交印章文字";
 }
@@ -7,51 +7,73 @@
     <h1>提交印章文字</h1>
 </div>
 
-<form method="POST" action="Create2"> 
+<form id="itemForm" method="POST" action="Create2"> 
     <fieldset>
         <div class="form-group">
-            <label for="Name">淘宝订单号</label>
-            <input id="TaobaoId" name="TaobaoId" type="text" value="@Model.TaobaoId" class="form-control" placeholder="淘宝订单号" required="required" />
+            <h3>您选择的方案为：</h3>
+            <br />
+            <label for="Style">方案编号:</label>
+            <label for="SampleId">@Model.Id</label>
+            <input id="SampleId" name="SampleId" value="@Model.Id" hidden="hidden" />
+            <br />
+            <label for="Style">方案名称:</label>
+            <label for="SampleName">@Model.Name</label>
             <br />
             <label for="ImageType">印章类型:</label>
-            <label for="Sample.Type">@Model.Sample.ImageType</label>
+            <label for="SampleType">@Model.ImageType</label>
             <br />
-            <label for="Style">样式:</label>
-            <input name="SampleId" value="@Model.SampleId" type="text" />
+            <label for="SampleStyle">样式:</label>
+            <label for="SampleStyle">@Model.Style</label>
             <br />
-            <label for="Style">是否有背景图案</label>
-            <input name="IfHasBgImage" value="@Model.Sample.IfHasBgImg" type="text" />
-            <br />
-            <label id="SampleId">@Model.SampleId</label>
-            <label>已选择预设方案</label>
-            <img src="\Images\icon1.png" style="width:198px; height:198px"/>
+            <img src="@Model.ImageUrl" style="width:198px; height:198px" />
             <hr />
-            <label for="preview">请输入主文字</label>
-            <input id="MainText" name="MainText" type="text" value="@Model.MainText" class="form-control" placeholder="印章文字" required="required" />
-            <label for="preview">请输入附加文字</label>
-            <input id="smallText" name="smallText" type="text" value="@Model.SmallText" class="form-control" placeholder="印章附加文字" />
-            @*<a href="" onclick="createImage()">预览</a>*@
-            <input type="submit" name="action" value="CreateImage" />
+            <label for="Name">淘宝订单号</label>
+            <input id="TaobaoId" name="TaobaoId" type="text" class="form-control" placeholder="淘宝订单号" required="required" />
+            <br />
+            <label for="preview">请输入主文字</label><label for="Sample.Style">(文字数量 @Model.MainTextNumber 个):</label>
+            <br />
+            <input id="MainText" name="MainText" type="text" class="form-control" placeholder="印章文字" required="required" />
+
+            @if (Model.IfHasSmallText)
+            {
+                <label for="preview">请输入附加文字(文字数量最多11个):</label>
+                <input id="SmallText" name="SmallText" type="text" value="@Model.SmallText" class="form-control" placeholder="印章附加文字" />
+            }
+            <input type="button" value="预览" onclick="CreateImage(); return false;" />
+            @*<input type="submit" name="action" value="CreateImage" />*@
         </div>
         <div>
-            <input name="ImageUrl" value="@Model.ImageUrl" type="text" hidden="hidden"/>
-            <img src="/OutputImgs/@Model.ImageUrl" style="width:198px; height:198px" />
+            <input id="ImageUrl" name="ImageUrl" value="" type="text" hidden="hidden" />
+            <img id="orderImage" src="" style="width:198px; height:198px" hidden="hidden" />
         </div>
         <label style="color:red">@ViewBag.Message</label>
         <hr />
         <p>
-            <input type="submit" name="action" value="Save" />    
-
+            <input type="submit" name="type" value="提交订单" />     
         </p>
     </fieldset>
 </form>
 <script type="text/javascript">
-    //function selectSample() {
-    //    var type = $("#ImageType").val();
-    //    var style = $("#Style").val();
-    //    var ifhasBgImage = $("#IfHasBgImage").prop('checked'); 
-    //    //alert("selectSample, type:" + type + ", style:" + style + ", ifhasimag:" + ifhasBgImage);
-    //    location.href = "/Front/Samples?type=" + type + "&style=" + style + "&ifHasBgImage=" + ifhasBgImage + "&retURL=" + window.location.href; 
-    //}
-
+    $(document).ready(function () {
+        $("#orderImage").hide(); 
+    });
+    function CreateImage() {
+        var formData = new FormData($("#itemForm")[0]);
+        $.ajax({
+            dataType: "json",
+            type: "post",
+            url: '/front/Create2?type=CreateImage',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                $("#ImageUrl").val(data);
+                $("#orderImage").attr('src', data);
+                $("#orderImage").show();
+            },
+            error: function (response, ajaxOptions, thrownError) {
+                alert("生成图片发生错误");
+            }
+        });
+    }  
 </script>

@@ -28,12 +28,12 @@
                         {
                             <tr>
                                 <td width="120px">
-                                    <img src="\Images\icon1.png"/></td>
+                                    <img src="@item.ImageUrl" width="96" height="96"/></td>
                                 <td align="left">
                                     淘宝订单号：@item.TaobaoId<br />
                                     时间：@item.SubmitTime<br />
                                     印章类型：@item.Sample.ImageType.ToString()
-                                    字体样式： @item.Sample.Style.ToString()&nbsp;&nbsp; <a href="/OutputImgs/@item.ImageUrl" target="_blank">下载PNG图片</a>
+                                    字体样式： @item.Sample.Style.ToString()&nbsp;&nbsp; <a href="@item.ImageUrl" target="_blank">下载PNG图片</a>
                                 </td>
                                 <td style="width: 200px">
                                     @if (item.Status == (int)EnumStatus.待审批)

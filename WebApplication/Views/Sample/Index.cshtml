@@ -52,10 +52,34 @@
                             <td><a href="@Url.Action("Details", "Sample", new { Id = item.Id })">@item.Name</a></td>
                             <td>@item.ImageType</td>
                             <td>@item.Style</td>
-                            <td>@item.IfHasBgImg</td>
-                            <td>????</td>
-                            <td>@item.IfHasSmallText</td>
-                            <td>/SampleImgs/@item.BgImage</td>
+                            <td> 
+                                @if (item.IfHasBgImg)
+                                {
+                                    <p>有</p>
+                                }
+                                else
+                                {
+                                    <p>无</p>
+                                }
+                            </td>
+                            <td></td>
+                            <td>@item.MainTextNumber</td>
+                            <td>
+                                @if (item.IfHasSmallText)
+                                {
+                                    <p>有</p>
+                                }
+                                else
+                                {
+                                    <p>无</p>
+                                } 
+                            </td>
+                            <td>
+                                @if (item.BgImage != "")
+                                {
+                                    <a href="@item.ImageUrl" target="_blank">打开图片</a>
+                                }
+                            </td>
                             <td style="width: 100px">
                                 <a href="@Url.Action("Update", "Sample" , new { Id=item.Id })">
                                     <span>编辑</span>

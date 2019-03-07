@@ -67,21 +67,24 @@ namespace WebApplication.Controllers
             {
                 string errorMessage = "您的链接参数不正确，或者已经超时失效了。";
                 return RedirectToAction("Result", "Front", new { message = errorMessage });
-            }
-            Order order = new Order();
-            order.SampleId = sampleId;
+            } 
             Sample sample = sampleService.GetSample(sampleId, false);
-            order.Sample = sample;
-            return View(order);
+            return View(sample);
         }
         // POST: Order/Create 输入文字之后，提交订单
         [HttpPost]
-        public ActionResult Create2(Order order, string action)
+        public ActionResult Create2(FormCollection collection, string type)
         {
-            if (action == "Save")
+            Order order = new Order();
+            order.SampleId = int.Parse(collection["SampleId"]);
+            order.TaobaoId = collection["TaobaoId"];
+            order.ImageUrl = collection["ImageUrl"];
+            order.MainText = collection["MainText"];
+            order.SmallText = collection["SmallText"];
+            if (type == "提交订单")
             {
                 try
-                {
+                { 
                     order.SubmitTime = DateTime.Now;
                     order.Status = (int)EnumStatus.待审批;
                     order.SubmitTime = DateTime.Now;
@@ -98,7 +101,7 @@ namespace WebApplication.Controllers
                     return View(order);
                 }
             }
-            else if (action == "CreateImage")
+            else if (type == "CreateImage")
             {
                 order.Sample = sampleService.GetSample(order.SampleId, true);
                 if (order.MainText.Length != order.Sample.MainTextNumber)
@@ -124,8 +127,9 @@ namespace WebApplication.Controllers
                     }
                 }
 
-                order.ImageUrl =  ImageHelp.CreateImage(order.Sample, false);
-                return View(order);
+                string imageUrl =  ImageHelp.CreateImage(order.Sample, false);
+                var result = Json(imageUrl);
+                return result;
             }
             return View(order);
         }

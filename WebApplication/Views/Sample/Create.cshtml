@@ -177,16 +177,3 @@
         </p>
     </fieldset>
 </form>
-
-
-
-@*@using (Ajax.BeginForm("AjaxFileUpload", "FileUpload", new AjaxOptions
-{
-    Confirm = "确认上传吗？",
-    HttpMethod = "post",
-    OnSuccess = "func",
-}, new { enctype = "multipart/form-data", id = "fileForm" }))
-{
-    <input type="file" name="file" value="" />
-    <button id="btn_fileupload" type="button" onclick="UploadFile(); return false;">上传背景图</button>
-}*@

@@ -33,9 +33,9 @@ namespace WebApplication.Application
             if (ifHasBgImage.HasValue)
             {
                 if (ifHasBgImage.Value)
-                    sb.Append($" and BgImage <> null");
+                    sb.Append($" and BgImage <> ''");
                 else
-                    sb.Append($" and BgImage = null");
+                    sb.Append($" and BgImage = ''");
             }
             var rows = contexto.ExecuteCommandSQL(sb.ToString(), null);
             foreach (var row in rows)
