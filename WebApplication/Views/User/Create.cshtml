@@ -1,5 +1,4 @@
-﻿@model Models.User
-@{
+﻿@{
     ViewBag.Title = "创建新用户";
 }
 
@@ -11,13 +10,13 @@
     <fieldset> 
         <div class="form-group">
             <label for="Name">姓名</label>
-            <input id="Name" name="Name" type="text" value="@Model.Name" class="form-control" placeholder="展示的名字" required="required"/>
+            <input id="Name" name="Name" type="text" value="" class="form-control" placeholder="展示的名字" required="required"/>
             <br />
             <label for="Name">&nbsp;登录名：</label>
-            <input id="LoginName" name="LoginName" type="text" value="@Model.LoginName" class="form-control" placeholder="登录时的名字" required="required">
+            <input id="LoginName" name="LoginName" type="text" value="" class="form-control" placeholder="登录时的名字" required="required">
             <br />
             <label for="Role">角&nbsp;&nbsp;&nbsp;&nbsp;色：</label>
-            <select id="Role" name="@Model.Role">
+            <select id="Role" name="Role">
                 <option value="管理员" selected="selected">管理员</option>
                 <option value="客服">客服</option>
                 <option value="生产员">生产员</option>

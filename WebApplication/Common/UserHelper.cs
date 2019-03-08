@@ -8,7 +8,7 @@ namespace WebApplication.Common
 {
     public class UserHelper
     {
-        public User GetCurrentUser
+        public static User GetCurrentUser
         {
             get
             {

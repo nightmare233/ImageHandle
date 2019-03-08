@@ -9,22 +9,29 @@ using WebApplication.Common;
 
 namespace WebApplication.Controllers
 {
+    //[RoleAuthorize]
     public class UserController : Controller
     { 
         private UserService userService;
 
         public UserController()
-        { 
+        {
+            //CheckPermission();
             userService = new UserService();
         }
 
+        //private ActionResult CheckPermission()
+        //{
+        //    if (UserHelper.GetCurrentUser.Role != EnumRole.管理员.ToString())
+        //    {
+        //        return RedirectToAction("Result", "Front", new { Message = "对不起，你没有该页面的权限!" });
+        //    }
+        //    return null;
+        //}
+
         // GET: User
         public ActionResult Index()
-        {
-            if (new UserHelper().GetCurrentUser.Role != EnumRole.管理员.ToString())
-            {
-                return RedirectToAction("Error", "Front", new { Message = "你没有权限!"});
-            }
+        { 
             var list = userService.ListAll();
             //ViewBag["Model"] = list;
             return View("Index", list);
@@ -45,25 +52,29 @@ namespace WebApplication.Controllers
 
         // POST: User/Create
         [HttpPost]
-        public ActionResult Create(User user)
+        public ActionResult Create(FormCollection collection)
         {
             try
             {
+                User user = new User();
+                user.Name = collection["Name"];
+                user.LoginName = collection["LoginName"];
+                user.Role = collection["Role"];
+                user.Password = Utils.Encrypt(collection["Password"]);//加密
                 var existUser = userService.GetUserForLoginName(user.LoginName);
                 if (existUser != null && existUser.LoginName == user.LoginName)
                 {
                     ViewBag.Message = "登录名已经存在！";
                     return View(user);
-                }
-
-                user.Password = Utils.Encrypt(user.Password);//加密
+                } 
+             
                 userService.Save(user); 
                 return RedirectToAction("Index");
             }
             catch(Exception ex)
             {
                 ViewBag.Message = ex.Message;
-                return View(user);
+                return View();
             }
         }
 
