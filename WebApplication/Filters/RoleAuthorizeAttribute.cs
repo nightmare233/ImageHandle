@@ -50,7 +50,7 @@ namespace WebApplication
                 var url = Url.Action("Result", "Front", new { message = "您没有该页面的权限！" });
                 filterContext.Result = new RedirectResult(url);
             }
-            base.OnAuthorization(filterContext);
+            //base.OnAuthorization(filterContext);
 
         } 
     }
