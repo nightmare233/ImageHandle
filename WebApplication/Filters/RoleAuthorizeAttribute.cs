@@ -20,8 +20,11 @@ namespace WebApplication
         public override void OnAuthorization(AuthorizationContext filterContext)
         { 
             string conName = filterContext.RouteData.Values["controller"].ToString();
-            if (conName.Contains("Login"))
+            if (conName.Contains("Login") || conName.Contains("Front"))
+            {
                 return;//如果为主页则无需验证权限
+            }
+                
             string actName = filterContext.RouteData.Values["action"].ToString();
             if (UserHelper.GetCurrentUser == null)
             {

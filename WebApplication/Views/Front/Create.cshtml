@@ -21,29 +21,29 @@
                 }
             </select>
             <br />
-            @*<label for="ImageSize">尺寸大小</label>
-        <select id="ImageSize" name="ImageSize">
-            <option value="18" selected="selected">18mm</option>
-            <option value="20">20mm</option>
-            <option value="22">22mm</option>
-        </select>
-        <br />*@
+                @*<label for="ImageSize">尺寸大小</label>
+            <select id="ImageSize" name="ImageSize">
+                <option value="18" selected="selected">18mm</option>
+                <option value="20">20mm</option>
+                <option value="22">22mm</option>
+            </select>
+            <br />*@
             <label for="Style">样式</label>
             <select id="Style" name="Style">
                 <option value="0" selected="selected">阴文</option>
                 <option value="1">阳文</option>
             </select>
             <br />
-            <label for="Style">是否有背景图案</label> 
+            <label for="Style">是否有背景图案</label>
             <select id="IfHasBgImage" name="IfHasBgImage">
                 <option value="0" selected="selected">全部</option>
                 <option value="1">有背景图</option>
                 <option value="2">无背景图</option>
             </select>
             <br />
-            @*<a href="@Url.Action("Samples","Front",)">点击选择预设方案>></a>*@
+            <br />
             <a onclick="selectSample()">点击选择预设方案>></a>
-            <hr />
+            @*<hr />
             <label>已选择预设方案</label>
             <hr />
             <label for="preview">请输入主文字</label>
@@ -54,13 +54,14 @@
         </div>
         <div>
             <img src="\Images\icon1.png" />
+            <img id="orderImage" src="" style="width:198px; height:198px" hidden="hidden" />
         </div>
         <label style="color:red">@ViewBag.Message</label>
         <hr />
         <p>
-            <button type="submit">提交</button> 
-        </p>
-    </fieldset>
+            <button type="submit">提交</button>
+        </p>*@
+</fieldset>
 </form>
 <script type="text/javascript">
     function selectSample() {
