@@ -16,7 +16,8 @@ namespace WebApplication.Controllers
         private UserService userService;
         private log4net.ILog log = log4net.LogManager.GetLogger("LoginController");
         public LoginController()
-        {  
+        {
+            userService = new UserService();
         }
         // GET: Login
         public ActionResult Login()
@@ -29,6 +30,7 @@ namespace WebApplication.Controllers
         [HttpPost]
         public ActionResult Login(User user)
         {
+            log.Error("user login: " + user.LoginName);
             var userFromDb = userService.GetUserForLoginName(user.LoginName);
             string pwd = Utils.Encrypt(user.Password);
             if (userFromDb == null)
