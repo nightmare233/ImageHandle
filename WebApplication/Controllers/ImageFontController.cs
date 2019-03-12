@@ -13,6 +13,7 @@ namespace WebApplication.Controllers
     public class ImageFontController : Controller
     {
         private ImageFontService imageFontService;
+        private log4net.ILog log = log4net.LogManager.GetLogger("ImageFontController");
 
         public ImageFontController()
         {
@@ -39,48 +40,63 @@ namespace WebApplication.Controllers
         {
             if (type == "UploadFile")
             {
-                HttpFileCollection files = System.Web.HttpContext.Current.Request.Files;
-                if (files.Count == 0)
-                    return Json("Faild", JsonRequestBehavior.AllowGet);
-                //MD5 md5Hasher = new MD5CryptoServiceProvider();
-                ///*计算指定Stream对象的哈希值*/
-                //byte[] arrbytHashValue = md5Hasher.ComputeHash(files[0].InputStream);
-                ///*由以连字符分隔的十六进制对构成的String，其中每一对表示value中对应的元素；例如“F-2C-4A”*/
-                //string strHashData = System.BitConverter.ToString(arrbytHashValue).Replace("-", "");
-                //string FileEextension = Path.GetExtension(files[0].FileName);
-                //string uploadDate = DateTime.Now.ToString("yyyyMMdd");
-                //string virtualPath = string.Format("/Data/ComponentAttachments/{0}/{1}{2}", uploadDate, strHashData, FileEextension);
-                //string fullFileName = Server.MapPath(virtualPath);
-                ////创建文件夹，保存文件
-                //string path = Path.GetDirectoryName(fullFileName);
-                //Directory.CreateDirectory(path);
-                var fullFileName = $"/UploadFiles/FontFiles/{Guid.NewGuid() + "_" + files[0].FileName}";
-                if (!System.IO.File.Exists(fullFileName))
+                try
                 {
-                    files[0].SaveAs(Server.MapPath(fullFileName));
+                    HttpFileCollection files = System.Web.HttpContext.Current.Request.Files;
+                    if (files.Count == 0)
+                        return Json("Faild", JsonRequestBehavior.AllowGet);
+                    //MD5 md5Hasher = new MD5CryptoServiceProvider();
+                    ///*计算指定Stream对象的哈希值*/
+                    //byte[] arrbytHashValue = md5Hasher.ComputeHash(files[0].InputStream);
+                    ///*由以连字符分隔的十六进制对构成的String，其中每一对表示value中对应的元素；例如“F-2C-4A”*/
+                    //string strHashData = System.BitConverter.ToString(arrbytHashValue).Replace("-", "");
+                    //string FileEextension = Path.GetExtension(files[0].FileName);
+                    //string uploadDate = DateTime.Now.ToString("yyyyMMdd");
+                    //string virtualPath = string.Format("/Data/ComponentAttachments/{0}/{1}{2}", uploadDate, strHashData, FileEextension);
+                    //string fullFileName = Server.MapPath(virtualPath);
+                    ////创建文件夹，保存文件
+                    //string path = Path.GetDirectoryName(fullFileName);
+                    //Directory.CreateDirectory(path);
+                    var fullFileName = $"/UploadFiles/FontFiles/{Guid.NewGuid() + "_" + files[0].FileName}";
+                    if (!System.IO.File.Exists(fullFileName))
+                    {
+                        files[0].SaveAs(Server.MapPath(fullFileName));
+                    }
+                    //string fileName = files[0].FileName.Substring(files[0].FileName.LastIndexOf("\\") + 1, files[0].FileName.Length - files[0].FileName.LastIndexOf("\\") - 1);
+                    //string fileSize = GetFileSize(files[0].ContentLength);
+                    return Content(fullFileName);
                 }
-                //string fileName = files[0].FileName.Substring(files[0].FileName.LastIndexOf("\\") + 1, files[0].FileName.Length - files[0].FileName.LastIndexOf("\\") - 1);
-                //string fileSize = GetFileSize(files[0].ContentLength);
-                return Content(fullFileName);
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                    return Json("Faild", JsonRequestBehavior.AllowGet);
+                } 
             }
-        
-            ImageFont imageFont = new ImageFont();
-            imageFont.name = collection["Name"];
-            imageFont.ifSystem = false;
-            var ifSystem = int.Parse(collection["ifSystem"]);
-            if(0 == ifSystem)
+
+            try
             {
+                ImageFont imageFont = new ImageFont();
+                imageFont.name = collection["Name"];
                 imageFont.ifSystem = false;
-                imageFont.url = collection["imageFont"];
+                var ifSystem = int.Parse(collection["ifSystem"]);
+                if (0 == ifSystem)
+                {
+                    imageFont.ifSystem = false;
+                    imageFont.url = collection["imageFont"];
+                }
+                else
+                {
+                    imageFont.ifSystem = true;
+                    imageFont.url = "";
+                }
+                imageFontService.Add(imageFont);
+                return RedirectToAction("Index");
             }
-            else
+            catch (Exception ex)
             {
-                imageFont.ifSystem = true;
-                imageFont.url = ""; 
+                log.Error(ex);
+                return View();
             }
-            imageFontService.Add(imageFont);
-            return RedirectToAction("Index");
-      
         }
         /// <summary>
         /// 获取文件大小
@@ -109,6 +125,7 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                log.Error(ex);
                 return Json("Faild," + ex.Message, JsonRequestBehavior.AllowGet);
             }
         }

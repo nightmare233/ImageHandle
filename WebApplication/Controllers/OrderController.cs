@@ -12,7 +12,8 @@ namespace WebApplication.Controllers
 {
     public class OrderController : Controller
     {
-        private OrderService orderService; 
+        private OrderService orderService;
+        private log4net.ILog log = log4net.LogManager.GetLogger("OrderController");
 
         public OrderController()
         {
@@ -110,8 +111,9 @@ namespace WebApplication.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception ex)
             {
+                log.Error(ex);
                 return View();
             }
         }
@@ -132,6 +134,7 @@ namespace WebApplication.Controllers
             orderForm.URL = string.Format(@"http://{0}\Front\Create?guid={1}", Request.Url.Authority, orderForm.formGuid);
             CacheHelper.SetCache(orderForm.formGuid.ToString(), orderForm.ImageTypes);
             ViewData["ImageTypeList"] = ImageType.GetAll();
+            log.Debug($"new order link: {orderForm.URL}");
             return View(orderForm);
         }
          

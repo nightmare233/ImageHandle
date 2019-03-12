@@ -15,6 +15,7 @@ namespace WebApplication.Controllers
     {
         private OrderService orderService;
         private SampleService sampleService;
+        private log4net.ILog log = log4net.LogManager.GetLogger("ImageFontController");
 
         public FrontController()
         {
@@ -98,38 +99,47 @@ namespace WebApplication.Controllers
                 catch (Exception ex)
                 {
                     ViewBag.Message = ex.Message;
+                    log.Error(ex);
                     return View(order);
                 }
             }
             else if (type == "CreateImage")
             {
-                order.Sample = sampleService.GetSample(order.SampleId, true);
-                if (order.MainText.Length != order.Sample.MainTextNumber)
+                try
                 {
-                    ViewBag.Message = "输入的文字数量不对！";
-                    return View(order);
-                }
-                
-                for (int i = 0; i < order.Sample.MainTextNumber; i++)
-                {
-                    order.Sample.MainText[i].Text = order.MainText[i].ToString();
-                }
-                if (order.Sample.IfHasSmallText)
-                {
-                    if (string.IsNullOrEmpty(order.SmallText))
+                    order.Sample = sampleService.GetSample(order.SampleId, true);
+                    if (order.MainText.Length != order.Sample.MainTextNumber)
                     {
                         ViewBag.Message = "输入的文字数量不对！";
                         return View(order);
                     }
-                    else
-                    {
-                        order.Sample.SmallText.Text = order.SmallText;
-                    }
-                }
 
-                string imageUrl =  ImageHelp.CreateImage(order.Sample, false);
-                var result = Json(imageUrl);
-                return result;
+                    for (int i = 0; i < order.Sample.MainTextNumber; i++)
+                    {
+                        order.Sample.MainText[i].Text = order.MainText[i].ToString();
+                    }
+                    if (order.Sample.IfHasSmallText)
+                    {
+                        if (string.IsNullOrEmpty(order.SmallText))
+                        {
+                            ViewBag.Message = "输入的文字数量不对！";
+                            return View(order);
+                        }
+                        else
+                        {
+                            order.Sample.SmallText.Text = order.SmallText;
+                        }
+                    }
+
+                    string imageUrl = ImageHelp.CreateImage(order.Sample, false);
+                    var result = Json(imageUrl);
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                    return Json("Faild," + ex.Message, JsonRequestBehavior.AllowGet);
+                }
             }
             return View(order);
         }

@@ -6,8 +6,7 @@ using System.Web.Mvc;
 using WebApplication.Filters;
 using WebApplication.Application;
 using WebApplication.Common;
-using Models;
-using System.Net;
+using Models; 
 
 namespace WebApplication.Controllers
 {
@@ -15,20 +14,9 @@ namespace WebApplication.Controllers
     public class LoginController : Controller
     {
         private UserService userService;
-
+        private log4net.ILog log = log4net.LogManager.GetLogger("LoginController");
         public LoginController()
-        {
-            userService = new UserService();
-            SampleService sampleService = new SampleService();
-            //List<Sample> samples = sampleService.ListAll(null, null, true);
-
-            //foreach (Sample sample in samples)
-            //{
-            //    ImageHelp.CreateImage(sample);
-            //}
-
-            //Sample sample = sampleService.GetSample(2, true);
-            //ImageHelp.CreateImage(sample);
+        {  
         }
         // GET: Login
         public ActionResult Login()

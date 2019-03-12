@@ -13,27 +13,17 @@ namespace WebApplication.Controllers
     public class UserController : Controller
     { 
         private UserService userService;
-
+        private log4net.ILog log = log4net.LogManager.GetLogger("UserController");
         public UserController()
         {
             //CheckPermission();
             userService = new UserService();
-        }
-
-        //private ActionResult CheckPermission()
-        //{
-        //    if (UserHelper.GetCurrentUser.Role != EnumRole.管理员.ToString())
-        //    {
-        //        return RedirectToAction("Result", "Front", new { Message = "对不起，你没有该页面的权限!" });
-        //    }
-        //    return null;
-        //}
+        } 
 
         // GET: User
         public ActionResult Index()
         { 
             var list = userService.ListAll();
-            //ViewBag["Model"] = list;
             return View("Index", list);
         }
 
@@ -74,6 +64,7 @@ namespace WebApplication.Controllers
             catch(Exception ex)
             {
                 ViewBag.Message = ex.Message;
+                log.Error(ex);
                 return View();
             }
         }
@@ -105,6 +96,7 @@ namespace WebApplication.Controllers
             }
             catch(Exception ex)
             {
+                log.Error(ex);
                 return View();
             }
         }
@@ -121,6 +113,7 @@ namespace WebApplication.Controllers
             }
             catch(Exception ex)
             {
+                log.Error(ex);
                 return View();
             }
         }

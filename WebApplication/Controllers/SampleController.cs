@@ -14,6 +14,7 @@ namespace WebApplication.Controllers
     {
         private SampleService sampleService;
         private ImageFontService imageFontService;
+        private log4net.ILog log = log4net.LogManager.GetLogger("SampleController");
 
         public SampleController()
         {
@@ -155,68 +156,11 @@ namespace WebApplication.Controllers
             {
                 InitData();
                 ViewBag.Message = ex.Message;
+                log.Error(ex);
                 return View();
             }
         }
-
-        //[HttpPost]
-        //public ActionResult CreateImage(FormCollection collection)
-        //{
-        //    try
-        //    {
-        //        #region init sample data
-        //        Sample sample = new Sample();
-        //        sample.Name = collection["Name"];
-        //        sample.ImageType = (EnumImageType)int.Parse(collection["ImageType"]);
-        //        sample.Style = (EnumImageStyle)int.Parse(collection["Style"]);
-        //        sample.IfHasBgImg = Convert.ToBoolean(int.Parse(collection["IfHasBgImage"]));
-        //        sample.ImageUrl = collection["ImageUrl"];
-        //        if (sample.IfHasBgImg)
-        //            sample.BgImage = ""; //todo. 上传
-        //        else
-        //            sample.BgImage = "";
-
-        //        List<ImageText> mainTexts = new List<ImageText>();
-        //        ImageText imageText = null;
-        //        ImageFont imageFont = null;
-        //        for (int i = 1; i < 5; i++)
-        //        {
-        //            if (!string.IsNullOrEmpty(collection["Text" + i]))
-        //            {
-        //                imageText = new ImageText();
-        //                imageText.Text = collection["Text" + i];
-        //                int fontId = int.Parse(collection["Font" + i]);
-        //                imageFont = imageFontService.GetById(fontId);
-        //                if (imageFont.ifSystem)
-        //                {
-        //                    imageText.Font = imageFont.name;
-        //                }
-        //                else
-        //                {
-        //                    imageText.Font = imageFont.url;  //系统字体存名字，非系统字体存地址。
-        //                }
-        //                imageText.FontSize = int.Parse(collection["FontSize" + i]);
-        //                imageText.PositionX = int.Parse(collection["PositionX" + i]);
-        //                imageText.PositionY = int.Parse(collection["PositionY" + i]);
-        //                imageText.Type = (int)EnumTextType.MainText;
-        //                imageText.Order = true;
-        //                mainTexts.Add(imageText);
-        //            }
-        //        }
-        //        sample.MainText = mainTexts;
-        //        sample.MainTextNumber = mainTexts.Count;
-        //        #endregion
- 
-        //        string imageUrl = ImageHelp.CreateImage(sample, true);
-        //        return Content(imageUrl);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        InitData();
-        //        ViewBag.Message = ex.Message;
-        //        return View();
-        //    }
-        //}
+         
 
         // GET: Sample/Edit/5
         public ActionResult Update(int id)
@@ -257,6 +201,7 @@ namespace WebApplication.Controllers
             }
             catch(Exception ex)
             {
+                log.Error(ex);
                 return Json("Faild," + ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
