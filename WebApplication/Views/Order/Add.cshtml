@@ -21,9 +21,10 @@
         <button type="submit">生成</button>
         <br />
 
-        <a href="@Model.URL">@Model.URL</a>
+        <a href="@Model.URL" id="url_link">@Model.URL</a>
         <br/>
-        <button type="button">复制链接</button> 链接过期时间： @Model.ExpireTime
+        <button type="button" onclick="CopyURL();">复制链接</button> 链接过期时间： @Model.ExpireTime
+        <input id="hdnCopyText" style="opacity:0; position:absolute;" type="text" />
         <br />
         <label style="color:red">@ViewBag.Message</label>
 
@@ -33,3 +34,20 @@
         </p>
     </fieldset>
 </form>
+
+<script type="text/javascript">
+    function CopyURL() {
+        var url = $("#url_link").text();//document.getElementById("url").value;
+        alert(url);
+        var hdnCopyText = $("#hdnCopyText");
+        hdnCopyText.val(url);
+        hdnCopyText.select();
+        if (document.execCommand("Copy", false, null)) {
+            alert("复制链接成功！");
+        } else {
+            alert("复制链接失败！");
+        }
+        
+    }
+
+</script>

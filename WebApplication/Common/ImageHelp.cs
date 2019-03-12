@@ -133,7 +133,7 @@ namespace Models
             GC.Collect();
             string filename = sample.ImageType.ToString() + sample.Style.ToString() + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss-ms")+".png";
             string path = ifSample ? $"\\UploadFiles\\SampleImgs\\{filename}" : $"\\UploadFiles\\OutputImgs\\{filename}";
-            string saveImagePath = AppDomain.CurrentDomain.BaseDirectory + path;  //todo 路径
+            string saveImagePath = AppDomain.CurrentDomain.BaseDirectory + path;
             
             imgBack.Save(saveImagePath, ImageFormat.Png);//save new image to file system.
             return path;

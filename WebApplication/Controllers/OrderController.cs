@@ -78,12 +78,12 @@ namespace WebApplication.Controllers
             order.Status = status;
             if (status == (int)EnumStatus.待生产)
             {
-                order.Auditor = 10; //to do, current login user id.
+                order.Auditor = UserHelper.GetCurrentUser.Id;
                 order.AuditTime = DateTime.Now;
             }
             else if (status == (int)EnumStatus.生产中)
             {
-                order.Productor = 10; //to do, current login user id.
+                order.Productor = UserHelper.GetCurrentUser.Id;
                 order.ProductTime = DateTime.Now;
             }
             else if (status == (int)EnumStatus.已删除)
