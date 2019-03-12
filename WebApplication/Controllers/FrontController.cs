@@ -27,22 +27,32 @@ namespace WebApplication.Controllers
         [HttpGet]
         public ActionResult Create(string guid)
         {
-            if (string.IsNullOrEmpty(guid))
+            if (string.IsNullOrEmpty(guid) || CacheHelper.GetCache(guid) == null)
             {
                 string errorMessage = "您的链接参数不正确，或者已经超时失效了。";
                 return RedirectToAction("Result", "Front", new { message = errorMessage });
             }
-            ImageTypeModel imageTypeModel = (ImageTypeModel)CacheHelper.GetCache(guid);
-
-            List<ImageType> imageTypeList = new List<ImageType>();
-            foreach (var item in imageTypeModel.ImageType)
+            try
             {
-                imageTypeList.Add(ImageType.GetAll().Find(t => t.Id == item));
-            }
-            ViewBag.imageTypes = imageTypeList;
+                ImageTypeModel imageTypeModel = (ImageTypeModel)CacheHelper.GetCache(guid);
 
-            Order order = new Order();
-            return View(order);
+                List<ImageType> imageTypeList = new List<ImageType>();
+                foreach (var item in imageTypeModel.ImageType)
+                {
+                    imageTypeList.Add(ImageType.GetAll().Find(t => t.Id == item));
+                }
+                ViewBag.imageTypes = imageTypeList;
+
+                Order order = new Order();
+                return View(order);
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+                string errorMessage = ex.Message;
+                return RedirectToAction("Result", "Front", new { message = errorMessage });
+            }
+            
         }
 
         //进入Sample列表页面

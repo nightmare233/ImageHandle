@@ -58,5 +58,16 @@ namespace WebApplication.Controllers
             return RedirectToAction("Index", "Order");
         }
 
+        public ActionResult Logout()
+        {
+            var user = UserHelper.GetCurrentUser;
+            if (user != null)
+            {
+                log.Error("user logout: " + user.LoginName); 
+                HttpContext.Session["User"] = null;
+                return RedirectToAction("Login", "Login");
+            }
+            return RedirectToAction("Login", "Login"); 
+        }
     }
 }

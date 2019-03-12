@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using WebApplication.Common;
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -25,15 +26,29 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("主页", "Index", "Home")</li>
-                    <li>@Html.ActionLink("订单", "Index", "Order")</li>
-                    <li>@Html.ActionLink("预设样式", "Index", "Sample")</li>
-                    <li>@Html.ActionLink("用户管理", "Index", "User")</li>
-                    <li>@Html.ActionLink("字体管理", "Index", "ImageFont")</li>
+                    @if (UserHelper.GetCurrentUser != null)
+                    { 
+                        <li>@Html.ActionLink("订单", "Index", "Order")</li>
+                    }
+                    @if (UserHelper.GetCurrentUser != null && UserHelper.GetCurrentUser.Role == "管理员")
+                    {
+                        <li>@Html.ActionLink("预设样式", "Index", "Sample")</li>
+                        <li>@Html.ActionLink("字体管理", "Index", "ImageFont")</li>
+                        <li>@Html.ActionLink("用户管理", "Index", "User")</li>
+                    }
                     <li>@Html.ActionLink("联系方式", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("登录", "Login", "Login")</li>
+                    @if (UserHelper.GetCurrentUser != null)
+                    {
+                        <li>@Html.ActionLink(@UserHelper.GetCurrentUser.Name + ", 退出", "Logout", "Login")</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("登录", "Login", "Login")</li>
+                    }
+
                 </ul>
             </div>
-         
+
         </div>
     </div>
     <div class="container body-content">
@@ -42,9 +57,9 @@
         <footer>
             <p>&copy; @DateTime.Now.Year - 印章订单管理系统</p>
         </footer>
-    </div> 
+    </div>
     @*@Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)*@
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)*@
 </body>
 </html>

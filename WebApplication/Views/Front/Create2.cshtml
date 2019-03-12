@@ -26,6 +26,8 @@
             <label for="SampleStyle">@Model.Style</label>
             <br />
             <img src="@Model.ImageUrl" style="width:198px; height:198px" />
+            <br />
+            <a href="#" onClick="javascript :history.go(-2);">重新选择方案</a>
             <hr />
             <label for="Name">淘宝订单号</label>
             <input id="TaobaoId" name="TaobaoId" type="text" class="form-control" placeholder="淘宝订单号" required="required" />
@@ -58,6 +60,11 @@
         $("#orderImage").hide(); 
     });
     function CreateImage() {
+        var maintext = $("#MainText").val();
+        if (maintext == "") {
+            alert("请输入印章文字！");
+            return;
+        }
         var formData = new FormData($("#itemForm")[0]);
         $.ajax({
             dataType: "json",

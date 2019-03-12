@@ -1,16 +1,19 @@
 ﻿@using Models
 @model IEnumerable<Sample>
 @{
-    ViewBag.Title = "Samples";
+    ViewBag.Title = "选择预设方案";
 }
 
-<h2>选择字体样式</h2>
+<h2>选择预设方案</h2>
 <script type="text/javascript">
     var currentSampleId;
     function SelectSample(sampleid) {
         $("#" + currentSampleId).css("border", "none");
         currentSampleId = sampleid;
         $("#" + currentSampleId).css("border", "1px solid red");
+        if (currentSampleId != 0) {
+            $("#btn_confim").show();
+        }
     }
 
     function StepTwo() {
@@ -25,6 +28,11 @@
  
 <div style="margin-top:30px;">
     <table class="table table-bordered text-center" cellpadding="0" cellspacing="0">
+
+        @if (Model.Count<Sample>() == 0)
+        {
+            <p>暂无可选的方案</p>
+        }
         @{int index = 1; }
         @foreach (Sample sample in Model)
         {
@@ -45,8 +53,11 @@
             index++;
         }
     </table>
-    <br />
-    <div><button onclick="StepTwo()">确认</button></div>
+    <br /> 
+    <div>
+        <button id="btn_confim" onclick="StepTwo()" hidden="hidden">确认</button> &nbsp;&nbsp;
+        <a href="#" onClick="javascript :history.go(-1);">返回上一页</a>
+    </div>
     <label id="type1" hidden="hidden">@ViewBag.type1</label>
     <label id="style1" hidden="hidden">@ViewBag.style1</label>
     <label id="ifHasBgImage1" hidden="hidden">@ViewBag.ifHasBgImage1</label>
