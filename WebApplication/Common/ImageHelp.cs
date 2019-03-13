@@ -119,14 +119,14 @@ namespace Models
                 DrawSmallText(g, sample.SmallText, sample.Style);
             }
             #region 测试 瞄准线，后面要删掉。
-            if(ifSample)
-            {
-                SolidBrush drawBrush1 = new SolidBrush(Color.Green);// Create point for upper-left corner of drawing.
-                g.DrawLine(new Pen(drawBrush1), new Point(0, 0), new Point(295, 295));
-                g.DrawLine(new Pen(drawBrush1), new Point(0, 295), new Point(295, 0));
-                g.DrawLine(new Pen(drawBrush1), new Point(147, 0), new Point(147, 295));
-                g.DrawLine(new Pen(drawBrush1), new Point(0, 147), new Point(295, 147));
-            }
+            //if(ifSample)
+            //{
+            //    SolidBrush drawBrush1 = new SolidBrush(Color.Green);// Create point for upper-left corner of drawing.
+            //    g.DrawLine(new Pen(drawBrush1), new Point(0, 0), new Point(295, 295));
+            //    g.DrawLine(new Pen(drawBrush1), new Point(0, 295), new Point(295, 0));
+            //    g.DrawLine(new Pen(drawBrush1), new Point(147, 0), new Point(147, 295));
+            //    g.DrawLine(new Pen(drawBrush1), new Point(0, 147), new Point(295, 147));
+            //}
       
             #endregion
 
