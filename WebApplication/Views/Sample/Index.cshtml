@@ -48,8 +48,8 @@
                         @foreach (var item in @Model)
                         {
                         <tr>
-                            <td><a href="@Url.Action("Details", "Sample", new { Id = item.Id })">@item.Id</a></td>
-                            <td><a href="@Url.Action("Details", "Sample", new { Id = item.Id })">@item.Name</a></td>
+                            <td><a>@item.Id</a></td>
+                            <td><a>@item.Name</a></td>
                             <td>@item.ImageType</td>
                             <td>@item.Style</td>
                             <td> 
@@ -81,9 +81,6 @@
                                 }
                             </td>
                             <td style="width: 100px">
-                                <a href="@Url.Action("Update", "Sample" , new { Id=item.Id })">
-                                    <span>编辑</span>
-                                </a>
                                 <a href="#" onClick="Delete(@item.Id); return false;">删除</a>
                             </td>
                         </tr>
