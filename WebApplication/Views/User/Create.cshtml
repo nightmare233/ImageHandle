@@ -6,33 +6,36 @@
     <h1>创建新用户</h1>
 </div>
 
-<form method="POST" action="Create"> 
-    <fieldset> 
+<form method="POST" action="Create" class="form-horizontal" role="form">
+    <fieldset>
         <div class="form-group">
-            <label for="Name">姓名</label>
-            <input id="Name" name="Name" type="text" value="" class="form-control" placeholder="展示的名字" required="required"/>
-            <br />
-            <label for="Name">&nbsp;登录名：</label>
+            <label for="Name" class="col-sm-1 control-label">姓名</label>
+            <input id="Name" name="Name" type="text" value="" class="form-control" placeholder="展示的名字" required="required" />
+        </div>
+        <div class="form-group">
+            <label for="Name" class="col-sm-1 control-label">登录名</label>
             <input id="LoginName" name="LoginName" type="text" value="" class="form-control" placeholder="登录时的名字" required="required">
-            <br />
-            <label for="Role">角&nbsp;&nbsp;&nbsp;&nbsp;色：</label>
-            <select id="Role" name="Role">
+        </div>
+        <div class="form-group">
+            <label for="Role" class="col-sm-1 control-label">角色</label>
+            <select id="Role" name="Role" class="form-control">
                 <option value="管理员" selected="selected">管理员</option>
                 <option value="客服">客服</option>
                 <option value="生产员">生产员</option>
             </select>
-            <br />    <br />
-            <label for="Password">密&nbsp;&nbsp;&nbsp;&nbsp;码：</label>
-            <input id="Password" name="Password" type="password" required="required"/>
-            <br />
-            <label for="Password">确认密码：</label>
-            <input id="ConfirmPassword" name="ConfirmPassword" type="password" required="required"/>
         </div>
-        <label style="color:red">@ViewBag.Message</label>
-        <hr />
-        <p>
-            <button type="submit">创建</button>
-            <a href="@Url.Action("Index","User")">取消</a>
-        </p>
+        <div class="form-group">
+            <label for="Password" class="col-sm-1 control-label">密码</label>
+            <input id="Password" name="Password" type="password" required="required" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="Password" class="col-sm-1 control-label">确认密码</label>
+            <input id="ConfirmPassword" name="ConfirmPassword" type="password" required="required" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label style="color:red">@ViewBag.Message</label>
+            <button type="submit" class="btn">创建</button>
+            <a href="@Url.Action("Index","User")" class="btn btn-link">取消</a>
+        </div>
     </fieldset>
 </form>

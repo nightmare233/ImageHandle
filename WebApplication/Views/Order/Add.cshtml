@@ -10,35 +10,30 @@
     <h1>创建表单</h1>
 </div>
 
-<form method="POST" action="Add"> 
+<form method="POST" action="Add" class="form-horizontal" role="form">
     <fieldset>
-        <div class="form-group"> 
-            @Html.LabelFor(model => model.ImageTypes.ImageType)
-
-            @Html.CheckBoxListFor(model => model.ImageTypes.ImageType, model => model.ImageTypes.ImageType, ImageTypeList, f => f.Id, f => f.Name, false, new Dictionary<string, object> { { "class", "check-inline" } })
-         
+        <div class="form-group">
+            <label for="ImageTypes.ImageType" class="col-sm-1 control-label">印章类型</label>
+            @Html.CheckBoxListFor(model => model.ImageTypes.ImageType, model => model.ImageTypes.ImageType, ImageTypeList, f => f.Id, f => f.Name, false, new Dictionary<string, object> { { "class", "control-label checkbox-inline" } })
         </div>
-        <button type="submit">生成</button>
-        <br />
-
-        <a href="@Model.URL" id="url_link">@Model.URL</a>
-        <br/>
-        <button type="button" onclick="CopyURL();">复制链接</button> 链接过期时间： @Model.ExpireTime
-        <input id="hdnCopyText" style="opacity:0; position:absolute;" type="text" />
-        <br />
-        <label style="color:red">@ViewBag.Message</label>
-
-        <hr />
-        <p>
-            <a href="@Url.Action("Index","Order")">关闭</a> 
-        </p>
+        <div class="form-group">
+            <button type="submit" class="btn bottom-right">生成链接</button>
+            <a href="@Model.URL" id="url_link">@Model.URL</a>
+        </div>
+        <div class="form-group">
+            <button type="button" onclick="CopyURL();" class="btn">复制链接</button> 链接过期时间： @Model.ExpireTime.ToString("yyyy-MM-dd hh:mm:ss");
+            <input id="hdnCopyText" style="opacity:0; position:absolute;" type="text" />
+        </div>
+        <div class="form-group">
+            <label style="color:red">@ViewBag.Message</label>
+            <a href="@Url.Action("Index","Order")" class="btn btn-link">关闭</a>
+        </div>
     </fieldset>
 </form>
 
 <script type="text/javascript">
     function CopyURL() {
-        var url = $("#url_link").text();//document.getElementById("url").value;
-        alert(url);
+        var url = $("#url_link").text();
         var hdnCopyText = $("#hdnCopyText");
         hdnCopyText.val(url);
         hdnCopyText.select();
@@ -47,7 +42,7 @@
         } else {
             alert("复制链接失败！");
         }
-        
+
     }
 
 </script>

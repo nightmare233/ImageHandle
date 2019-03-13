@@ -5,74 +5,8 @@
 }
 
 <div class="page-header">
-    <h1>添加预设样式</h1>
-    <script src="~/Scripts/jquery.form.min.js"></script>
-    @*<script src="~/Scripts/ajaxfileupload.js"></script>*@
-    <script type="text/javascript" language="javascript">
-        $(document).ready(function () {
-            $("#mainText2").hide();
-            $("#mainText3").hide();
-            $("#mainText4").hide();
-            $("#smalltext").hide();
-            $("#uploadDiv").hide();
-            $("#IfHasBgImage").change(function () {
-                if ($("#IfHasBgImage").val() == "1") {
-                    $("#uploadDiv").show()
-                }
-                else {
-                    $("#uploadDiv").hide()
-                }
-            });
-        });
-        function AddMainText() {
-            if ($('#mainText2').is(':hidden')) { $("#mainText2").show() }
-            else if ($('#mainText3').is(':hidden')) { $("#mainText3").show() }
-            else if ($('#mainText4').is(':hidden')) { $("#mainText4").show() }
-            else { alert("最多支持4个字"); }
-        }
-        function AddSmallText() {
-            $("#smalltext").toggle();
-        }
-        function CreateImage() {
-            var formData = new FormData($("#itemForm")[0]);
-            $.ajax({
-                dataType: "json",
-                type: "post",
-                url: '/sample/Create?type=CreateImage',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (data) {
-                    $("#ImageUrl").val(data);
-                    $("#sampleimage").attr('src', data);
-                    $("#sampleimage").show();
-                },
-                error: function (response, ajaxOptions, thrownError) {
-                    alert("生成图片发生错误");
-                }
-            });
-        }
-        function UploadFile() {
-            var formData = new FormData($("#itemForm")[0]);
-            $.ajax({
-                dataType: "json",
-                type: "post",
-                url: '/sample/Create?type=UploadFile',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (data) {
-                    $("#BgImage").val(data);
-                    alert("背景图片上传成功");
-                },
-                error: function (response, ajaxOptions, thrownError) {
-                    alert("背景图片上传发生错误");
-                }
-            });
-        }
-    </script>
+    <h1>添加预设样式</h1> 
 </div>
-
 <form id="itemForm" method="POST" action="Create" enctype="multipart/form-data" class="form-horizontal" role="form">
     <fieldset>
         <div>
@@ -190,3 +124,69 @@
         </div>
     </fieldset>
 </form>
+
+<script src="~/Scripts/jquery.form.min.js"></script>
+@*<script src="~/Scripts/ajaxfileupload.js"></script>*@
+<script type="text/javascript" language="javascript">
+    $(document).ready(function () {
+        $("#mainText2").hide();
+        $("#mainText3").hide();
+        $("#mainText4").hide();
+        $("#smalltext").hide();
+        $("#uploadDiv").hide();
+        $("#IfHasBgImage").change(function () {
+            if ($("#IfHasBgImage").val() == "1") {
+                $("#uploadDiv").show()
+            }
+            else {
+                $("#uploadDiv").hide()
+            }
+        });
+    });
+    function AddMainText() {
+        if ($('#mainText2').is(':hidden')) { $("#mainText2").show() }
+        else if ($('#mainText3').is(':hidden')) { $("#mainText3").show() }
+        else if ($('#mainText4').is(':hidden')) { $("#mainText4").show() }
+        else { alert("最多支持4个字"); }
+    }
+    function AddSmallText() {
+        $("#smalltext").toggle();
+    }
+    function CreateImage() {
+        var formData = new FormData($("#itemForm")[0]);
+        $.ajax({
+            dataType: "json",
+            type: "post",
+            url: '/sample/Create?type=CreateImage',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                $("#ImageUrl").val(data);
+                $("#sampleimage").attr('src', data);
+                $("#sampleimage").show();
+            },
+            error: function (response, ajaxOptions, thrownError) {
+                alert("生成图片发生错误");
+            }
+        });
+    }
+    function UploadFile() {
+        var formData = new FormData($("#itemForm")[0]);
+        $.ajax({
+            dataType: "json",
+            type: "post",
+            url: '/sample/Create?type=UploadFile',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                $("#BgImage").val(data);
+                alert("背景图片上传成功");
+            },
+            error: function (response, ajaxOptions, thrownError) {
+                alert("背景图片上传发生错误");
+            }
+        });
+    }
+</script>
