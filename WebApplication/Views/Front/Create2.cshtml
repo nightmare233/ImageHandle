@@ -7,57 +7,66 @@
     <h1>提交印章文字</h1>
 </div>
 
-<form id="itemForm" method="POST" action="Create2"> 
+<form id="itemForm" method="POST" action="Create2" class="form-horizontal" role="form">
     <fieldset>
         <div class="form-group">
             <h3>您选择的方案为：</h3>
             <br />
-            <label for="Style">方案编号:</label>
+            <label for="SampleId" class="control-label">方案编号:</label>
             <label for="SampleId">@Model.Id</label>
             <input id="SampleId" name="SampleId" value="@Model.Id" hidden="hidden" />
-            <br />
-            <label for="Style">方案名称:</label>
+        </div>
+        <div class="form-group">
+            <label for="SampleName" class="control-label">方案名称:</label>
             <label for="SampleName">@Model.Name</label>
-            <br />
-            <label for="ImageType">印章类型:</label>
+        </div>
+        <div class="form-group">
+            <label for="ImageType" class="control-label">印章类型:</label>
             <label for="SampleType">@Model.ImageType</label>
-            <br />
-            <label for="SampleStyle">样式:</label>
+        </div>
+        <div class="form-group">
+            <label for="SampleStyle" class="control-label">样式:</label>
             <label for="SampleStyle">@Model.Style</label>
-            <br />
+        </div>
+        <div class="form-group">
             <img src="@Model.ImageUrl" style="width:198px; height:198px" />
-            <br />
-            <a href="#" onClick="javascript :history.go(-2);">重新选择方案</a>
-            <hr />
-            <label for="Name">淘宝订单号</label>
+        </div>
+        <div class="form-group">
+            <a href="#" onClick="javascript :history.go(-2);" class="btn-link">重新选择方案</a>
+        </div>
+        <hr />
+        <div class="form-group">
+            <label for="TaobaoId" class="control-label">淘宝订单号</label>
             <input id="TaobaoId" name="TaobaoId" type="text" class="form-control" placeholder="淘宝订单号" required="required" />
-            <br />
-            <label for="preview">请输入主文字</label><label for="Sample.Style">(文字数量 @Model.MainTextNumber 个):</label>
-            <br />
+        </div>
+        <div class="form-group">
+            <label for="preview" class="control-label">请输入主文字</label>
+            <label for="Sample.Style">(文字数量 @Model.MainTextNumber 个):</label>
             <input id="MainText" name="MainText" type="text" class="form-control" placeholder="印章文字" required="required" />
-
+        </div>
+        <div class="form-group">
             @if (Model.IfHasSmallText)
             {
-                <label for="preview">请输入附加文字(文字数量最多11个):</label>
+                <label for="preview" class="control-label">请输入附加文字(文字数量最多11个):</label>
                 <input id="SmallText" name="SmallText" type="text" value="@Model.SmallText" class="form-control" placeholder="印章附加文字" />
             }
-            <input type="button" value="预览" onclick="CreateImage(); return false;" />
-            @*<input type="submit" name="action" value="CreateImage" />*@
         </div>
-        <div>
+        <div class="form-group">
+            <input type="button" value="预览" onclick="CreateImage(); return false;" class="btn" />
+        </div>
+        <div class="form-group">
             <input id="ImageUrl" name="ImageUrl" value="" type="text" hidden="hidden" />
             <img id="orderImage" src="" style="width:198px; height:198px" hidden="hidden" />
         </div>
         <label style="color:red">@ViewBag.Message</label>
-        <hr />
-        <p>
-            <input type="submit" name="type" value="提交订单" />     
-        </p>
+        <div class="form-group">
+            <input type="submit" name="type" value="提交订单" class="btn"/>
+        </div>
     </fieldset>
 </form>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#orderImage").hide(); 
+        $("#orderImage").hide();
     });
     function CreateImage() {
         var maintext = $("#MainText").val();
@@ -82,5 +91,5 @@
                 alert("生成图片发生错误");
             }
         });
-    }  
+    }
 </script>

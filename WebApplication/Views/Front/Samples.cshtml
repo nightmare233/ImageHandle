@@ -4,7 +4,46 @@
     ViewBag.Title = "选择预设方案";
 }
 
-<h2>选择预设方案</h2>
+<div class="page-header">
+    <h1>选择预设方案</h1>
+</div>
+<div style="margin-top:30px;">
+    <table class="table text-center table-hover" cellpadding="0" cellspacing="0" border="0">
+
+        @if (Model.Count<Sample>() == 0)
+        {
+            <p>暂无可选的方案</p>
+        }
+        @{int index = 1; }
+        @foreach (Sample sample in Model)
+        {
+            if (index % 4 == 1)
+            {
+                @Html.Raw("<tr>");
+            }
+            <td style="padding:0px 0px 0px 0px; border: 1 solid;">
+                <div id=@sample.Id onclick="SelectSample('@sample.Id');" style="height:96px; width:96px;">
+                    <img src=@sample.ImageUrl style="height:96px; width:96px;" /><br />
+                    <label>@sample.Name</label>
+                </div>
+            </td>
+            if (index % 4 == 0)
+            {
+                @Html.Raw("</tr>");
+            };
+            index++;
+        }
+    </table>
+    <br />
+    <div>
+        <button id="btn_confim" onclick="StepTwo()" hidden="hidden">确认</button> &nbsp;&nbsp;
+        <a href="#" onClick="javascript :history.go(-1);">返回上一页</a>
+    </div>
+    <label id="type1" hidden="hidden">@ViewBag.type1</label>
+    <label id="style1" hidden="hidden">@ViewBag.style1</label>
+    <label id="ifHasBgImage1" hidden="hidden">@ViewBag.ifHasBgImage1</label>
+    <label id="retURL1" hidden="hidden">@ViewBag.retURL1</label>
+</div>
 <script type="text/javascript">
     var currentSampleId;
     function SelectSample(sampleid) {
@@ -22,44 +61,6 @@
         var ifhasbgimg1 = $("#ifHasBgImage1").text();
         var returl = $("#retURL1").text();
         var sampleId = currentSampleId;
-        location.href = "/Front/Create2?type=" + type1 + "&style=" + stype1 + "&ifHasBgImage=" + ifhasbgimg1 + "&guid=" + returl + "&sampleId=" + sampleId; 
+        location.href = "/Front/Create2?type=" + type1 + "&style=" + stype1 + "&ifHasBgImage=" + ifhasbgimg1 + "&guid=" + returl + "&sampleId=" + sampleId;
     }
 </script>
- 
-<div style="margin-top:30px;">
-    <table class="table table-bordered text-center" cellpadding="0" cellspacing="0">
-
-        @if (Model.Count<Sample>() == 0)
-        {
-            <p>暂无可选的方案</p>
-        }
-        @{int index = 1; }
-        @foreach (Sample sample in Model)
-        {
-            if (index % 4 == 1)
-            {
-                @Html.Raw("<tr>");
-            }
-            <td style="padding:0px 0px 0px 0px;">
-                <div id=@sample.Id onclick="SelectSample('@sample.Id');" style="height:96px; width:96px;">
-                    <img src=@sample.ImageUrl style="height:96px; width:96px;" /><br />
-                    <label>@sample.Name</label>
-                </div>
-            </td>
-            if (index % 4 == 0)
-            {
-                @Html.Raw("</tr>");
-            };
-            index++;
-        }
-    </table>
-    <br /> 
-    <div>
-        <button id="btn_confim" onclick="StepTwo()" hidden="hidden">确认</button> &nbsp;&nbsp;
-        <a href="#" onClick="javascript :history.go(-1);">返回上一页</a>
-    </div>
-    <label id="type1" hidden="hidden">@ViewBag.type1</label>
-    <label id="style1" hidden="hidden">@ViewBag.style1</label>
-    <label id="ifHasBgImage1" hidden="hidden">@ViewBag.ifHasBgImage1</label>
-    <label id="retURL1" hidden="hidden">@ViewBag.retURL1</label>
-</div> 
