@@ -9,7 +9,7 @@
 <form id="itemForm" method="post" action="@Url.Action("UploadFile","ImageFont")" enctype="multipart/form-data" class="form-horizontal" role="form">
     <div class="form-group">
         <label for="Name" class="control-label col-sm-1">名称</label>
-        <input type="text" name="Name" class="form-control" />
+        <input type="text" name="Name" class="form-control"  required placeholder="字体名称"/>
     </div>
     <div class="form-group">
         <label for="ifSystem" class="control-label col-sm-1">系统字体</label>
@@ -19,7 +19,7 @@
         </select>
     </div>
     <div id="uploadDiv" class="form-group">
-        <input type="file" name="file" class="col-sm-3" />
+        <input type="file" id="file" name="file" class="col-sm-3" />
         <input type="button" value="上传字体文件" onclick="UploadFile(); return false;" class="btn col-sm-2" />
         <input id="imageFont" name="imageFont" value="" type="text" hidden="hidden" />
     </div>
@@ -42,6 +42,12 @@
     });
 
     function UploadFile() {
+        var file = $("#file").val();
+        if (file == "") {
+            alert("请先选择文件！");
+            return;
+        }
+        
         var formData = new FormData($("#itemForm")[0]);
         $.ajax({
             type: "post",

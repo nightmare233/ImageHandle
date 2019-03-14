@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `imagetext` (
 -- Dumping structure for table imagehandle.orders
 CREATE TABLE IF NOT EXISTS `orders` (
   `Id` int(255) NOT NULL AUTO_INCREMENT,
-  `TaobaoId` int(11) DEFAULT NULL,
+  `TaobaoId` varchar(50) DEFAULT NULL,
   `MainText` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '印章文字',
   `SmallText` varchar(20) NOT NULL,
   `SampleId` int(11) NOT NULL,

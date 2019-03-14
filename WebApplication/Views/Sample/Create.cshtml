@@ -12,7 +12,7 @@
         <div>
             <div class="form-group">
                 <label for="Name" class="col-sm-1 control-label">名称</label>
-                <input type="text" name="Name" class="form-control" />
+                <input type="text" name="Name" class="form-control" required placeholder="样式名称"/>
             </div>
             <div class="form-group">
                 <label for="ImageType" class="col-sm-1 control-label">印章类型</label>
@@ -42,7 +42,7 @@
             <div class="row">
                 <div class="form-group" id="uploadDiv">
                     @*上传背景图片*@
-                    <input type="file" name="file" class="col-sm-3" />
+                    <input type="file" id="file" name="file" class="col-sm-3" />
                     <input type="button" value="上传背景图" onclick="UploadFile(); return false;" class="col-sm-2" />
                     <input id="BgImage" name="BgImage" value="" type="text" hidden="hidden" />
                 </div>
@@ -50,7 +50,7 @@
             <div id="mainTextDiv">
                 <div id="mainText1" class="form-group">
                     <label for="Text1" class="col-sm-1 control-label">主文字</label>
-                    <input type="text" name="Text1" class="col-sm-1 form-control" />
+                    <input type="text" name="Text1" class="col-sm-1 form-control" required/>
                     <label for="Font1" class="col-sm-1 control-label">字体</label>
                     @Html.DropDownList("Font1", (List<SelectListItem>)ViewData["FontList"], "--Select One--", new { @class = "col-sm-1 form-control" })
                     <label for="FontSize1" class="col-sm-1 control-label">文字大小</label><input type="text" name="FontSize1" class="col-sm-1 form-control" value="60" />
@@ -172,6 +172,11 @@
         });
     }
     function UploadFile() {
+        var file = $("#file").val();
+        if (file == "") {
+            alert("请先选择文件！");
+            return;
+        }
         var formData = new FormData($("#itemForm")[0]);
         $.ajax({
             dataType: "json",

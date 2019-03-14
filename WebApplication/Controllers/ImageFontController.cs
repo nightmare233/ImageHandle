@@ -9,7 +9,7 @@ using Models;
 
 namespace WebApplication.Controllers
 {
-    [SkipCheckLogin]
+    //[SkipCheckLogin]
     public class ImageFontController : Controller
     {
         private ImageFontService imageFontService;
