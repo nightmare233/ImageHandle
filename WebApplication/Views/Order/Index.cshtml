@@ -29,55 +29,65 @@
                 <table class="table table-hover"> 
                         @foreach (var item in @Model)
                         {
-                            <tr>
-                                <td width="120px">
-                                    <img src="@item.ImageUrl" width="96" height="96"/></td>
-                                <td align="left">
-                                    淘宝订号：@item.TaobaoId<br />
-                                    预设样式：@item.Sample.Name (@item.SampleId)<br />
-                                    印章类型：@item.Sample.ImageType.ToString() <br />
-                                    字体样式：@item.Sample.Style.ToString() <br />
-                                    @*字体样式： @item.Sample.Style.ToString()&nbsp;&nbsp; <a href="@item.ImageUrl" target="_blank">下载PNG图片</a>*@
-                                    提交时间：@item.SubmitTime &nbsp;&nbsp; <a href="#" onclick="DownloadPic('@item.ImageUrl'); return false;">下载PNG图片</a>
-                                </td>
-                                <td style="width: 200px">
-                                    @if (item.Status == (int)EnumStatus.待审批)
-                                    {
-                                        <a href="#" onClick="ChangeStatus(@item.Id,@Convert.ToInt32(EnumStatus.待生产)); return false;" class="btn btn-sm btn-primary">同意</a>
-                                        <a href="#" onClick="ChangeStatus(@item.Id,@Convert.ToInt32(EnumStatus.已删除)); return false;" class="btn btn-sm btn-primary">不同意</a>
-                                    }
-                                    else if (item.Status == (int)EnumStatus.待生产)
-                                    {
-                                        <a href="#" onClick="ChangeStatus(@item.Id,@Convert.ToInt32(EnumStatus.生产中)); return false;" class="btn btn-sm btn-primary">生产</a>
-                                        <br />
-                                        <span>审核人：@item.AuditorName</span>
-                                    }
-                                    else if (item.Status == (int)EnumStatus.生产中)
-                                    {
-                                        <a href="#" onClick="ChangeStatus(@item.Id,@Convert.ToInt32(EnumStatus.已完成)); return false;" class="btn btn-sm btn-primary">完成</a>
-                                        <br />
-                                        <span>审核人：@item.AuditorName</span>
-                                        <br />
-                                        <span>生产员：@item.ProductorName</span>
-                                    }
-                                    else if (item.Status == (int)EnumStatus.已完成)
-                                    { 
-                                        <a href="#" onClick="ChangeStatus(@item.Id,@Convert.ToInt32(EnumStatus.已删除)); return false;" class="btn btn-sm btn-primary">删除</a>
-                                        <br />
-                                        <span>已完成</span>
-                                        <br />
-                                        <span>审核人：@item.AuditorName</span>
-                                        <br />
-                                        <span>生产员：@item.ProductorName</span>
-                                    }
-                                    else if (item.Status == (int)EnumStatus.已删除)
-                                    { 
-                                        <span>已删除</span>
-                                        <br />
-                                        <span>删除时间：@item.DeleteTime</span>
-                                    }
-                                </td>
-                            </tr>
+                    <tr>
+                        <td width="120px">
+                            <img src="@item.ImageUrl" width="96" height="96" />
+                        </td>
+                        <td align="left">
+                            淘宝订号：@item.TaobaoId<br />
+                            预设样式：@item.Sample.Name (@item.SampleId)<br />
+                            印章类型：@item.Sample.ImageType.ToString() <br />
+                            字体样式：@item.Sample.Style.ToString() <br />
+                            @*字体样式： @item.Sample.Style.ToString()&nbsp;&nbsp; <a href="@item.ImageUrl" target="_blank">下载PNG图片</a>*@
+                            提交时间：@item.SubmitTime &nbsp;&nbsp; <a href="#" onclick="DownloadPic('@item.ImageUrl'); return false;">下载PNG图片</a>
+                        </td>
+                        <td align="left" width="220px">
+                            【@(item.StatusName)】
+                            <br />
+                            @if (item.Status == (int)EnumStatus.待生产)
+                            {
+                                <span>审核人：@item.AuditorName</span>
+                            }
+                            else if (item.Status == (int)EnumStatus.生产中)
+                            {
+                                <span>审核人：@item.AuditorName</span>
+                                <br />
+                                <span>生产员：@item.ProductorName</span>
+                            }
+                            else if (item.Status == (int)EnumStatus.已完成)
+                            {
+                                <span>审核人：@item.AuditorName</span>
+                                <br />
+                                <span>生产员：@item.ProductorName</span>
+                            } 
+                        </td>
+                        <td style="width: 200px">
+                            @if (item.Status == (int)EnumStatus.待审批 && UserHelper.GetCurrentUser.Role != EnumRole.生产员.ToString())
+                            {
+                                <a href="#" onClick="ChangeStatus(@item.Id,@Convert.ToInt32(EnumStatus.待生产)); return false;" class="btn btn-sm btn-primary">同意</a>
+                                <a href="#" onClick="ChangeStatus(@item.Id,@Convert.ToInt32(EnumStatus.已删除)); return false;" class="btn btn-sm btn-primary">不同意</a>
+                                <a href="#" onClick="ChangeStatus(@item.Id,@Convert.ToInt32(EnumStatus.已删除)); return false;" class="btn btn-sm btn-primary">删除</a>
+                            }
+                            else if (item.Status == (int)EnumStatus.待生产 && UserHelper.GetCurrentUser.Role != EnumRole.客服.ToString())
+                            {
+                                <a href="#" onClick="ChangeStatus(@item.Id,@Convert.ToInt32(EnumStatus.生产中)); return false;" class="btn btn-sm btn-primary">生产</a>
+                                <a href="#" onClick="ChangeStatus(@item.Id,@Convert.ToInt32(EnumStatus.已删除)); return false;" class="btn btn-sm btn-primary">删除</a>
+                            }
+                            else if (item.Status == (int)EnumStatus.生产中 && UserHelper.GetCurrentUser.Role != EnumRole.客服.ToString())
+                            {
+                                <a href="#" onClick="ChangeStatus(@item.Id,@Convert.ToInt32(EnumStatus.已完成)); return false;" class="btn btn-sm btn-primary">完成</a>
+                                <a href="#" onClick="ChangeStatus(@item.Id,@Convert.ToInt32(EnumStatus.已删除)); return false;" class="btn btn-sm btn-primary">删除</a>
+                            }
+                            else if (item.Status == (int)EnumStatus.已完成)
+                            {
+                                <a href="#" onClick="ChangeStatus(@item.Id,@Convert.ToInt32(EnumStatus.已删除)); return false;" class="btn btn-sm btn-primary">删除</a>
+                            }
+                            else if (item.Status == (int)EnumStatus.已删除)
+                            {
+                                <span>已删除</span>
+                            }
+                        </td>
+                    </tr>
                         } 
                 </table>
             </div>

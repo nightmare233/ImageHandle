@@ -75,18 +75,34 @@ namespace WebApplication.Controllers
         {
             Order order = orderService.GetOrderById(id);
             order.Status = status;
-            if (status == (int)EnumStatus.待生产)
+            if (status == (int)EnumStatus.待生产) //审批
             {
+                if (UserHelper.GetCurrentUser.Role == EnumRole.生产员.ToString())
+                {
+                    log.Error("生产员试图点击审批！");
+                }
                 order.Auditor = UserHelper.GetCurrentUser.Id;
                 order.AuditTime = DateTime.Now;
             }
-            else if (status == (int)EnumStatus.生产中)
+            else if (status == (int)EnumStatus.生产中)  //生产
             {
+                if (UserHelper.GetCurrentUser.Role == EnumRole.客服.ToString())
+                {
+                    log.Error("客服试图点击生产！");
+                }
                 order.Productor = UserHelper.GetCurrentUser.Id;
                 order.ProductTime = DateTime.Now;
             }
+            else if (status == (int)EnumStatus.已完成)
+            {
+                if (UserHelper.GetCurrentUser.Role == EnumRole.客服.ToString())
+                {
+                    log.Error("客服试图点击完成！");
+                }
+            }
             else if (status == (int)EnumStatus.已删除)
             {
+                log.Error(UserHelper.GetCurrentUser.Name + "删除了订单：" + order.Id);
                 order.DeleteTime = DateTime.Now;
             }
 
