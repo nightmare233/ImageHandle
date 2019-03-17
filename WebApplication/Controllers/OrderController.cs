@@ -7,6 +7,7 @@ using WebApplication.Application;
 using Models;
 using WebApplication.Common;
 using WebApplication.Filters;
+using System.IO;
 
 namespace WebApplication.Controllers
 {
@@ -42,9 +43,7 @@ namespace WebApplication.Controllers
         {
             return View();
         }
-
         
-
         // GET: Order/Edit/5
         //public ActionResult Update(int id, int status)
         //{
@@ -136,6 +135,15 @@ namespace WebApplication.Controllers
             ViewData["ImageTypeList"] = ImageType.GetAll();
             log.Debug($"new order link: {orderForm.URL}");
             return View(orderForm);
+        }
+
+        [HttpGet]
+        public FileStreamResult DownloadFile(string imageURL)
+        {
+            string fileName = imageURL.Substring(21, imageURL.Length-21);  //UploadFilesOutputImgs lendth 21 
+            string filePath = Server.MapPath("//UploadFiles//OutputImgs//"+ fileName);
+
+            return File(new FileStream(filePath, FileMode.Open), "application/octet-stream", Server.UrlEncode(fileName));
         }
          
     }
