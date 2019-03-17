@@ -76,6 +76,8 @@ namespace WebApplication.Application
                 tempSample.ImageType = (EnumImageType)int.Parse(rows[0]["ImageType"].ToString());
                 tempSample.Style = (EnumImageStyle)int.Parse(rows[0]["Style"].ToString());
                 tempSample.ImageUrl = rows[0]["ImageURL"].ToString();
+                tempSample.BgImage = rows[0]["BgImage"].ToString();
+                tempSample.IfHasBgImg = string.IsNullOrEmpty(tempSample.BgImage) ? false : true;
                 if (ifGetTexts)
                 {
                     tempSample = GetTexts(tempSample.Id, tempSample); 
