@@ -120,8 +120,7 @@ namespace WebApplication.Controllers
                     order.Sample = sampleService.GetSample(order.SampleId, true);
                     if (order.MainText.Length != order.Sample.MainTextNumber)
                     {
-                        ViewBag.Message = "输入的文字数量不对！";
-                        return View(order);
+                        return Json(new { status = "Fail", message = "输入的文字数量不对！" }, JsonRequestBehavior.AllowGet);
                     }
 
                     for (int i = 0; i < order.Sample.MainTextNumber; i++)
@@ -132,12 +131,16 @@ namespace WebApplication.Controllers
                     {
                         if (string.IsNullOrEmpty(order.SmallText))
                         {
-                            ViewBag.Message = "输入的文字数量不对！";
-                            return View(order);
+                            return Json(new { status = "Fail", message = "请输入副文字！" }, JsonRequestBehavior.AllowGet);
                         }
                         else
                         {
+                            if (order.SmallText.Length > 11)
+                            {
+                                return Json(new { status = "Fail", message = "副文字不能超过11个字！" }, JsonRequestBehavior.AllowGet);
+                            }
                             order.Sample.SmallText.Text = order.SmallText;
+
                         }
                     }
 
