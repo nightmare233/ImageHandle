@@ -48,8 +48,14 @@
             parameter = { id: fontId };
             $.post(url, parameter, function (data, status) {
                 if (status == "success") {
-                    alert("删除成功！");
-                    window.location = "/ImageFont/Index";
+                    if (data.status == "Fail") {
+                        alert(data.message);
+                    }
+                    else {
+                        alert("删除成功！");
+                        window.location = "/ImageFont/Index";
+                    }
+                    
                 } else {
                     alert("删除失败！");
                 }

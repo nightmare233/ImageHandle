@@ -186,11 +186,15 @@
             processData: false,
             contentType: false,
             success: function (data) {
-                $("#BgImage").val(data);
-                alert("背景图片上传成功");
+                if (data.status == "Fail") {
+                    alert(data.message);
+                } else {
+                    $("#BgImage").val(data);
+                    alert("背景图片上传成功");
+                }
             },
             error: function (response, ajaxOptions, thrownError) {
-                alert("背景图片上传发生错误");
+                alert("上传失败：" + response.message);
             }
         });
     }

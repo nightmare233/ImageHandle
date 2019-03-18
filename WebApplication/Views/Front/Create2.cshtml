@@ -83,9 +83,13 @@
             processData: false,
             contentType: false,
             success: function (data) {
-                $("#ImageUrl").val(data);
-                $("#orderImage").attr('src', data);
-                $("#orderImage").show();
+                if (data.status == "Fail") {
+                    alert(data.message);
+                } else {
+                    $("#ImageUrl").val(data);
+                    $("#orderImage").attr('src', data);
+                    $("#orderImage").show();
+                } 
             },
             error: function (response, ajaxOptions, thrownError) {
                 alert("生成图片发生错误");

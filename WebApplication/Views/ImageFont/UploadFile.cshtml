@@ -56,8 +56,12 @@
             processData: false,
             contentType: false,
             success: function (data) {
-                $("#imageFont").val(data);
-                alert("字体文件上传成功");
+                if (data.status == "Fail") {
+                    alert(data.message);
+                } else {
+                    $("#imageFont").val(data);
+                    alert("字体文件上传成功");
+                }
             },
             error: function (response, ajaxOptions, thrownError) {
                 alert("字体文件上传发生错误");

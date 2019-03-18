@@ -148,7 +148,7 @@ namespace WebApplication.Controllers
                 catch (Exception ex)
                 {
                     log.Error(ex);
-                    return Json("Faild," + ex.Message, JsonRequestBehavior.AllowGet);
+                    return Json(new { status = "Fail", message = ex.Message }, JsonRequestBehavior.AllowGet);
                 }
             }
             return View(order);

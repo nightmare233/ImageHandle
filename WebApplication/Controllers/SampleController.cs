@@ -76,7 +76,7 @@ namespace WebApplication.Controllers
                     HttpFileCollection files = System.Web.HttpContext.Current.Request.Files;
                     if (files.Count == 0)
                     {
-                        return Json("Faild", JsonRequestBehavior.AllowGet);
+                        return Json(new { status = "Fail", message = "请先上传文件！" }, JsonRequestBehavior.AllowGet);
                     }
                     //int fileSize = files[0].ContentLength;
                     var fullFileName = $"/UploadFiles/BgImages/{Guid.NewGuid() + "_" + files[0].FileName}";
@@ -202,7 +202,7 @@ namespace WebApplication.Controllers
             catch(Exception ex)
             {
                 log.Error(ex);
-                return Json("Faild," + ex.Message, JsonRequestBehavior.AllowGet);
+                return Json("Fail" + ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
     }

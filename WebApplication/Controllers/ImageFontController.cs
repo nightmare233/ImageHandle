@@ -44,7 +44,7 @@ namespace WebApplication.Controllers
                 {
                     HttpFileCollection files = System.Web.HttpContext.Current.Request.Files;
                     if (files.Count == 0)
-                        return Json("Faild", JsonRequestBehavior.AllowGet);
+                        return Json(new { status = "Fail", message = "请先上传文件！"}, JsonRequestBehavior.AllowGet);
                     //MD5 md5Hasher = new MD5CryptoServiceProvider();
                     ///*计算指定Stream对象的哈希值*/
                     //byte[] arrbytHashValue = md5Hasher.ComputeHash(files[0].InputStream);
@@ -69,7 +69,7 @@ namespace WebApplication.Controllers
                 catch (Exception ex)
                 {
                     log.Error(ex);
-                    return Json("Faild", JsonRequestBehavior.AllowGet);
+                    return Json(new { status = "Fail", message = ex.Message}, JsonRequestBehavior.AllowGet);
                 } 
             }
 
@@ -79,12 +79,16 @@ namespace WebApplication.Controllers
                 imageFont.name = collection["Name"];
                 imageFont.ifSystem = false;
                 var ifSystem = int.Parse(collection["ifSystem"]);
-                if (0 == ifSystem)
+                if (0 == ifSystem) //非系统字体
                 {
                     imageFont.ifSystem = false;
                     imageFont.url = collection["imageFont"];
+                    if (string.IsNullOrEmpty(imageFont.url))
+                    {
+                        throw new Exception("请先上传字体文件！");
+                    }
                 }
-                else
+                else//系统字体
                 {
                     imageFont.ifSystem = true;
                     imageFont.url = "";
@@ -126,7 +130,7 @@ namespace WebApplication.Controllers
             catch (Exception ex)
             {
                 log.Error(ex);
-                return Json("Faild," + ex.Message, JsonRequestBehavior.AllowGet);
+                return Json(new { status = "Fail", message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
     }
