@@ -125,6 +125,43 @@ namespace WebApplication.Application
             return tempOrder;
         }
 
+        public Order GetOrderByTaobaoId(string taobaoId)
+        {
+            var Orders = new List<Order>();
+            const string strQuery = @"SELECT o1.*, u1.`Name` as 'AuditorName',u2.`Name` as 'ProductorName' FROM `orders` o1
+                                    left join users as u1 on o1. auditor = u1.id
+                                    left join users as u2 on o1.Productor = u2.id 
+                                    where o1.taobaoId = @taobaoId and o1.Status <> 4";
+            var parameters = new Dictionary<string, object>
+            {
+                { "taobaoId", taobaoId }
+            };
+            var rows = contexto.ExecuteCommandSQL(strQuery, parameters);
+            var row = rows.FirstOrDefault();
+            if (row == null)
+            {
+                return null;
+            }
+            Order tempOrder = new Order();
+            tempOrder.Id = int.Parse(row["Id"].ToString());
+            tempOrder.TaobaoId = row["TaobaoId"].ToString();
+            tempOrder.SampleId = int.Parse(row["SampleId"].ToString());
+            tempOrder.Sample = new SampleService().GetSample(tempOrder.SampleId, false);
+            tempOrder.MainText = row["MainText"].ToString();
+            tempOrder.SmallText = row["SmallText"].ToString();
+            tempOrder.ImageUrl = row["ImageUrl"].ToString();
+            tempOrder.SubmitTime = DateTime.Parse(row["SubmitTime"].ToString());
+            tempOrder.Status = int.Parse(row["Status"].ToString());
+            tempOrder.StatusName = ((EnumStatus)int.Parse(row["Status"].ToString())).ToString();
+            tempOrder.Auditor = int.Parse(row["Auditor"].ToString());
+            tempOrder.AuditorName = row["AuditorName"] == null ? "" : row["AuditorName"].ToString();
+            tempOrder.Productor = int.Parse(row["Productor"].ToString());
+            tempOrder.ProductorName = row["ProductorName"] == null ? "" : row["ProductorName"].ToString();
+            tempOrder.ProductTime = DateTime.Parse(row["ProductTime"].ToString());
+            tempOrder.DeleteTime = DateTime.Parse(row["DeleteTime"].ToString());
+            return tempOrder;
+        }
+
         public int Insert(Order order)
         {
             const string commandSQL = @"INSERT into orders(TaobaoId, SampleId, ImageUrl, SubmitTime, Status, AuditTime, ProductTime, DeleteTime, MainText,SmallText)  

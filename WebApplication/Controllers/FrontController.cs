@@ -95,7 +95,11 @@ namespace WebApplication.Controllers
             if (type == "提交订单")
             {
                 try
-                { 
+                {
+                    if (string.IsNullOrEmpty(order.ImageUrl))
+                    {
+                        throw new Exception("请先生成订单图片！");
+                    }
                     order.SubmitTime = DateTime.Now;
                     order.Status = (int)EnumStatus.待审批;
                     order.SubmitTime = DateTime.Now;
@@ -110,13 +114,18 @@ namespace WebApplication.Controllers
                 {
                     ViewBag.Message = ex.Message;
                     log.Error(ex);
-                    return View(order);
+                    return View("Create2", order);
                 }
             }
             else if (type == "CreateImage")
             {
                 try
                 {
+                    var ifExist = CheckTaobaoIdExist(order.TaobaoId);
+                    if (ifExist)
+                    {
+                        return Json(new { status = "Fail", message = "该淘宝订单号已经生成订单！" }, JsonRequestBehavior.AllowGet);
+                    }
                     order.Sample = sampleService.GetSample(order.SampleId, true);
                     if (order.MainText.Length != order.Sample.MainTextNumber)
                     {
@@ -144,7 +153,7 @@ namespace WebApplication.Controllers
                         }
                     }
 
-                    string imageUrl = ImageHelp.CreateImage(order.Sample, false);
+                    string imageUrl = ImageHelp.CreateImage(order.Sample, false, order.TaobaoId);
                     var result = Json(imageUrl);
                     return result;
                 }
@@ -163,6 +172,13 @@ namespace WebApplication.Controllers
             ViewBag.Message = message;
             return View();
         }
-         
+
+        private bool CheckTaobaoIdExist(string taobaoId)
+        {
+            var order = orderService.GetOrderByTaobaoId(taobaoId);
+            if (order == null)
+                return false;
+            return true;
+        }
     }
 }

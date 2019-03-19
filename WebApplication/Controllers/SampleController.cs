@@ -78,17 +78,23 @@ namespace WebApplication.Controllers
                     {
                         return Json(new { status = "Fail", message = "请先上传文件！" }, JsonRequestBehavior.AllowGet);
                     }
-                    //int fileSize = files[0].ContentLength;
-                    var fullFileName = $"/UploadFiles/BgImages/{Guid.NewGuid() + "_" + files[0].FileName}";
-                    if (!System.IO.File.Exists(fullFileName))
+                    try
                     {
-                        files[0].SaveAs(Server.MapPath(fullFileName));
+                        var fullFileName = $"/UploadFiles/BgImages/{Guid.NewGuid() + "_" + files[0].FileName}";
+                        if (!System.IO.File.Exists(fullFileName))
+                        {
+                            files[0].SaveAs(Server.MapPath(fullFileName));
+                        }
+                        sample.BgImage = fullFileName;
+                        sample.IfHasBgImg = true;
+                        return Json(fullFileName);
                     }
-                    //string fileName = files[0].FileName.Substring(files[0].FileName.LastIndexOf("\\") + 1, files[0].FileName.Length - files[0].FileName.LastIndexOf("\\") - 1);
-                    sample.BgImage = fullFileName;
-                    sample.IfHasBgImg = true;
-                    var result = Json(fullFileName);
-                    return result;
+                    catch (Exception ex)
+                    {
+                        log.Error(ex.Message);
+                        return Json(new { status = "Fail", message = ex.Message }, JsonRequestBehavior.AllowGet);
+                    }
+                    
                 }
               
                 sample.Name = collection["Name"];
@@ -140,15 +146,30 @@ namespace WebApplication.Controllers
                 #endregion
                 if (type == "保存")
                 {
+                    if (string.IsNullOrEmpty(sample.ImageUrl))
+                    {
+                        throw new Exception("请先生成样式图片！");
+                    }
                     sampleService.Insert(sample);
                     return RedirectToAction("Index");
                 }
                 else if (type == "CreateImage")
                 {
-                    InitData();
-                    string imageUrl = ImageHelp.CreateImage(sample, true);
-                    var result  = Json(imageUrl);
-                    return result;
+                    try
+                    {
+                        InitData();
+                        if (!CheckNameUnique(sample.Name))
+                        {
+                            return Json(new { status = "Fail", message = "该名称已经存在，请使用唯一的名称！" }, JsonRequestBehavior.AllowGet);
+                        }
+                        string imageUrl = ImageHelp.CreateImage(sample, true, null);
+                        return Json(imageUrl);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex.Message);
+                        return Json(new { status = "Fail", message = ex.Message }, JsonRequestBehavior.AllowGet);
+                    } 
                 }
                 return View();
             }
@@ -157,7 +178,7 @@ namespace WebApplication.Controllers
                 InitData();
                 ViewBag.Message = ex.Message;
                 log.Error(ex);
-                return View();
+                return View("Create");
             }
         }
          
@@ -196,6 +217,12 @@ namespace WebApplication.Controllers
         {
             try
             {
+                var sample = sampleService.GetSample(id, false);
+                string path = AppDomain.CurrentDomain.BaseDirectory + $"\\UploadFiles\\SampleImgs\\{sample.ImageUrl}";
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
                 sampleService.Delete(id);
                 return Content("success");
             }
@@ -204,6 +231,14 @@ namespace WebApplication.Controllers
                 log.Error(ex);
                 return Json("Fail" + ex.Message, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        private bool CheckNameUnique(string name)
+        {
+            var sample = sampleService.GetSampleByName(name, false);
+            if (sample == null)
+                return true;
+            return false;
         }
     }
 }

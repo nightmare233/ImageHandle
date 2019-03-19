@@ -12,7 +12,7 @@
         <div>
             <div class="form-group">
                 <label for="Name" class="col-sm-1 control-label">名称</label>
-                <input type="text" name="Name" class="form-control" required placeholder="样式名称"/>
+                <input id="Name" type="text" name="Name" class="form-control" required placeholder="样式名称"/>
             </div>
             <div class="form-group">
                 <label for="ImageType" class="col-sm-1 control-label">印章类型</label>
@@ -50,7 +50,7 @@
             <div id="mainTextDiv">
                 <div id="mainText1" class="form-group">
                     <label for="Text1" class="col-sm-1 control-label">主文字</label>
-                    <input type="text" name="Text1" class="col-sm-1 form-control" required/>
+                    <input type="text" id="Text1" name="Text1" class="col-sm-1 form-control" required/>
                     <label for="Font1" class="col-sm-1 control-label">字体</label>
                     @Html.DropDownList("Font1", (List<SelectListItem>)ViewData["FontList"], "--Select One--", new { @class = "col-sm-1 form-control" })
                     <label for="FontSize1" class="col-sm-1 control-label">文字大小</label><input type="text" name="FontSize1" class="col-sm-1 form-control" value="60" />
@@ -153,6 +153,9 @@
         $("#smalltext").toggle();
     }
     function CreateImage() {
+        var name = $("#Name").val();
+        var text1 = $("#Text1").val();
+        
         var formData = new FormData($("#itemForm")[0]);
         $.ajax({
             dataType: "json",
@@ -162,9 +165,14 @@
             processData: false,
             contentType: false,
             success: function (data) {
-                $("#ImageUrl").val(data);
-                $("#sampleimage").attr('src', data);
-                $("#sampleimage").show();
+                if (data.status == "Fail") {
+                    alert(data.message);
+                }
+                else {
+                    $("#ImageUrl").val(data);
+                    $("#sampleimage").attr('src', "\\UploadFiles\\SampleImgs\\"+ data);
+                    $("#sampleimage").show();
+                } 
             },
             error: function (response, ajaxOptions, thrownError) {
                 alert("生成图片发生错误");

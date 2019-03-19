@@ -8,7 +8,7 @@ namespace Models
 {
     public class ImageHelp
     {
-        public static string CreateImage(Sample sample, bool ifSample)
+        public static string CreateImage(Sample sample, bool ifSample, string taobaoId)
         {
             Image imgBack = null;
             Graphics g = null;
@@ -131,12 +131,15 @@ namespace Models
             #endregion
 
             GC.Collect();
-            string filename = sample.ImageType.ToString() + sample.Style.ToString() + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss-ms")+".png";
+            string filename =  ifSample ? sample.Name + "_" + ".png" : taobaoId +".png";
             string path = ifSample ? $"\\UploadFiles\\SampleImgs\\{filename}" : $"\\UploadFiles\\OutputImgs\\{filename}";
             string saveImagePath = AppDomain.CurrentDomain.BaseDirectory + path;
-            
+            if (System.IO.File.Exists(saveImagePath))
+            {
+                System.IO.File.Delete(saveImagePath);
+            }
             imgBack.Save(saveImagePath, ImageFormat.Png);//save new image to file system.
-            return path;
+            return filename;
         }
 
         private static void DrawMainText(Graphics g, ImageText mainText, EnumImageStyle style)

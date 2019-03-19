@@ -21,9 +21,9 @@
             {
                 @Html.Raw("<tr>");
             }
-            <td style="padding:0px 0px 0px 0px; border: 1 solid;">
-                <div id=@sample.Id onclick="SelectSample('@sample.Id');" style="height:96px; width:96px;">
-                    <img src=@sample.ImageUrl style="height:96px; width:96px;" /><br />
+            <td style="padding:0px 0px 0px 0px; border: 0;">
+                <div id=@sample.Id onclick="SelectSample('@sample.Id');" style="height:150px; width:98px;">
+                    <img src="../UploadFiles/SampleImgs/@sample.ImageUrl" style="height:96px; width:96px;" /><br />
                     <label style="font-weight:normal">@sample.Name</label>
                 </div>
             </td>
@@ -45,7 +45,7 @@
     <label id="retURL1" hidden="hidden">@ViewBag.retURL1</label>
 </div>
 <script type="text/javascript">
-    var currentSampleId;
+    var currentSampleId = 0;
     function SelectSample(sampleid) {
         $("#" + currentSampleId).css("border", "none");
         currentSampleId = sampleid;
@@ -56,11 +56,16 @@
     }
 
     function StepTwo() {
+        if (currentSampleId == 0) {
+            alert("请先选择一种样式！");
+            return;
+        }
+        var sampleId = currentSampleId;
         var type1 = $("#type1").text()
         var stype1 = $("#style1").text();
         var ifhasbgimg1 = $("#ifHasBgImage1").text();
         var returl = $("#retURL1").text();
-        var sampleId = currentSampleId;
+     
         location.href = "/Front/Create2?type=" + type1 + "&style=" + stype1 + "&ifHasBgImage=" + ifhasbgimg1 + "&guid=" + returl + "&sampleId=" + sampleId;
     }
 </script>

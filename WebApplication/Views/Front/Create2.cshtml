@@ -29,7 +29,7 @@
             <label for="SampleStyle">@Model.Style</label>
         </div>
         <div class="form-group">
-            <img src="@Model.ImageUrl" style="width:198px; height:198px" />
+            <img src="../UploadFiles/SampleImgs/@Model.ImageUrl" style="width:198px; height:198px" />
         </div>
         <div class="form-group">
             <a href="#" onClick="javascript :history.go(-2);" class="btn-link">重新选择方案</a>
@@ -70,8 +70,13 @@
     });
     function CreateImage() {
         var maintext = $("#MainText").val();
+        var taobaoId = $("#TaobaoId").val();
         if (maintext == "") {
             alert("请输入印章文字！");
+            return;
+        }
+        if (taobaoId == "") {
+            alert("请输入淘宝订单号！");
             return;
         }
         var formData = new FormData($("#itemForm")[0]);
@@ -87,7 +92,7 @@
                     alert(data.message);
                 } else {
                     $("#ImageUrl").val(data);
-                    $("#orderImage").attr('src', data);
+                    $("#orderImage").attr('src', "\\UploadFiles\\OutputImgs\\" + data);
                     $("#orderImage").show();
                 } 
             },

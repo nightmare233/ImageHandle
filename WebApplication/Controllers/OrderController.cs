@@ -156,11 +156,12 @@ namespace WebApplication.Controllers
         [HttpGet]
         public FileStreamResult DownloadFile(string imageURL)
         {
-            string fileName = imageURL.Substring(21, imageURL.Length-21);  //UploadFilesOutputImgs lendth 21 
+            string fileName = imageURL;// imageURL.Substring(21, imageURL.Length-21);  //UploadFilesOutputImgs lendth 21 
             string filePath = Server.MapPath("//UploadFiles//OutputImgs//"+ fileName);
 
             return File(new FileStream(filePath, FileMode.Open), "application/octet-stream", Server.UrlEncode(fileName));
         }
+         
          
     }
 }
