@@ -19,8 +19,8 @@ namespace WebApplication
 
         public override void OnAuthorization(AuthorizationContext filterContext)
         { 
-            string conName = filterContext.RouteData.Values["controller"].ToString();
-            if (conName.Contains("Login") || conName.Contains("Front"))
+            string conName = filterContext.RouteData.Values["controller"].ToString().ToLower();
+            if (conName.Contains("login") || conName.Contains("front"))
             {
                 return;//如果为主页则无需验证权限
             }
@@ -29,19 +29,19 @@ namespace WebApplication
             if (UserHelper.GetCurrentUser == null)
             {
                 var Url = new UrlHelper(filterContext.RequestContext);
-                var url = Url.Action("Login", "Login", new { area = "" });
+                var url = Url.Action("login", "login", new { area = "" });
                 filterContext.Result = new RedirectResult(url);
             }
             else
             {
                 string role = UserHelper.GetCurrentUser.Role;
-                if (role == "管理员" || conName == "Front" || conName == "Home")
+                if (role == "管理员" || conName == "front" || conName == "home")
                 {
                     isAllowed = true;
                 }
                 else if (role == "客服" || role == "生产员")
                 {
-                    if (conName != "Order")
+                    if (conName != "order")
                     {
                         isAllowed = false;
                     }
