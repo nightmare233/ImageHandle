@@ -63,7 +63,7 @@ namespace WebApplication.Controllers
             bool? ifHasBgImageBool = null;
             if (ifHasBgImage == 1) ifHasBgImageBool = true;
             else if (ifHasBgImage == 2) ifHasBgImageBool = false;
-            samples = sampleService.ListAll((EnumImageType)type, (EnumImageStyle)style, ifHasBgImageBool, false);
+            samples = sampleService.ListAll((EnumImageType)type, (EnumImageStyle)style, ifHasBgImageBool, null, false);
             ViewBag.type1 = type;
             ViewBag.style1 = style;
             ViewBag.ifHasBgImage1 = ifHasBgImage;

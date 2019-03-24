@@ -19,76 +19,131 @@
             });
         }
     }
+    //function Query() {
+    //    url = "/Sample/Query";
+    //    var imageType = $("#ImageType").val();
+    //    var style = $("#Style").val(); 
+    //    var ifHasBgImage = $("#IfHasBgImage").val(); 
+    //    var keywords = $("#keywords").val();
+    //    parameter = { ImageType: imageType, Style: style, IfHasBgImage: ifHasBgImage, Keywords: keywords};
+    //    $.get(url, parameter, function (data, status) {
+    //        if (status == "success") {
+    //            alert("sucess！");
+    //        } else {
+    //            alert("fail！");
+    //        }
+    //    }); 
+    //}
     
 </script>
 <div class="page-header">
     <h1>预设样式列表</h1>
     <a href="@Url.Action("Create","Sample")" class="btn btn-sm btn-primary">创建预设样式</a>
 </div>
-<div class="row">
-    <div class="col-lg-12">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>编号</th>
-                            <th>名称</th>
-                            <th>印章类型</th>
-                            <th>风格</th>
-                            <th>背景图</th>
-                            <th>字体</th>
-                            <th>文字数量</th>
-                            <th>副文字</th>
-                            <th>样章</th>
-                            <th>操作</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in @Model)
-                        {
-                        <tr>
-                            <td><a>@item.Id</a></td>
-                            <td><a>@item.Name</a></td>
-                            <td>@item.ImageType</td>
-                            <td>@item.Style</td>
-                            <td> 
-                                @if (item.IfHasBgImg)
-                                {
-                                    <p>有</p>
-                                }
-                                else
-                                {
-                                    <p>无</p>
-                                }
-                            </td>
-                            <td></td>
-                            <td>@item.MainTextNumber</td>
-                            <td>
-                                @if (item.IfHasSmallText)
-                                {
-                                    <p>有</p>
-                                }
-                                else
-                                {
-                                    <p>无</p>
-                                } 
-                            </td>
-                            <td>
-                                @if (item.BgImage != "")
-                                {
-                                    <a href="../UploadFiles/SampleImgs/@item.ImageUrl" target="_blank">打开图片</a>
-                                }
-                            </td>
-                            <td style="width: 100px">
-                                <a href="#" onClick="Delete(@item.Id); return false;">删除</a>
-                            </td>
-                        </tr>
-                        }
-                    </tbody>
-                </table>
+<form class="form-horizontal" role="form" action="index" method="post"> 
+    <div class="row">
+        <div class="form-group">
+            <label for="ImageType" class="col-sm-1 control-label">印章类型</label>
+            <select id="ImageType" name="ImageType" class="dropdown form-control">
+                <option value="1" selected="selected">全部</option>
+                <option value="2">圆形章</option>
+                <option value="3">方形章</option>
+                <option value="4">扁章</option>
+                <option value="5">闲章</option>
+                <option value="6">儿童印章</option>
+                <option value="7">个性签名章</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="Style" class="col-sm-1 control-label">样式</label>
+            <select id="Style" name="Style" class="dropdown form-control">
+                <option value="-1" selected="selected">全部</option>
+                <option value="0">阴文</option>
+                <option value="1">阳文</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="IfHasBgImage" class="col-sm-1 control-label">背景图</label>
+            <select id="IfHasBgImage" name="IfHasBgImage" class="dropdown form-control">
+                <option value="-1" selected="selected">全部</option>
+                <option value="0">无背景图</option>
+                <option value="1">有背景图</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="Keywords" class="col-sm-1 control-label">关键词</label>
+            <input id="Keywords" name="Keywords" type="text" placeholder="关键词搜索" class="form-control col-sm-1" />
+            <span class="col-sm-1"></span>
+            <input type="submit" name="type" value="查询" class="btn col-sm-1"/>
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>编号</th>
+                                <th>名称</th>
+                                <th>印章类型</th>
+                                <th>风格</th>
+                                <th>背景图</th>
+                                <th>字体</th>
+                                <th>文字数量</th>
+                                <th>副文字</th>
+                                <th>样章</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in @Model)
+                            {
+                                <tr>
+                                    <td><a>@item.Id</a></td>
+                                    <td><a>@item.Name</a></td>
+                                    <td>@item.ImageType</td>
+                                    <td>@item.Style</td>
+                                    <td>
+                                        @if (item.IfHasBgImg)
+                                        {
+                                            <p>有</p>
+                                        }
+                                        else
+                                        {
+                                            <p>无</p>
+                                        }
+                                    </td>
+                                    <td></td>
+                                    <td>@item.MainTextNumber</td>
+                                    <td>
+                                        @if (item.IfHasSmallText)
+                                        {
+                                            <p>有</p>
+                                        }
+                                        else
+                                        {
+                                            <p>无</p>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (item.BgImage != "")
+                                        {
+                                            <a href="../UploadFiles/SampleImgs/@item.ImageUrl" target="_blank">打开图片</a>
+                                        }
+                                    </td>
+                                    <td style="width: 100px">
+                                        <a href="#" onClick="Delete(@item.Id); return false;">删除</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
+</form>

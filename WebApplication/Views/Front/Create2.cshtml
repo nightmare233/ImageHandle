@@ -92,7 +92,7 @@
                     alert(data.message);
                 } else {
                     $("#ImageUrl").val(data);
-                    $("#orderImage").attr('src', "\\UploadFiles\\OutputImgs\\" + data);
+                    $("#orderImage").attr('src', "\\UploadFiles\\OutputImgs\\" + data + "?t=" + Math.random());
                     $("#orderImage").show();
                 } 
             },

@@ -18,7 +18,7 @@ namespace WebApplication.Application
             contexto = new Contexto();
         }
 
-        public List<Sample> ListAll(EnumImageType? enumImageType, EnumImageStyle? enumImageStyle, bool? ifHasBgImage, bool ifGetTexts)
+        public List<Sample> ListAll(EnumImageType? enumImageType, EnumImageStyle? enumImageStyle, bool? ifHasBgImage, string keywords, bool ifGetTexts)
         {
             var samples = new List<Sample>();
             StringBuilder sb = new StringBuilder("SELECT * FROM sample where 1=1 ");
@@ -37,7 +37,17 @@ namespace WebApplication.Application
                 else
                     sb.Append($" and BgImage = ''");
             }
-            var rows = contexto.ExecuteCommandSQL(sb.ToString(), null);
+            Dictionary<string,object> parameters = null;
+            if (!string.IsNullOrEmpty(keywords))
+            {
+                sb.Append(" and Name like '%' @keywords '%'");
+                parameters = new Dictionary<string, object>
+                {
+                    { "keywords", keywords}
+                };
+            }
+          
+            var rows = contexto.ExecuteCommandSQL(sb.ToString(), parameters);
             foreach (var row in rows)
             {
                 Sample tempSample = new Sample();

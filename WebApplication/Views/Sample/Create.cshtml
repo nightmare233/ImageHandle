@@ -170,7 +170,7 @@
                 }
                 else {
                     $("#ImageUrl").val(data);
-                    $("#sampleimage").attr('src', "\\UploadFiles\\SampleImgs\\"+ data);
+                    $("#sampleimage").attr('src', "\\UploadFiles\\SampleImgs\\" + data + "?t=" + Math.random());
                     $("#sampleimage").show();
                 } 
             },

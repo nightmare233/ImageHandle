@@ -39,9 +39,50 @@ namespace WebApplication.Controllers
         }
 
         // GET: Sample
-        public ActionResult Index()
+        //public ActionResult Index()
+        //{
+        //    List<Sample> samples = sampleService.ListAll(null, null, null, null, true);
+        //    return View(samples);
+        //}
+
+        //GET: Query
+        public ActionResult Index(FormCollection collection)  //int imageType, int style, int ifHasBgImage, string keywords
         {
-            List<Sample> samples = sampleService.ListAll(null, null, null, true);
+            List<Sample> samples = null;
+            try
+            {
+                if (collection.Count > 0)
+                {
+                    EnumImageType? enumImageType = null;
+                    EnumImageStyle? enumImageStyle = null;
+                    int imageType = int.Parse(collection["ImageType"]);
+                    int style = int.Parse(collection["Style"]);
+                    int ifHasBgImage = int.Parse(collection["IfHasBgImage"]);
+                    string keywords = collection["Keywords"];
+                    bool? booLIfHasBgImage = null;
+                    if (imageType != 1)
+                    {
+                        enumImageType = (EnumImageType)imageType;
+                    }
+                    if (style != -1)
+                    {
+                        enumImageStyle = (EnumImageStyle)style;
+                    }
+                    if (ifHasBgImage != -1)
+                    {
+                        booLIfHasBgImage = Convert.ToBoolean(ifHasBgImage);
+                    }
+                    samples = sampleService.ListAll(enumImageType, enumImageStyle, booLIfHasBgImage, keywords, true);
+                }
+                else
+                {
+                    samples = sampleService.ListAll(null, null, null, null, true);
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
             return View(samples);
         }
 

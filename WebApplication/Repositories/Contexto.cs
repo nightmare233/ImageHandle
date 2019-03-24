@@ -38,7 +38,7 @@ namespace WebApplication.Repositories
 
             if(string.IsNullOrEmpty(sql))
             {
-                throw new ArgumentException("O comando não pode ser executado");
+                throw new ArgumentException("SQL string can not be null");
             }
             try 
             {
