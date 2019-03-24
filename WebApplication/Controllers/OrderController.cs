@@ -144,11 +144,18 @@ namespace WebApplication.Controllers
         [HttpPost]
         public ActionResult Add(OrderForm orderForm)
         {
+            ViewData["ImageTypeList"] = ImageType.GetAll();
+            if (orderForm.ImageTypes == null)
+            {
+                orderForm.ImageTypes = new ImageTypeModel();
+                ViewBag.Message = "请至少选择一个印章类型！";
+                return View(orderForm);
+            }
             orderForm.ExpireTime = DateTime.Now.AddMinutes(20);
             orderForm.formGuid = Guid.NewGuid();
             orderForm.URL = string.Format(@"http://{0}\Front\Create?guid={1}", Request.Url.Authority, orderForm.formGuid);
-            CacheHelper.SetCache(orderForm.formGuid.ToString(), orderForm.ImageTypes);
-            ViewData["ImageTypeList"] = ImageType.GetAll();
+            CacheHelper.SetCache(orderForm.formGuid.ToString(), orderForm.ImageTypes, 1200);
+        
             log.Debug($"new order link: {orderForm.URL}");
             return View(orderForm);
         }

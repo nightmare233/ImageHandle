@@ -40,7 +40,7 @@
     <h1>预设样式列表</h1>
     <a href="@Url.Action("Create","Sample")" class="btn btn-sm btn-primary">创建预设样式</a>
 </div>
-<form class="form-horizontal" role="form" action="index" method="post"> 
+<form class="form-horizontal" role="form" action="index" method="post">
     <div class="row">
         <div class="form-group">
             <label for="ImageType" class="col-sm-1 control-label">印章类型</label>
@@ -74,7 +74,7 @@
             <label for="Keywords" class="col-sm-1 control-label">关键词</label>
             <input id="Keywords" name="Keywords" type="text" placeholder="关键词搜索" class="form-control col-sm-1" />
             <span class="col-sm-1"></span>
-            <input type="submit" name="type" value="查询" class="btn col-sm-1"/>
+            <input type="submit" name="type" value="查询" class="btn col-sm-1" />
         </div>
     </div>
     <br />
@@ -129,10 +129,7 @@
                                         }
                                     </td>
                                     <td>
-                                        @if (item.BgImage != "")
-                                        {
-                                            <a href="../UploadFiles/SampleImgs/@item.ImageUrl" target="_blank">打开图片</a>
-                                        }
+                                        <a href="../UploadFiles/SampleImgs/@item.ImageUrl" target="_blank">打开图片</a>
                                     </td>
                                     <td style="width: 100px">
                                         <a href="#" onClick="Delete(@item.Id); return false;">删除</a>
@@ -145,5 +142,7 @@
             </div>
         </div>
     </div>
-
+    <div class="row text-center" id="more">
+        <a class="btn-link">加载更多>></a>
+    </div>
 </form>

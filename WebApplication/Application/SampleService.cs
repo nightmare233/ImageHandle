@@ -46,7 +46,7 @@ namespace WebApplication.Application
                     { "keywords", keywords}
                 };
             }
-          
+            sb.Append(" ORDER BY id DESC;");
             var rows = contexto.ExecuteCommandSQL(sb.ToString(), parameters);
             foreach (var row in rows)
             {
@@ -60,6 +60,8 @@ namespace WebApplication.Application
                 tempSample.ImageType = (EnumImageType)int.Parse(row["ImageType"].ToString());
                 tempSample.Style = (EnumImageStyle)int.Parse(row["Style"].ToString());
                 tempSample.ImageUrl = row["ImageURL"].ToString();
+                tempSample.BgImage = rows[0]["BgImage"].ToString();
+                tempSample.IfHasBgImg = string.IsNullOrEmpty(tempSample.BgImage) ? false : true;
                 if (ifGetTexts)
                 {
                     tempSample = GetTexts(tempSample.Id, tempSample);
