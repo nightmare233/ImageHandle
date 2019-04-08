@@ -89,16 +89,17 @@ namespace Models
             }
             else if (sample.ImageType == EnumImageType.个性签名章)  //纯文字，没有边框，没有背景,
             {
-                imgBack = new System.Drawing.Bitmap(size, size / 2);
+                size = 300;
+                imgBack = new System.Drawing.Bitmap(size, size/3);
                 g = Graphics.FromImage(imgBack);
                 if (sample.Style == EnumImageStyle.阳文)
                 {
                     Pen pen = new Pen(Color.Red, 14.0F);
-                    g.DrawRectangle(pen, 0, 0, size, size / 2);
+                    //g.DrawRectangle(pen, 0, 0, size, size / 3);  //不要边框
                 }
                 else if (sample.Style == EnumImageStyle.阴文)
                 {
-                    g.FillRectangle(drawBrush, 0, 0, size, size / 2);
+                    g.FillRectangle(drawBrush, 0, 0, size, size / 3); 
                 }
             }
 

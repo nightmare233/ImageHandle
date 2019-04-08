@@ -53,18 +53,18 @@
                     <input type="text" id="Text1" name="Text1" class="col-sm-1 form-control" required/>
                     <label for="Font1" class="col-sm-1 control-label">字体</label>
                     @Html.DropDownList("Font1", (List<SelectListItem>)ViewData["FontList"], "--Select One--", new { @class = "col-sm-1 form-control" })
-                    <label for="FontSize1" class="col-sm-1 control-label">文字大小</label><input type="text" name="FontSize1" class="col-sm-1 form-control" value="60" />
-                    <label for="PositionX1" class="col-sm-1 control-label">X位置</label><input type="text" name="PositionX1" class="col-sm-1 form-control" value="148" />
-                    <label for="PositionY1" class="col-sm-1 control-label">Y位置</label><input type="text" name="PositionY1" class="col-sm-1 form-control" value="50" />
+                    <label for="FontSize1" class="col-sm-1 control-label">文字大小</label><input id="FontSize1" type="text" name="FontSize1" class="col-sm-1 form-control" value="60" />
+                    <label for="PositionX1" class="col-sm-1 control-label">X位置</label><input id="PositionX1" type="text" name="PositionX1" class="col-sm-1 form-control" value="148" />
+                    <label for="PositionY1" class="col-sm-1 control-label">Y位置</label><input id="PositionY1" type="text" name="PositionY1" class="col-sm-1 form-control" value="50" />
                 </div>
                 <div id="mainText2" class="form-group">
                     <label for="Text2" class="col-sm-1 control-label">主文字2</label>
                     <input type="text" name="Text2" class="col-sm-1 form-control" />
                     <label for="Font2" class="col-sm-1 control-label">字体</label>
                     @Html.DropDownList("Font2", (List<SelectListItem>)ViewData["FontList"], "--Select One--", new { @class = "col-sm-1 form-control" })
-                    <label for="FontSize2" class="col-sm-1 control-label">文字大小</label><input type="text" name="FontSize2" class="col-sm-1 form-control" value="60" />
-                    <label for="PositionX2" class="col-sm-1 control-label">X位置</label><input type="text" name="PositionX2" class="col-sm-1 form-control" value="148" />
-                    <label for="PositionY2" class="col-sm-1 control-label">Y位置</label><input type="text" name="PositionY2" class="col-sm-1 form-control" value="158" />
+                    <label for="FontSize2" class="col-sm-1 control-label">文字大小</label><input id="FontSize2" type="text" name="FontSize2" class="col-sm-1 form-control" value="60" />
+                    <label for="PositionX2" class="col-sm-1 control-label">X位置</label><input id="PositionX2" type="text" name="PositionX2" class="col-sm-1 form-control" value="148" />
+                    <label for="PositionY2" class="col-sm-1 control-label">Y位置</label><input id="PositionY2" type="text" name="PositionY2" class="col-sm-1 form-control" value="158" />
                 </div>
 
                 <div id="mainText3" class="form-group">
@@ -72,9 +72,9 @@
                     <input type="text" name="Text3" class="col-sm-1 form-control" />
                     <label for="Font3" class="col-sm-1 control-label">字体</label>
                     @Html.DropDownList("Font3", (List<SelectListItem>)ViewData["FontList"], "--Select One--", new { @class = "col-sm-1 form-control" })
-                    <label for="FontSize3" class="col-sm-1 control-label">文字大小</label><input type="text" name="FontSize3" class="col-sm-1 form-control" value="60" />
-                    <label for="PositionX3" class="col-sm-1 control-label">X位置</label><input type="text" name="PositionX3" class="col-sm-1 form-control" value="35" />
-                    <label for="PositionY3" class="col-sm-1 control-label">Y位置</label><input type="text" name="PositionY3" class="col-sm-1 form-control" value="50" />
+                    <label for="FontSize3" class="col-sm-1 control-label">文字大小</label><input id="FontSize3" type="text" name="FontSize3" class="col-sm-1 form-control" value="60" />
+                    <label for="PositionX3" class="col-sm-1 control-label">X位置</label><input id="PositionX3" type="text" name="PositionX3" class="col-sm-1 form-control" value="35" />
+                    <label for="PositionY3" class="col-sm-1 control-label">Y位置</label><input id="PositionY3" type="text" name="PositionY3" class="col-sm-1 form-control" value="50" />
                 </div>
 
                 <div id="mainText4" class="form-group">
@@ -82,9 +82,9 @@
                     <input type="text" name="Text4" class="col-sm-1 form-control" />
                     <label for="Font4" class="col-sm-1 control-label">字体</label>
                     @Html.DropDownList("Font4", (List<SelectListItem>)ViewData["FontList"], "--Select One--", new { @class = "col-sm-1 form-control" })
-                    <label for="FontSize4" class="col-sm-1 control-label">文字大小</label><input type="text" name="FontSize4" class="col-sm-1 form-control" value="60" />
-                    <label for="PositionX4" class="col-sm-1 control-label">X位置</label><input type="text" name="PositionX4" class="col-sm-1 form-control" value="35" />
-                    <label for="PositionY4" class="col-sm-1 control-label">Y位置</label><input type="text" name="PositionY4" class="col-sm-1 form-control" value="158" />
+                    <label for="FontSize4" class="col-sm-1 control-label">文字大小</label><input id="FontSize4" type="text" name="FontSize4" class="col-sm-1 form-control" value="60" />
+                    <label for="PositionX4" class="col-sm-1 control-label">X位置</label><input id="PositionX4" type="text" name="PositionX4" class="col-sm-1 form-control" value="35" />
+                    <label for="PositionY4" class="col-sm-1 control-label">Y位置</label><input id="PositionY4" type="text" name="PositionY4" class="col-sm-1 form-control" value="158" />
                 </div>
             </div>
             <div class="form-group">
@@ -95,9 +95,9 @@
                 <input type="text" name="Text5" class="col-sm-1 form-control" />
                 <label for="Font4" class="col-sm-1 control-label">字体</label>
                 @Html.DropDownList("Font5", (List<SelectListItem>)ViewData["FontList"], "--Select One--", new { @class = "col-sm-1 form-control" })
-                <label for="FontSize5" class="col-sm-1 control-label">文字大小</label><input type="text" name="FontSize5" class="col-sm-1 form-control" value="25" />
-                <label for="PositionX5" class="col-sm-1 control-label">X位置</label><input type="text" name="PositionX5" class="col-sm-1 form-control" value="40" />
-                <label for="PositionY5" class="col-sm-1 control-label">Y位置</label><input type="text" name="PositionY5" class="col-sm-1 form-control" value="140" />
+                <label for="FontSize5" class="col-sm-1 control-label">文字大小</label><input id="FontSize5" type="text" name="FontSize5" class="col-sm-1 form-control" value="25" />
+                <label for="PositionX5" class="col-sm-1 control-label">X位置</label><input id="PositionX5" type="text" name="PositionX5" class="col-sm-1 form-control" value="40" />
+                <label for="PositionY5" class="col-sm-1 control-label">Y位置</label><input id="PositionY5" type="text" name="PositionY5" class="col-sm-1 form-control" value="140" />
                 <label for="FontOrder" class="col-sm-1 control-label">文字顺序: </label>
                 <select id="FontOrder" name="FontOrder" class="col-sm-1 form-control">
                     <option value="1" selected="selected">从左往右</option>
@@ -113,7 +113,7 @@
             <div class="form-group">
                 <div style="width:198px; height:198px">
                     <input id="ImageUrl" name="ImageUrl" value="" type="text" hidden="hidden" />
-                    <img id="sampleimage" src="" style="width:198px;" hidden="hidden" />
+                    <img id="sampleimage" src="" style="width:198px; border: 1px solid #dddddd;" hidden="hidden" />
                 </div>
             </div>
         </div>
@@ -142,6 +142,39 @@
                 $("#uploadDiv").hide()
             }
         });
+
+        //改变默认文字位置。
+        $("#ImageType").change(function () { 
+            var type = $("#ImageType").val();
+            if (type != "2" && type != "3") {  //个性签名,扁章
+                $("#PositionX1").val("0");
+                $("#PositionX2").val("70");
+                $("#PositionX3").val("140");
+                $("#PositionX4").val("210");
+                $("#PositionY1").val("18");
+                $("#PositionY2").val("18");
+                $("#PositionY3").val("18");
+                $("#PositionY4").val("18");
+                $("#FontSize1").val("50");
+                $("#FontSize2").val("50");
+                $("#FontSize3").val("50");
+                $("#FontSize4").val("50");
+            }
+            else if (type == "2" || type == "3") {  //方章,圆形章
+                $("#PositionX1").val("148");
+                $("#PositionX2").val("148");
+                $("#PositionX3").val("35");
+                $("#PositionX4").val("35");
+                $("#PositionY1").val("50");
+                $("#PositionY2").val("158");
+                $("#PositionY3").val("50");
+                $("#PositionY4").val("158");
+                $("#FontSize1").val("60");
+                $("#FontSize2").val("60");
+                $("#FontSize3").val("60");
+                $("#FontSize4").val("60");
+            }
+        });
     });
     function AddMainText() {
         if ($('#mainText2').is(':hidden')) { $("#mainText2").show() }
@@ -154,8 +187,12 @@
     }
     function CreateImage() {
         var name = $("#Name").val();
-        var text1 = $("#Text1").val();
-        
+        var text1 = $("#Text1").val(); 
+        if (name == "" || name == null) {
+            alert("请先输入样式名称！");
+            return;
+        } 
+
         var formData = new FormData($("#itemForm")[0]);
         $.ajax({
             dataType: "json",
