@@ -28,7 +28,7 @@ namespace Models
                     g = Graphics.FromImage(imgBack);
                     if (sample.Style == EnumImageStyle.阳文)
                     {
-                        Pen pen = new Pen(Color.Red, 14.0F);
+                        Pen pen = new Pen(Color.Red, 28.0F);
                         g.DrawRectangle(pen, 0, 0, size, size);
                     }
                     else if (sample.Style == EnumImageStyle.阴文)

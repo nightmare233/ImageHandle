@@ -227,7 +227,24 @@ namespace WebApplication.Controllers
         // GET: Sample/Edit/5
         public ActionResult Update(int id)
         {
-            return View();
+            Sample sample = sampleService.GetSample(id, true);
+            InitData();
+          
+            List<SelectListItem> sli = new List<SelectListItem>();
+            if (sample.IfHasBgImg)
+            {
+                sli.Add(new SelectListItem() { Value = "0", Text = "无背景图" });
+                sli.Add(new SelectListItem() { Value = "1", Text = "有背景图", Selected = true });
+
+            }
+            else
+            {
+                sli.Add(new SelectListItem() { Value = "0", Text = "无背景图", Selected = true });
+                sli.Add(new SelectListItem() { Value = "1", Text = "有背景图" });
+            }
+           var a = sli.Select(t => t.Value == sample.IfHasBgImg.ToString()).FirstOrDefault();
+            ViewBag.IfHasBgImg = sli;
+            return View(sample);
         }
 
         // POST: Sample/Edit/5

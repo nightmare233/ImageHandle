@@ -10,37 +10,24 @@
         <div>
             <div class="form-group">
                 <label for="Name" class="col-sm-1 control-label">名称</label>
-                <input type="text" name="Name" class="form-control" value="@Model.Name"/>
+                <input id="Name" type="text" name="Name" class="form-control" required placeholder="样式名称" value="@Model.Name" />
             </div>
             <div class="form-group">
                 <label for="ImageType" class="col-sm-1 control-label">印章类型</label>
-                <select id="ImageType" name="ImageType" class="dropdown form-control">
-                    <option value="2" selected="selected">圆形章</option>
-                    <option value="3">方形章</option>
-                    <option value="4">扁章</option>
-                    <option value="5">闲章</option>
-                    <option value="6">儿童印章</option>
-                    <option value="7">个性签名章</option>
-                </select>
+                <input name="ImageType" value="@Model.ImageType" disabled="disabled" class="form-control"/>
             </div>
             <div class="form-group">
                 <label for="Style" class="col-sm-1 control-label">样式</label>
-                <select id="Style" name="Style" class="dropdown form-control">
-                    <option value="0" selected="selected">阴文</option>
-                    <option value="1">阳文</option>
-                </select>
+                <input name="Style" value="@Model.Style" disabled="disabled" class="form-control"/>
             </div>
             <div class="form-group">
                 <label for="IfHasBgImage" class="col-sm-1 control-label">背景图</label>
-                <select id="IfHasBgImage" name="IfHasBgImage" class="dropdown form-control">
-                    <option value="0" selected="selected">无背景图</option>
-                    <option value="1">有背景图</option>
-                </select>
+                @Html.DropDownList("IfHasBgImage", new SelectList(ViewBag.IfHasBgImg, "Value", "Text", "Selected"), new { @class = "dropdown form-control" })
             </div>
             <div class="row">
                 <div class="form-group" id="uploadDiv">
                     @*上传背景图片*@
-                    <input type="file" name="file" class="col-sm-3" />
+                    <input type="file" id="file" name="file" class="col-sm-3" />
                     <input type="button" value="上传背景图" onclick="UploadFile(); return false;" class="col-sm-2" />
                     <input id="BgImage" name="BgImage" value="" type="text" hidden="hidden" />
                 </div>
@@ -48,7 +35,7 @@
             <div id="mainTextDiv">
                 <div id="mainText1" class="form-group">
                     <label for="Text1" class="col-sm-1 control-label">主文字</label>
-                    <input type="text" name="Text1" class="col-sm-1 form-control" />
+                    <input type="text" id="Text1" name="Text1" class="col-sm-1 form-control" required />
                     <label for="Font1" class="col-sm-1 control-label">字体</label>
                     @Html.DropDownList("Font1", (List<SelectListItem>)ViewData["FontList"], "--Select One--", new { @class = "col-sm-1 form-control" })
                     <label for="FontSize1" class="col-sm-1 control-label">文字大小</label><input type="text" name="FontSize1" class="col-sm-1 form-control" value="60" />
@@ -122,69 +109,3 @@
         </div>
     </fieldset>
 </form>
-
-<script src="~/Scripts/jquery.form.min.js"></script>
-@*<script src="~/Scripts/ajaxfileupload.js"></script>*@
-<script type="text/javascript" language="javascript">
-    $(document).ready(function () {
-        $("#mainText2").hide();
-        $("#mainText3").hide();
-        $("#mainText4").hide();
-        $("#smalltext").hide();
-        $("#uploadDiv").hide();
-        $("#IfHasBgImage").change(function () {
-            if ($("#IfHasBgImage").val() == "1") {
-                $("#uploadDiv").show()
-            }
-            else {
-                $("#uploadDiv").hide()
-            }
-        });
-    });
-    function AddMainText() {
-        if ($('#mainText2').is(':hidden')) { $("#mainText2").show() }
-        else if ($('#mainText3').is(':hidden')) { $("#mainText3").show() }
-        else if ($('#mainText4').is(':hidden')) { $("#mainText4").show() }
-        else { alert("最多支持4个字"); }
-    }
-    function AddSmallText() {
-        $("#smalltext").toggle();
-    }
-    function CreateImage() {
-        var formData = new FormData($("#itemForm")[0]);
-        $.ajax({
-            dataType: "json",
-            type: "post",
-            url: '/sample/Create?type=CreateImage',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (data) {
-                $("#ImageUrl").val(data);
-                $("#sampleimage").attr('src', data);
-                $("#sampleimage").show();
-            },
-            error: function (response, ajaxOptions, thrownError) {
-                alert("生成图片发生错误");
-            }
-        });
-    }
-    function UploadFile() {
-        var formData = new FormData($("#itemForm")[0]);
-        $.ajax({
-            dataType: "json",
-            type: "post",
-            url: '/sample/Create?type=UploadFile',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (data) {
-                $("#BgImage").val(data);
-                alert("背景图片上传成功");
-            },
-            error: function (response, ajaxOptions, thrownError) {
-                alert("背景图片上传发生错误");
-            }
-        });
-    }
-</script>
