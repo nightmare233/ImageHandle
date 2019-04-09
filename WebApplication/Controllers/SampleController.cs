@@ -230,20 +230,27 @@ namespace WebApplication.Controllers
             Sample sample = sampleService.GetSample(id, true);
             InitData();
           
-            List<SelectListItem> sli = new List<SelectListItem>();
-            if (sample.IfHasBgImg)
-            {
-                sli.Add(new SelectListItem() { Value = "0", Text = "无背景图" });
-                sli.Add(new SelectListItem() { Value = "1", Text = "有背景图", Selected = true });
+            //List<SelectListItem> sli = new List<SelectListItem>();
+            //if (sample.IfHasBgImg)
+            //{
+            //    sli.Add(new SelectListItem() { Value = "0", Text = "无背景图", Selected = false });
+            //    sli.Add(new SelectListItem() { Value = "1", Text = "有背景图", Selected = true });
 
-            }
-            else
+            //}
+            //else
+            //{
+            //    sli.Add(new SelectListItem() { Value = "0", Text = "无背景图", Selected = true });
+            //    sli.Add(new SelectListItem() { Value = "1", Text = "有背景图", Selected = false });
+            //}
+            ////var a = sli.Select(t => t.Value == sample.IfHasBgImg.ToString()).FirstOrDefault();
+            //SelectList select = new SelectList(sli, "Value", "Text");
+            ViewBag.VBIfHasBgImg = sample.IfHasBgImg?"1":"0";
+            string font = "";
+            for (int i=0;i<sample.MainText.Count;i++)
             {
-                sli.Add(new SelectListItem() { Value = "0", Text = "无背景图", Selected = true });
-                sli.Add(new SelectListItem() { Value = "1", Text = "有背景图" });
+                font += sample.MainText[i].Font + "|"; 
             }
-           var a = sli.Select(t => t.Value == sample.IfHasBgImg.ToString()).FirstOrDefault();
-            ViewBag.IfHasBgImg = sli;
+            ViewBag.Font = font;
             return View(sample);
         }
 

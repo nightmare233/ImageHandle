@@ -14,15 +14,20 @@
             </div>
             <div class="form-group">
                 <label for="ImageType" class="col-sm-1 control-label">印章类型</label>
-                <input name="ImageType" value="@Model.ImageType" disabled="disabled" class="form-control"/>
+                <input name="ImageType" value="@Model.ImageType" disabled="disabled" class="form-control" />
             </div>
             <div class="form-group">
                 <label for="Style" class="col-sm-1 control-label">样式</label>
-                <input name="Style" value="@Model.Style" disabled="disabled" class="form-control"/>
+                <input name="Style" value="@Model.Style" disabled="disabled" class="form-control" />
             </div>
             <div class="form-group">
-                <label for="IfHasBgImage" class="col-sm-1 control-label">背景图</label>
-                @Html.DropDownList("IfHasBgImage", new SelectList(ViewBag.IfHasBgImg, "Value", "Text", "Selected"), new { @class = "dropdown form-control" })
+                <label for="DDLIfHasBgImg" class="col-sm-1 control-label">背景图</label>
+                <select id="DDLIfHasBgImg" name="DDLIfHasBgImg" class="dropdown form-control">
+                    <option value="0" selected="selected">无背景图</option>
+                    <option value="1">有背景图</option>
+                </select>
+                @*@Html.DropDownList("DDLIfHasBgImg", new SelectList(ViewBag.VBIfHasBgImg, "Value", "Text"), new { @class = "dropdown form-control" })*@
+                @* @Html.DropDownList("DDLIfHasBgImg", ViewBag.VBIfHasBgImg as SelectList, new { @class = "dropdown form-control" })*@
             </div>
             <div class="row">
                 <div class="form-group" id="uploadDiv">
@@ -33,49 +38,60 @@
                 </div>
             </div>
             <div id="mainTextDiv">
-                <div id="mainText1" class="form-group">
+                <div id="mainText1" class="form-group ">
                     <label for="Text1" class="col-sm-1 control-label">主文字</label>
-                    <input type="text" id="Text1" name="Text1" class="col-sm-1 form-control" required />
+                    <input type="text" id="Text1" name="Text1" class="col-sm-1 form-control" required value="@Model.MainText[0].Text" />
                     <label for="Font1" class="col-sm-1 control-label">字体</label>
                     @Html.DropDownList("Font1", (List<SelectListItem>)ViewData["FontList"], "--Select One--", new { @class = "col-sm-1 form-control" })
-                    <label for="FontSize1" class="col-sm-1 control-label">文字大小</label><input type="text" name="FontSize1" class="col-sm-1 form-control" value="60" />
-                    <label for="PositionX1" class="col-sm-1 control-label">X位置</label><input type="text" name="PositionX1" class="col-sm-1 form-control" value="148" />
-                    <label for="PositionY1" class="col-sm-1 control-label">Y位置</label><input type="text" name="PositionY1" class="col-sm-1 form-control" value="50" />
+                    <label for="FontSize1" class="col-sm-1 control-label">文字大小</label><input type="text" name="FontSize1" class="col-sm-1 form-control" value="@Model.MainText[0].FontSize" />
+                    <label for="PositionX1" class="col-sm-1 control-label">X位置</label><input type="text" name="PositionX1" class="col-sm-1 form-control" value="@Model.MainText[0].PositionX" />
+                    <label for="PositionY1" class="col-sm-1 control-label">Y位置</label><input type="text" name="PositionY1" class="col-sm-1 form-control" value="@Model.MainText[0].PositionY" />
                 </div>
-                <div id="mainText2" class="form-group">
-                    <label for="Text2" class="col-sm-1 control-label">主文字2</label>
-                    <input type="text" name="Text2" class="col-sm-1 form-control" />
-                    <label for="Font2" class="col-sm-1 control-label">字体</label>
-                    @Html.DropDownList("Font2", (List<SelectListItem>)ViewData["FontList"], "--Select One--", new { @class = "col-sm-1 form-control" })
-                    <label for="FontSize2" class="col-sm-1 control-label">文字大小</label><input type="text" name="FontSize2" class="col-sm-1 form-control" value="60" />
-                    <label for="PositionX2" class="col-sm-1 control-label">X位置</label><input type="text" name="PositionX2" class="col-sm-1 form-control" value="148" />
-                    <label for="PositionY2" class="col-sm-1 control-label">Y位置</label><input type="text" name="PositionY2" class="col-sm-1 form-control" value="158" />
-                </div>
+                @{
+                    if (Model.MainText.Count >= 2)
+                    {
+                        <div id="mainText2" class="form-group ">
+                            <label for="Text2" class="col-sm-1 control-label">主文字2</label>
+                            <input type="text" name="Text2" class="col-sm-1 form-control" value="@Model.MainText[1].Text" />
+                            <label for="Font2" class="col-sm-1 control-label">字体</label>
+                            @Html.DropDownList("Font2", (List<SelectListItem>)ViewData["FontList"], "--Select One--", new { @class = "col-sm-1 form-control" })
+                            <label for="FontSize2" class="col-sm-1 control-label">文字大小</label><input type="text" name="FontSize2" class="col-sm-1 form-control" value="@Model.MainText[1].FontSize" />
+                            <label for="PositionX2" class="col-sm-1 control-label">X位置</label><input type="text" name="PositionX2" class="col-sm-1 form-control" value="@Model.MainText[1].PositionX" />
+                            <label for="PositionY2" class="col-sm-1 control-label">Y位置</label><input type="text" name="PositionY2" class="col-sm-1 form-control" value="@Model.MainText[1].PositionY" />
+                        </div>
+                    }
 
-                <div id="mainText3" class="form-group">
-                    <label for="Text3" class="col-sm-1 control-label">主文字3</label>
-                    <input type="text" name="Text3" class="col-sm-1 form-control" />
-                    <label for="Font3" class="col-sm-1 control-label">字体</label>
-                    @Html.DropDownList("Font3", (List<SelectListItem>)ViewData["FontList"], "--Select One--", new { @class = "col-sm-1 form-control" })
-                    <label for="FontSize3" class="col-sm-1 control-label">文字大小</label><input type="text" name="FontSize3" class="col-sm-1 form-control" value="60" />
-                    <label for="PositionX3" class="col-sm-1 control-label">X位置</label><input type="text" name="PositionX3" class="col-sm-1 form-control" value="35" />
-                    <label for="PositionY3" class="col-sm-1 control-label">Y位置</label><input type="text" name="PositionY3" class="col-sm-1 form-control" value="50" />
-                </div>
+                    if (Model.MainText.Count >=3)
+                    {
 
-                <div id="mainText4" class="form-group">
-                    <label for="Text4" class="col-sm-1 control-label">主文字4</label>
-                    <input type="text" name="Text4" class="col-sm-1 form-control" />
-                    <label for="Font4" class="col-sm-1 control-label">字体</label>
-                    @Html.DropDownList("Font4", (List<SelectListItem>)ViewData["FontList"], "--Select One--", new { @class = "col-sm-1 form-control" })
-                    <label for="FontSize4" class="col-sm-1 control-label">文字大小</label><input type="text" name="FontSize4" class="col-sm-1 form-control" value="60" />
-                    <label for="PositionX4" class="col-sm-1 control-label">X位置</label><input type="text" name="PositionX4" class="col-sm-1 form-control" value="35" />
-                    <label for="PositionY4" class="col-sm-1 control-label">Y位置</label><input type="text" name="PositionY4" class="col-sm-1 form-control" value="158" />
-                </div>
+                        <div id="mainText3" class="form-group ">
+                            <label for="Text3" class="col-sm-1 control-label">主文字3</label>
+                            <input type="text" name="Text3" class="col-sm-1 form-control" @Model.MainText[2].Text/>
+                            <label for="Font3" class="col-sm-1 control-label">字体</label>
+                            @Html.DropDownList("Font3", (List<SelectListItem>)ViewData["FontList"], "--Select One--", new { @class = "col-sm-1 form-control" })
+                            <label for="FontSize3" class="col-sm-1 control-label">文字大小</label><input type="text" name="FontSize3" class="col-sm-1 form-control" value="@Model.MainText[2].FontSize" />
+                            <label for="PositionX3" class="col-sm-1 control-label">X位置</label><input type="text" name="PositionX3" class="col-sm-1 form-control" value="@Model.MainText[2].PositionX" />
+                            <label for="PositionY3" class="col-sm-1 control-label">Y位置</label><input type="text" name="PositionY3" class="col-sm-1 form-control" value="@Model.MainText[2].PositionY" />
+                        </div>
+                    }
+                    if (Model.MainText.Count == 4)
+                    {
+                        <div id="mainText4" class="form-group ">
+                            <label for="Text4" class="col-sm-1 control-label">主文字4</label>
+                            <input type="text" name="Text4" class="col-sm-1 form-control" value="@Model.MainText[3].Text" />
+                            <label for="Font4" class="col-sm-1 control-label">字体</label>
+                            @Html.DropDownList("Font4", (List<SelectListItem>)ViewData["FontList"], "--Select One--", new { @class = "col-sm-1 form-control" })
+                            <label for="FontSize4" class="col-sm-1 control-label">文字大小</label><input type="text" name="FontSize4" class="col-sm-1 form-control" value="@Model.MainText[3].FontSize" />
+                            <label for="PositionX4" class="col-sm-1 control-label">X位置</label><input type="text" name="PositionX4" class="col-sm-1 form-control" value="@Model.MainText[3].PositionX" />
+                            <label for="PositionY4" class="col-sm-1 control-label">Y位置</label><input type="text" name="PositionY4" class="col-sm-1 form-control" value="@Model.MainText[3].PositionY" />
+                        </div>
+                    }
+                }
             </div>
             <div class="form-group">
                 <a onclick="AddMainText(); return false;" class="btn btn-link">添加主文字</a>
             </div>
-            <div id="smalltext" class="form-group">
+            <div id="smalltext" class="form-group hidden">
                 <label for="Text5" class="col-sm-1 control-label">副文字</label>
                 <input type="text" name="Text5" class="col-sm-1 form-control" />
                 <label for="Font4" class="col-sm-1 control-label">字体</label>
@@ -109,3 +125,24 @@
         </div>
     </fieldset>
 </form>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var ifhasbgimg = '@ViewBag.VBIfHasBgImg';
+        $("#DDLIfHasBgImg").val(ifhasbgimg);
+        var maintextnumber = '@Model.MainText.Count';
+
+        var str = '@ViewBag.Font';
+        var arr = new Array();
+        arr = str.split('|');
+        for (var i = 0; i < maintextnumber; i++)
+        {
+            var id = (i + 1);
+             
+            var value = arr[i].replace('|', '');
+            //alert($(eval("Font" + id)).filter(function () { return $(this).text() == value }));
+            //$("#Font1 option").filter(function () { return $(this).text() == 'Arial' }).attr("selected", true);
+            $("#Font" + id + " option").filter(function () { return $(this).text() == value }).attr("selected", true);
+        }
+    });
+
+</script>
