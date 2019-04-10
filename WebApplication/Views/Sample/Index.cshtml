@@ -132,7 +132,7 @@
                                         <a href="../UploadFiles/SampleImgs/@item.ImageUrl" target="_blank">打开图片</a>
                                     </td>
                                     <td style="width: 100px">
-                                        @Html.ActionLink("编辑", "Update", new { id = item.Id });
+                                        @Html.ActionLink("编辑", "Update", new { id = item.Id })
                                         <a href="#" onClick="Delete(@item.Id); return false;">删除</a>
                                     </td>
                                 </tr>
