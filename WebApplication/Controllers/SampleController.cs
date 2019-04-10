@@ -222,9 +222,7 @@ namespace WebApplication.Controllers
                 return View("Create");
             }
         }
-         
 
-        // GET: Sample/Edit/5
         public ActionResult Update(int id)
         {
             Sample sample = sampleService.GetSample(id, true);
@@ -251,22 +249,140 @@ namespace WebApplication.Controllers
                 font += sample.MainText[i].Font + "|"; 
             }
             ViewBag.Font = font;
+            if (sample.IfHasSmallText)
+            {
+                ViewBag.VBSmallFont = sample.SmallText.Font;
+                ViewBag.VBSmallOrder = sample.SmallText.Order;
+            }
+            else
+            {
+                ViewBag.VBSmallFont = "1";
+                ViewBag.VBSmallOrder = "1";
+            }
+            
             return View(sample);
         }
 
-        // POST: Sample/Edit/5
         [HttpPost]
-        public ActionResult Update(int id, FormCollection collection)
+        public ActionResult Update(FormCollection collection, string type)
         {
             try
             {
-                // TODO: Add update logic here
+                #region init sample data 
+                int sampleId = int.Parse(collection["ID"]);
+                Sample sample = sampleService.GetSample(sampleId, true);
+                sample.IfHasBgImg = Convert.ToBoolean(int.Parse(collection["DDLIfHasBgImg"]));
+                if (!sample.IfHasBgImg)
+                    sample.BgImage = "";
+                else
+                    sample.BgImage = collection["BgImage"];
+                if (type == "UploadFile")  //处理上传背景图片
+                {
+                    HttpFileCollection files = System.Web.HttpContext.Current.Request.Files;
+                    if (files.Count == 0)
+                    {
+                        return Json(new { status = "Fail", message = "请先上传文件！" }, JsonRequestBehavior.AllowGet);
+                    }
+                    try
+                    {
+                        var fullFileName = $"/UploadFiles/BgImages/{Guid.NewGuid() + "_" + files[0].FileName}";
+                        if (!System.IO.File.Exists(fullFileName))
+                        {
+                            files[0].SaveAs(Server.MapPath(fullFileName));
+                        }
+                        sample.BgImage = fullFileName;
+                        sample.IfHasBgImg = true;
+                        return Json(fullFileName);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex.Message);
+                        return Json(new { status = "Fail", message = ex.Message }, JsonRequestBehavior.AllowGet);
+                    }
+                }
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
+                sample.Name = collection["Name"];
+                sample.ImageUrl = collection["ImageUrl"];
+                //sample.ImageType = (EnumImageType)int.Parse(collection["ImageType"]);
+                //sample.Style = (EnumImageStyle)int.Parse(collection["Style"]);
+                
+                List<ImageText> mainTexts = new List<ImageText>();
+                ImageText imageText = null;
+                ImageFont imageFont = null;
+                for (int i = 1; i < 5; i++)
+                {
+                    if (!string.IsNullOrEmpty(collection["Text" + i]))
+                    {
+                        imageText = new ImageText();
+                        imageText.Text = collection["Text" + i];
+                        int fontId = int.Parse(collection["Font" + i]);
+                        imageFont = imageFontService.GetById(fontId);
+                        imageText.Font = imageFont.name;
+                        imageText.imageFont = imageFont;
+                        imageText.FontSize = int.Parse(collection["FontSize" + i]);
+                        imageText.PositionX = int.Parse(collection["PositionX" + i]);
+                        imageText.PositionY = int.Parse(collection["PositionY" + i]);
+                        imageText.Type = (int)EnumTextType.MainText;
+                        imageText.Order = true;
+                        mainTexts.Add(imageText);
+                    }
+                }
+                sample.MainText = mainTexts;
+                sample.MainTextNumber = mainTexts.Count;
+
+                if (!string.IsNullOrEmpty(collection["Text5"]))  //small text
+                {
+                    imageText = new ImageText();
+                    imageText.Text = collection["Text5"];
+                    int fontId = int.Parse(collection["Font5"]);
+                    imageFont = imageFontService.GetById(fontId);
+                    imageText.Font = imageFont.name;
+                    imageText.imageFont = imageFont;
+                    imageText.FontSize = int.Parse(collection["FontSize5"]);
+                    imageText.PositionX = int.Parse(collection["PositionX5"]);
+                    imageText.PositionY = int.Parse(collection["PositionY5"]);
+                    imageText.Type = (int)EnumTextType.SmallText;
+                    imageText.Order = Convert.ToBoolean(int.Parse(collection["FontOrder"]));
+                    sample.IfHasSmallText = true;
+                    sample.SmallText = imageText;
+                }
+
+                #endregion
+                if (type == "保存")
+                {
+                    if (string.IsNullOrEmpty(sample.ImageUrl))
+                    {
+                        throw new Exception("请先生成样式图片！");
+                    }
+                    sampleService.Update(sample);
+                    return RedirectToAction("Index");
+                }
+                else if (type == "CreateImage")
+                {
+                    try
+                    {
+                        InitData();
+                        if (!CheckUpdateNameUnique(sample.Name, sample.Id))
+                        {
+                            return Json(new { status = "Fail", message = "该名称已经存在，请使用唯一的名称！" }, JsonRequestBehavior.AllowGet);
+                        }
+                        string imageUrl = ImageHelp.CreateImage(sample, true, null);
+                        return Json(imageUrl);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex.Message);
+                        return Json(new { status = "Fail", message = ex.Message }, JsonRequestBehavior.AllowGet);
+                    }
+                }
                 return View();
+            }
+            catch (Exception ex)
+            {
+                InitData();
+                ViewBag.Message = ex.Message;
+                log.Error(ex);
+                return View("Update");
             }
         }
 
@@ -303,6 +419,18 @@ namespace WebApplication.Controllers
             var sample = sampleService.GetSampleByName(name, false);
             if (sample == null)
                 return true;
+            return false;
+        }
+
+        private bool CheckUpdateNameUnique(string name, int sampleId)
+        {
+            var sample = sampleService.GetSampleByName(name, false);
+            if (sample == null)
+                return true;
+            else
+            {
+                if (sample.Id == sampleId) return true;
+            }
             return false;
         }
     }
