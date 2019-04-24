@@ -15,7 +15,7 @@
             </div>
             <div class="form-group">
                 <label for="ImageType" class="col-sm-1 control-label">印章类型</label>
-                <input name="ImageType" value="@Model.ImageType" disabled="disabled" class="form-control" />
+                <input name="ImageType" id="ImageType" value="@Model.ImageType" disabled="disabled" class="form-control" />
             </div>
             <div class="form-group">
                 <label for="Style" class="col-sm-1 control-label">样式</label>
@@ -26,9 +26,7 @@
                 <select id="DDLIfHasBgImg" name="DDLIfHasBgImg" class="dropdown form-control">
                     <option value="0" selected="selected">无背景图</option>
                     <option value="1">有背景图</option>
-                </select>
-                @*@Html.DropDownList("DDLIfHasBgImg", new SelectList(ViewBag.VBIfHasBgImg, "Value", "Text"), new { @class = "dropdown form-control" })*@
-                @* @Html.DropDownList("DDLIfHasBgImg", ViewBag.VBIfHasBgImg as SelectList, new { @class = "dropdown form-control" })*@
+                </select> 
             </div>
             <div class="row">
                 <div class="form-group" id="uploadDiv">
@@ -187,7 +185,10 @@
 </form>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#uploadDiv").hide();
+        var type = $("#ImageType").val();
+        if (type != "儿童印章") {
+            $("#uploadDiv").hide();
+        }
         $("#DDLIfHasBgImg").change(function () {
             if ($("#DDLIfHasBgImg").val() == "1") {
                 $("#uploadDiv").show()
