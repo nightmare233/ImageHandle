@@ -60,7 +60,7 @@ namespace WebApplication.Application
                 tempSample.ImageType = (EnumImageType)int.Parse(row["ImageType"].ToString());
                 tempSample.Style = (EnumImageStyle)int.Parse(row["Style"].ToString());
                 tempSample.ImageUrl = row["ImageURL"].ToString();
-                tempSample.BgImage = rows[0]["BgImage"].ToString();
+                tempSample.BgImage = row["BgImage"].ToString();
                 tempSample.IfHasBgImg = string.IsNullOrEmpty(tempSample.BgImage) ? false : true;
                 if (ifGetTexts)
                 {
@@ -290,5 +290,100 @@ namespace WebApplication.Application
 
             return tempSample;
         }
+
+        //update sample
+        public void Update(Sample sample)
+        {
+            const string sql1 = @"UPDATE sample SET NAME=@NAME, ImageSizeX=@ImageSizeX, ImageSizeY=@ImageSizeY, ImageURL=@ImageURL, 
+                                BgImage=@BgImage, MainTextNumber=@MainTextNumber, IfHasSmallText=@IfHasSmallText WHERE Id = @ID";
+
+            const string sql2 = @"INSERT into imagetext(SampleId, Type, Text, Font, PositionX, PositionY, FontSize, FontOrder)  
+                                        VALUES(@SampleId, @Type, @Text, @Font, @PositionX, @PositionY, @FontSize, @FontOrder)";
+            const string sql3 = @"delete from imagetext WHERE SampleId = @SampleId";
+            using (contexto.connection)
+            {
+                contexto.OpenConnection();
+                MySqlTransaction transaction = contexto.connection.BeginTransaction();
+                MySqlCommand cmd = contexto.connection.CreateCommand();
+                cmd.Transaction = transaction;
+
+                try
+                {
+                    //update sample table
+                    cmd.CommandText = sql1;
+                    var parameters = new Dictionary<string, object>
+                            {
+                                { "ID", sample.Id },
+                                //{ "ImageType", sample.ImageType},
+                                { "Name", sample.Name},
+                                { "ImageSizeX", sample.ImageSizeX},
+                                { "ImageSizeY", sample.ImageSizeY},
+                                //{ "Style", sample.Style},
+                                { "ImageURL", sample.ImageUrl},
+                                { "BgImage", sample.BgImage},
+                                { "MainTextNumber", sample.MainTextNumber},
+                                { "IfHasSmallText", sample.IfHasSmallText}
+                            };
+                    contexto.AddParams(cmd, parameters);
+                    cmd.ExecuteNonQuery();
+                    cmd.Parameters.Clear();
+                    //delete texts
+                    cmd.CommandText = sql3;
+                    var parameters2 = new Dictionary<string, object>
+                            {
+                                { "SampleId", sample.Id}
+                            };
+                    contexto.AddParams(cmd, parameters2);
+                    cmd.ExecuteNonQuery();
+                    cmd.Parameters.Clear();
+                    //insert texts
+                    cmd.CommandText = sql2;
+                    foreach (var item in sample.MainText)  //insert maintext
+                    {
+                        Dictionary<string, object> param = new Dictionary<string, object>
+                            {
+                                { "SampleId", sample.Id},
+                                { "Type", item.Type},
+                                { "Text", item.Text},
+                                { "Font", item.Font},
+                                { "PositionX", item.PositionX},
+                                { "PositionY", item.PositionY},
+                                { "FontSize", item.FontSize},
+                                { "FontOrder", item.Order}
+                            };
+                        contexto.AddParams(cmd, param);
+                        cmd.ExecuteNonQuery();
+                        cmd.Parameters.Clear();
+                    }
+                    if (sample.IfHasSmallText) //add small text
+                    {
+                        var param = new Dictionary<string, object>
+                            {
+                                { "SampleId", sample.Id},
+                                { "Type", sample.SmallText.Type},
+                                { "Text", sample.SmallText.Text},
+                                { "Font", sample.SmallText.Font},
+                                { "PositionX", sample.SmallText.PositionX},
+                                { "PositionY", sample.SmallText.PositionY},
+                                { "FontSize", sample.SmallText.FontSize},
+                                { "FontOrder", sample.SmallText.Order}
+                            };
+                        contexto.AddParams(cmd, param);
+                        cmd.ExecuteNonQuery();
+                    }
+                    transaction.Commit(); 
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw;
+                }
+                finally
+                {
+                    contexto.CloseConnection();
+                }
+            }
+        }
+
     }
 }

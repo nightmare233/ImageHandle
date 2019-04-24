@@ -102,8 +102,8 @@
                             @foreach (var item in @Model)
                             {
                                 <tr>
-                                    <td><a>@item.Id</a></td>
-                                    <td><a>@item.Name</a></td>
+                                    <td>@item.Id</td>
+                                    <td>@item.Name</td>
                                     <td>@item.ImageType</td>
                                     <td>@item.Style</td>
                                     <td>
@@ -132,6 +132,7 @@
                                         <a href="../UploadFiles/SampleImgs/@item.ImageUrl" target="_blank">打开图片</a>
                                     </td>
                                     <td style="width: 100px">
+                                        @Html.ActionLink("编辑", "Update", new { id = item.Id })
                                         <a href="#" onClick="Delete(@item.Id); return false;">删除</a>
                                     </td>
                                 </tr>
