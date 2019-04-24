@@ -149,7 +149,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Common\CacheHelp.cs" />
-    <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\HtmlHelperCheckBoxListExtensions.cs" />
     <Compile Include="Common\UserHelper.cs" />
     <Compile Include="Common\Utils.cs" />
@@ -293,7 +292,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>51093</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:51093/</IISUrl>
+          <IISUrl>http://localhost:51094/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -77,14 +77,14 @@ namespace Models
             else if (sample.ImageType == EnumImageType.儿童印章) //必须要有背景图
             {
                 if (!string.IsNullOrEmpty(sample.BgImage))
-                {
+                { 
                     string bgImgPath = AppDomain.CurrentDomain.BaseDirectory + sample.BgImage;
                     imgBack = Image.FromFile(bgImgPath);     //相框图片 
                     g = Graphics.FromImage(imgBack);
                 }
                 else
                 {
-                    return null;
+                    throw new Exception("请先上传背景图片！");
                 }
             }
             else if (sample.ImageType == EnumImageType.个性签名章)  //纯文字，没有边框，没有背景,
@@ -108,7 +108,7 @@ namespace Models
             {
                 for (int i = 0; i < sample.MainTextNumber; i++)
                 {
-                    DrawMainText(g, sample.MainText[i], sample.Style);
+                    DrawMainText(g, sample.MainText[i], sample.Style, sample.ImageType);
                 }
             }
             else
@@ -117,7 +117,7 @@ namespace Models
             }
             if (sample.IfHasSmallText)
             {
-                DrawSmallText(g, sample.SmallText, sample.Style);
+                DrawSmallText(g, sample.SmallText, sample.Style, sample.ImageType);
             }
             #region 测试 瞄准线，后面要删掉。
             //if(ifSample)
@@ -143,7 +143,7 @@ namespace Models
             return filename;
         }
 
-        private static void DrawMainText(Graphics g, ImageText mainText, EnumImageStyle style)
+        private static void DrawMainText(Graphics g, ImageText mainText, EnumImageStyle style, EnumImageType type)
         {
             FontFamily font = null; 
             if (!mainText.imageFont.ifSystem)
@@ -164,18 +164,25 @@ namespace Models
             Font drawFont = new Font(font, mainText.FontSize);    //实例化字体            
             SolidBrush drawBrush;
             float x = mainText.PositionX, y = mainText.PositionY;
-            if (style == EnumImageStyle.阳文)
+            if (type == EnumImageType.儿童印章)
             {
-                drawBrush = new SolidBrush(Color.Red);
+                drawBrush = new SolidBrush(Color.Black); //儿童印章不区分阴文和阳文，统一用黑色文字。
             }
             else
             {
-                drawBrush = new SolidBrush(Color.White);
+                if (style == EnumImageStyle.阳文)
+                {
+                    drawBrush = new SolidBrush(Color.Red);
+                }
+                else
+                {
+                    drawBrush = new SolidBrush(Color.White);
+                }
             }
             g.DrawString(drawString, drawFont, drawBrush, x, y);
         }
 
-        private static void DrawSmallText(Graphics g, ImageText smallText, EnumImageStyle style)
+        private static void DrawSmallText(Graphics g, ImageText smallText, EnumImageStyle style, EnumImageType type)
         {
             FontFamily font = null;
             if (!smallText.imageFont.ifSystem)
@@ -202,13 +209,20 @@ namespace Models
             Font drawFont = new Font(font, smallText.FontSize); //实例化字体             
             SolidBrush drawBrush;
             float x = smallText.PositionX; float y = smallText.PositionY;
-            if (style == EnumImageStyle.阳文)
+            if (type == EnumImageType.儿童印章)
             {
-                drawBrush = new SolidBrush(Color.Red);
+                drawBrush = new SolidBrush(Color.Black);
             }
             else
             {
-                drawBrush = new SolidBrush(Color.White);
+                if (style == EnumImageStyle.阳文)
+                {
+                    drawBrush = new SolidBrush(Color.Red);
+                }
+                else
+                {
+                    drawBrush = new SolidBrush(Color.White);
+                }
             }
             g.DrawString(drawString, drawFont, drawBrush, x, y);
         }

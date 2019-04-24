@@ -145,34 +145,69 @@
 
         //改变默认文字位置。
         $("#ImageType").change(function () { 
-            var type = $("#ImageType").val();
-            if (type != "2" && type != "3") {  //个性签名,扁章
-                $("#PositionX1").val("0");
-                $("#PositionX2").val("70");
-                $("#PositionX3").val("140");
-                $("#PositionX4").val("210");
-                $("#PositionY1").val("18");
-                $("#PositionY2").val("18");
-                $("#PositionY3").val("18");
-                $("#PositionY4").val("18");
-                $("#FontSize1").val("50");
-                $("#FontSize2").val("50");
-                $("#FontSize3").val("50");
-                $("#FontSize4").val("50");
-            }
-            else if (type == "2" || type == "3") {  //方章,圆形章
+            var type = $("#ImageType").val(); 
+            if (type == "2" || type == "3") {  //方章,圆形章
                 $("#PositionX1").val("148");
                 $("#PositionX2").val("148");
                 $("#PositionX3").val("35");
                 $("#PositionX4").val("35");
+
                 $("#PositionY1").val("50");
                 $("#PositionY2").val("158");
                 $("#PositionY3").val("50");
                 $("#PositionY4").val("158");
+
                 $("#FontSize1").val("60");
                 $("#FontSize2").val("60");
                 $("#FontSize3").val("60");
                 $("#FontSize4").val("60");
+
+                $("#PositionX5").val("40");
+                $("#PositionY5").val("140");
+                $("#FontSize5").val("25");
+            }
+            else if (type == "6") {                 //儿童印章
+                $("#PositionX1").val("120");
+                $("#PositionX2").val("190");
+                $("#PositionX3").val("260");
+                $("#PositionX4").val("330");
+              
+                $("#PositionY1").val("22");
+                $("#PositionY2").val("22");
+                $("#PositionY3").val("22");
+                $("#PositionY4").val("22");
+             
+                $("#FontSize1").val("40");
+                $("#FontSize2").val("40");
+                $("#FontSize3").val("40");
+                $("#FontSize4").val("40");
+              
+                $("#PositionX5").val("0");
+                $("#PositionY5").val("0");
+                $("#FontSize5").val("20");
+
+                $("#IfHasBgImage").val(1);
+                $("#uploadDiv").show();    //儿童印章默认要上传背景图。
+            }
+            else { //其他：个性签名,扁章
+                $("#PositionX1").val("0");
+                $("#PositionX2").val("70");
+                $("#PositionX3").val("140");
+                $("#PositionX4").val("210");
+
+                $("#PositionY1").val("18");
+                $("#PositionY2").val("18");
+                $("#PositionY3").val("18");
+                $("#PositionY4").val("18");
+
+                $("#FontSize1").val("50");
+                $("#FontSize2").val("50");
+                $("#FontSize3").val("50");
+                $("#FontSize4").val("50");
+
+                $("#PositionX5").val("0");
+                $("#PositionY5").val("0");
+                $("#FontSize5").val("20");
             }
         });
     });
