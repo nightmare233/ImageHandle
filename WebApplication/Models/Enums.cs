@@ -48,4 +48,24 @@ namespace Models
         SmallText = 2
     }
 
+    public enum EnumAction
+    {
+        AddOrder=1,
+        CreateOrderImage=2,
+        FinishOrder=3,
+        DeleteOrder=4,
+        
+        AddSample=11,
+        DeleteSample=12,
+
+        AddFont=21,
+        DeleteFont=22,
+
+        AddUser=31,
+        DeleteUser=32,
+
+        Login=41,
+        Logout=42,
+    }
+
 }
