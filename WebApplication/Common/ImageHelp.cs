@@ -179,6 +179,10 @@ namespace Models
                     drawBrush = new SolidBrush(Color.White);
                 }
             }
+            ////减缓锯齿
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+            g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
             g.DrawString(drawString, drawFont, drawBrush, x, y);
         }
 
@@ -224,6 +228,9 @@ namespace Models
                     drawBrush = new SolidBrush(Color.White);
                 }
             }
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+            g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
             g.DrawString(drawString, drawFont, drawBrush, x, y);
         }
     }
