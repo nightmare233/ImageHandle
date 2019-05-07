@@ -187,7 +187,7 @@
                 $("#PositionY5").val("250");
                 $("#FontSize5").val("40");
             }
-            else if (type == "6") {                 //儿童印章
+            else if (type == "6") { //儿童印章
                 $("#PositionX1").val("120");
                 $("#PositionX2").val("190");
                 $("#PositionX3").val("260");
@@ -230,6 +230,13 @@
                 $("#PositionY5").val("0");
                 $("#FontSize5").val("20");
             }
+        });
+        //第1个文字的字体改变时后面的文字字体一起改变。后面的文字改变不影响其他文字字体。
+        $("#Font1").change(function () {
+            var selectedFont = $("#Font1").val();
+            $("#Font2").val(selectedFont);
+            $("#Font3").val(selectedFont);
+            $("#Font4").val(selectedFont);
         });
     });
     function AddMainText() {
