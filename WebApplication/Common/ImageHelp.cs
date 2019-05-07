@@ -13,7 +13,7 @@ namespace Models
             Image imgBack = null;
             Graphics g = null;
             SolidBrush drawBrush = new SolidBrush(Color.Red);
-            int size = 296;
+            //int size = 296;
             if (sample.ImageType == EnumImageType.方形章)
             {
                 if (!string.IsNullOrEmpty(sample.BgImage))
@@ -24,6 +24,7 @@ namespace Models
                 }
                 else
                 {
+                    int size = 600;//296;
                     imgBack = new System.Drawing.Bitmap(size, size);
                     g = Graphics.FromImage(imgBack);
                     if (sample.Style == EnumImageStyle.阳文)
@@ -47,6 +48,7 @@ namespace Models
                 }
                 else
                 {
+                    int size = 600;//296;
                     imgBack = new System.Drawing.Bitmap(size, size);
                     g = Graphics.FromImage(imgBack);
                     if (sample.Style == EnumImageStyle.阳文)
@@ -62,6 +64,7 @@ namespace Models
             }
             else if (sample.ImageType == EnumImageType.扁章) //没有背景图
             {
+                int size = 600;//296;
                 imgBack = new System.Drawing.Bitmap(size, size/2);
                 g = Graphics.FromImage(imgBack);
                 if (sample.Style == EnumImageStyle.阳文)
@@ -89,7 +92,7 @@ namespace Models
             }
             else if (sample.ImageType == EnumImageType.个性签名章)  //纯文字，没有边框，没有背景,
             {
-                size = 300;
+                int size = 600;//300;
                 imgBack = new System.Drawing.Bitmap(size, size/3);
                 g = Graphics.FromImage(imgBack);
                 if (sample.Style == EnumImageStyle.阳文)
