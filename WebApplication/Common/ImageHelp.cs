@@ -29,7 +29,8 @@ namespace Models
                     g = Graphics.FromImage(imgBack);
                     if (sample.Style == EnumImageStyle.阳文)
                     {
-                        Pen pen = new Pen(Color.Red, 28.0F);
+                        float width = 56.0F;
+                        Pen pen = new Pen(Color.Red, width);
                         g.DrawRectangle(pen, 0, 0, size, size);
                     }
                     else if (sample.Style == EnumImageStyle.阴文)
@@ -53,8 +54,8 @@ namespace Models
                     g = Graphics.FromImage(imgBack);
                     if (sample.Style == EnumImageStyle.阳文)
                     {
-                        Pen pen = new Pen(Color.Red, 14.0F);
-                        g.DrawEllipse(pen, 7, 7, size - 14, size - 14);
+                        Pen pen = new Pen(Color.Red, 28.0F);
+                        g.DrawEllipse(pen, 14, 14, size - 28, size - 28);
                     }
                     else if (sample.Style == EnumImageStyle.阴文)
                     {
@@ -69,7 +70,7 @@ namespace Models
                 g = Graphics.FromImage(imgBack);
                 if (sample.Style == EnumImageStyle.阳文)
                 {
-                    Pen pen = new Pen(Color.Red, 14.0F);
+                    Pen pen = new Pen(Color.Red, 28.0F);
                     g.DrawRectangle(pen, 0, 0, size, size/2);
                 }
                 else if (sample.Style == EnumImageStyle.阴文)
@@ -97,7 +98,7 @@ namespace Models
                 g = Graphics.FromImage(imgBack);
                 if (sample.Style == EnumImageStyle.阳文)
                 {
-                    Pen pen = new Pen(Color.Red, 14.0F);
+                    Pen pen = new Pen(Color.Red, 28.0F);
                     //g.DrawRectangle(pen, 0, 0, size, size / 3);  //不要边框
                 }
                 else if (sample.Style == EnumImageStyle.阴文)
