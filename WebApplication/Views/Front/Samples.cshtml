@@ -22,9 +22,10 @@
                 @Html.Raw("<tr>");
             }
             <td style="padding:0px 0px 0px 0px; border: 0;">
-                <div id=@sample.Id onclick="SelectSample('@sample.Id');" style="height:150px; width:98px;">
+                <div id=@sample.Id onclick="SelectSample('@sample.Id');" style="height:160px; width:160px;">
                     <img src="../UploadFiles/SampleImgs/@sample.ImageUrl" style="width:96px;" /><br />
-                    <label style="font-weight:normal">@sample.Name</label>
+                    <span style="font-weight:normal">@sample.Font</span><br />
+                    <span style="font-weight:normal">@sample.Name</span>
                 </div>
             </td>
             if (index % 4 == 0)
