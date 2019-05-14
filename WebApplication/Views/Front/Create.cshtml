@@ -26,6 +26,10 @@
             </select>
         </div>
         <div class="form-group">
+            <label for="Font" class="control-label">字体</label>
+            @Html.DropDownList("Font", (List<SelectListItem>)ViewData["FontList"], "全部", new { @class = "form-control" })
+        </div>
+        <div class="form-group">
             <label for="IfHasBgImage" class="control-label">是否有背景图案</label>
             <select id="IfHasBgImage" name="IfHasBgImage" class="form-control">
                 <option value="0" selected="selected">全部</option>
@@ -42,9 +46,11 @@
     function selectSample() {
         var type = $("#ImageType").val();
         var style = $("#Style").val();
+        var fontId = $("#Font").val();
         var ifhasBgImage = $("#IfHasBgImage").val();
-        //alert("selectSample, type:" + type + ", style:" + style + ", ifhasimag:" + ifhasBgImage);
-        location.href = "/Front/Samples?type=" + type + "&style=" + style + "&ifHasBgImage=" + ifhasBgImage + "&retURL=" + window.location.href; 
+        if (fontId == "") {
+            fontId = 0;
+        }
+        location.href = "/Front/Samples?type=" + type + "&style=" + style + "&ifHasBgImage=" + ifhasBgImage + "&fontId=" + fontId + "&retURL=" + window.location.href; 
     }
-
 </script>

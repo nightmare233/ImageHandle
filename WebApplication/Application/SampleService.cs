@@ -66,6 +66,7 @@ namespace WebApplication.Application
                 tempSample.ImageUrl = row["ImageURL"].ToString();
                 tempSample.BgImage = row["BgImage"].ToString();
                 tempSample.IfHasBgImg = string.IsNullOrEmpty(tempSample.BgImage) ? false : true;
+                tempSample.Font = row["Font"].ToString();
                 if (ifGetTexts)
                 {
                     tempSample = GetTexts(tempSample.Id, tempSample);
@@ -94,9 +95,40 @@ namespace WebApplication.Application
                 tempSample.ImageUrl = rows[0]["ImageURL"].ToString();
                 tempSample.BgImage = rows[0]["BgImage"].ToString();
                 tempSample.IfHasBgImg = string.IsNullOrEmpty(tempSample.BgImage) ? false : true;
+                tempSample.Font = rows[0]["Font"].ToString();
                 if (ifGetTexts)
                 {
                     tempSample = GetTexts(tempSample.Id, tempSample); 
+                }
+            }
+
+            return tempSample;
+        }
+
+        public Sample GetSampleByName(string name, bool ifGetTexts)
+        {
+            Sample tempSample = null;
+            string strQuery = $"SELECT * FROM sample WHERE Name = '{name}'";
+
+            var rows = contexto.ExecuteCommandSQL(strQuery, null);
+            if (rows.Count > 0)
+            {
+                tempSample = new Sample();
+                tempSample.Id = int.Parse(rows[0]["Id"].ToString());
+                tempSample.Name = rows[0]["Name"].ToString();
+                tempSample.IfHasSmallText = Convert.ToBoolean(int.Parse(rows[0]["IfHasSmallText"].ToString()));
+                tempSample.MainTextNumber = int.Parse(rows[0]["MainTextNumber"].ToString());
+                tempSample.ImageSizeX = int.Parse(rows[0]["ImageSizeX"].ToString());
+                tempSample.ImageSizeY = int.Parse(rows[0]["ImageSizeY"].ToString());
+                tempSample.ImageType = (EnumImageType)int.Parse(rows[0]["ImageType"].ToString());
+                tempSample.Style = (EnumImageStyle)int.Parse(rows[0]["Style"].ToString());
+                tempSample.ImageUrl = rows[0]["ImageURL"].ToString();
+                tempSample.BgImage = rows[0]["BgImage"].ToString();
+                tempSample.IfHasBgImg = string.IsNullOrEmpty(tempSample.BgImage) ? false : true;
+                tempSample.Font = rows[0]["Font"].ToString();
+                if (ifGetTexts)
+                {
+                    tempSample = GetTexts(tempSample.Id, tempSample);
                 }
             }
 
@@ -267,40 +299,11 @@ namespace WebApplication.Application
             }
         }
 
-        public Sample GetSampleByName(string name, bool ifGetTexts)
-        {
-            Sample tempSample = null;
-            string strQuery = $"SELECT * FROM sample WHERE Name = '{name}'";
-
-            var rows = contexto.ExecuteCommandSQL(strQuery, null);
-            if (rows.Count > 0)
-            {
-                tempSample = new Sample();
-                tempSample.Id = int.Parse(rows[0]["Id"].ToString());
-                tempSample.Name = rows[0]["Name"].ToString();
-                tempSample.IfHasSmallText = Convert.ToBoolean(int.Parse(rows[0]["IfHasSmallText"].ToString()));
-                tempSample.MainTextNumber = int.Parse(rows[0]["MainTextNumber"].ToString());
-                tempSample.ImageSizeX = int.Parse(rows[0]["ImageSizeX"].ToString());
-                tempSample.ImageSizeY = int.Parse(rows[0]["ImageSizeY"].ToString());
-                tempSample.ImageType = (EnumImageType)int.Parse(rows[0]["ImageType"].ToString());
-                tempSample.Style = (EnumImageStyle)int.Parse(rows[0]["Style"].ToString());
-                tempSample.ImageUrl = rows[0]["ImageURL"].ToString();
-                tempSample.BgImage = rows[0]["BgImage"].ToString();
-                tempSample.IfHasBgImg = string.IsNullOrEmpty(tempSample.BgImage) ? false : true;
-                if (ifGetTexts)
-                {
-                    tempSample = GetTexts(tempSample.Id, tempSample);
-                }
-            }
-
-            return tempSample;
-        }
-
         //update sample
         public void Update(Sample sample)
         {
             const string sql1 = @"UPDATE sample SET NAME=@NAME, ImageSizeX=@ImageSizeX, ImageSizeY=@ImageSizeY, ImageURL=@ImageURL, 
-                                BgImage=@BgImage, MainTextNumber=@MainTextNumber, IfHasSmallText=@IfHasSmallText，Font=@Font WHERE Id = @ID";
+                                BgImage=@BgImage, MainTextNumber=@MainTextNumber, IfHasSmallText=@IfHasSmallText, Font=@Font WHERE Id = @ID";
 
             const string sql2 = @"INSERT into imagetext(SampleId, Type, Text, Font, PositionX, PositionY, FontSize, FontOrder)  
                                         VALUES(@SampleId, @Type, @Text, @Font, @PositionX, @PositionY, @FontSize, @FontOrder)";

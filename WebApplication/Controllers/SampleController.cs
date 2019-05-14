@@ -37,14 +37,7 @@ namespace WebApplication.Controllers
             ViewBag.imageTypes = imageTypeList;
             ViewBag.ImageUrl = "";
         }
-
-        // GET: Sample
-        //public ActionResult Index()
-        //{
-        //    List<Sample> samples = sampleService.ListAll(null, null, null, null, true);
-        //    return View(samples);
-        //}
-
+         
         //GET: Query
         public ActionResult Index(FormCollection collection)  //int imageType, int style, int ifHasBgImage, string keywords
         {
@@ -60,8 +53,14 @@ namespace WebApplication.Controllers
                     int style = int.Parse(collection["Style"]);
                     int ifHasBgImage = int.Parse(collection["IfHasBgImage"]);
                     string keywords = collection["Keywords"];
-                    var Font = imageFontService.GetById(int.Parse(collection["Font"].ToString()));
-                    string font = Font.name;
+                    string font = collection["Font"].ToString();
+                    if (!string.IsNullOrEmpty(font))
+                    {
+                       int fontId = int.Parse(font);
+                       var Font = imageFontService.GetById(fontId);
+                       font = Font.name;
+                    }
+                
                     bool? booLIfHasBgImage = null;
                     if (imageType != 1)
                     {

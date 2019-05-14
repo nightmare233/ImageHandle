@@ -15,12 +15,14 @@ namespace WebApplication.Controllers
     {
         private OrderService orderService;
         private SampleService sampleService;
+        private ImageFontService imageFontService;
         private log4net.ILog log = log4net.LogManager.GetLogger("ImageFontController");
 
         public FrontController()
         {
             orderService = new OrderService();
             sampleService = new SampleService();
+            imageFontService = new ImageFontService();
         }
 
         // GET: Order/Create/  进入订单页面，先筛选，选择sample。
@@ -42,6 +44,14 @@ namespace WebApplication.Controllers
                     imageTypeList.Add(ImageType.GetAll().Find(t => t.Id == item));
                 }
                 ViewBag.imageTypes = imageTypeList;
+                //font list
+                List<ImageFont> imageFonts = imageFontService.GetAll();
+                List<SelectListItem> fontList = new List<SelectListItem>();
+                foreach (var item in imageFonts)
+                {
+                    fontList.Add(new SelectListItem { Text = item.name, Value = item.id.ToString() });
+                }
+                ViewBag.FontList = fontList;
 
                 Order order = new Order();
                 return View(order);
@@ -56,7 +66,7 @@ namespace WebApplication.Controllers
         }
 
         //进入Sample列表页面
-        public ActionResult Samples(int type, int style, int ifHasBgImage, string retURL)
+        public ActionResult Samples(int type, int style, int ifHasBgImage, int fontId, string retURL)
         {
             //把用户选过的值传过来，选完之后再传回去。
             List<Sample> samples = null;
@@ -64,6 +74,11 @@ namespace WebApplication.Controllers
             if (ifHasBgImage == 1) ifHasBgImageBool = true;
             else if (ifHasBgImage == 2) ifHasBgImageBool = false;
             string font = "";
+            if (fontId != 0)
+            {
+                var Font = imageFontService.GetById(fontId);
+                font = Font.name;
+            } 
             samples = sampleService.ListAll((EnumImageType)type, (EnumImageStyle)style, ifHasBgImageBool, null, false, font);
             ViewBag.type1 = type;
             ViewBag.style1 = style;
