@@ -49,6 +49,7 @@ namespace WebApplication.Controllers
         public ActionResult Index(FormCollection collection)  //int imageType, int style, int ifHasBgImage, string keywords
         {
             List<Sample> samples = null;
+            InitData();
             try
             {
                 if (collection.Count > 0)
@@ -59,6 +60,8 @@ namespace WebApplication.Controllers
                     int style = int.Parse(collection["Style"]);
                     int ifHasBgImage = int.Parse(collection["IfHasBgImage"]);
                     string keywords = collection["Keywords"];
+                    var Font = imageFontService.GetById(int.Parse(collection["Font"].ToString()));
+                    string font = Font.name;
                     bool? booLIfHasBgImage = null;
                     if (imageType != 1)
                     {
@@ -72,11 +75,11 @@ namespace WebApplication.Controllers
                     {
                         booLIfHasBgImage = Convert.ToBoolean(ifHasBgImage);
                     }
-                    samples = sampleService.ListAll(enumImageType, enumImageStyle, booLIfHasBgImage, keywords, true);
+                    samples = sampleService.ListAll(enumImageType, enumImageStyle, booLIfHasBgImage, keywords, true, font);
                 }
                 else
                 {
-                    samples = sampleService.ListAll(null, null, null, null, true);
+                    samples = sampleService.ListAll(null, null, null, null, true, "");
                 }
             }
             catch (Exception ex)
@@ -166,7 +169,7 @@ namespace WebApplication.Controllers
                 }
                 sample.MainText = mainTexts;
                 sample.MainTextNumber = mainTexts.Count;
-
+                sample.Font = sample.MainText[0].Font;//第一个字的字体作为sample的字体，用于搜索过滤。
                 if (!string.IsNullOrEmpty(collection["Text5"]))  //small text
                 {
                     imageText = new ImageText();
@@ -303,9 +306,7 @@ namespace WebApplication.Controllers
 
                 sample.Name = collection["Name"];
                 sample.ImageUrl = collection["ImageUrl"];
-                //sample.ImageType = (EnumImageType)int.Parse(collection["ImageType"]);
-                //sample.Style = (EnumImageStyle)int.Parse(collection["Style"]);
-                
+                 
                 List<ImageText> mainTexts = new List<ImageText>();
                 ImageText imageText = null;
                 ImageFont imageFont = null;
@@ -329,7 +330,7 @@ namespace WebApplication.Controllers
                 }
                 sample.MainText = mainTexts;
                 sample.MainTextNumber = mainTexts.Count;
-
+                sample.Font = sample.MainText[0].Font;//第一个字的字体作为sample的字体，用于搜索过滤。
                 if (!string.IsNullOrEmpty(collection["Text5"]))  //small text
                 {
                     imageText = new ImageText();

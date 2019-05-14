@@ -20,6 +20,7 @@ namespace Models
         public bool IfHasSmallText { get; set; }
         public List<ImageText> MainText { get; set; }
         public ImageText SmallText { get; set; } 
+        public string Font { get; set; }
     }
 
     public class ImageText

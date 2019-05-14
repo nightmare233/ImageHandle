@@ -18,7 +18,7 @@ namespace WebApplication.Application
             contexto = new Contexto();
         }
 
-        public List<Sample> ListAll(EnumImageType? enumImageType, EnumImageStyle? enumImageStyle, bool? ifHasBgImage, string keywords, bool ifGetTexts)
+        public List<Sample> ListAll(EnumImageType? enumImageType, EnumImageStyle? enumImageStyle, bool? ifHasBgImage, string keywords, bool ifGetTexts, string font)
         {
             var samples = new List<Sample>();
             StringBuilder sb = new StringBuilder("SELECT * FROM sample where 1=1 ");
@@ -36,6 +36,10 @@ namespace WebApplication.Application
                     sb.Append($" and BgImage <> ''");
                 else
                     sb.Append($" and BgImage = ''");
+            }
+            if(!string.IsNullOrEmpty(font))
+            {
+                sb.Append($" and Font = '{font}'");
             }
             Dictionary<string,object> parameters = null;
             if (!string.IsNullOrEmpty(keywords))
@@ -140,8 +144,8 @@ namespace WebApplication.Application
 
         public int Insert(Sample sample)
         {
-            const string sql1 = @"INSERT into sample(ImageType, Name, ImageSizeX, ImageSizeY, Style, ImageURL, BgImage, MainTextNumber, IfHasSmallText)  
-                                VALUES(@ImageType, @Name, @ImageSizeX, @ImageSizeY, @Style, @ImageURL, @BgImage, @MainTextNumber, @IfHasSmallText); 
+            const string sql1 = @"INSERT into sample(ImageType, Name, ImageSizeX, ImageSizeY, Style, ImageURL, BgImage, MainTextNumber, IfHasSmallText, Font)  
+                                VALUES(@ImageType, @Name, @ImageSizeX, @ImageSizeY, @Style, @ImageURL, @BgImage, @MainTextNumber, @IfHasSmallText, @Font); 
                                 SELECT LAST_INSERT_ID();";
 
             const string sql2 = @"INSERT into imagetext(SampleId, Type, Text, Font, PositionX, PositionY, FontSize, FontOrder)  
@@ -167,7 +171,8 @@ namespace WebApplication.Application
                                 { "ImageURL", sample.ImageUrl},
                                 { "BgImage", sample.BgImage},
                                 { "MainTextNumber", sample.MainTextNumber},
-                                { "IfHasSmallText", sample.IfHasSmallText}
+                                { "IfHasSmallText", sample.IfHasSmallText},
+                                { "Font", sample.Font}
                             };
                     contexto.AddParams(cmd, parameters);
                     int sampleId = int.Parse(cmd.ExecuteScalar().ToString());  //insert sample
@@ -295,7 +300,7 @@ namespace WebApplication.Application
         public void Update(Sample sample)
         {
             const string sql1 = @"UPDATE sample SET NAME=@NAME, ImageSizeX=@ImageSizeX, ImageSizeY=@ImageSizeY, ImageURL=@ImageURL, 
-                                BgImage=@BgImage, MainTextNumber=@MainTextNumber, IfHasSmallText=@IfHasSmallText WHERE Id = @ID";
+                                BgImage=@BgImage, MainTextNumber=@MainTextNumber, IfHasSmallText=@IfHasSmallText，Font=@Font WHERE Id = @ID";
 
             const string sql2 = @"INSERT into imagetext(SampleId, Type, Text, Font, PositionX, PositionY, FontSize, FontOrder)  
                                         VALUES(@SampleId, @Type, @Text, @Font, @PositionX, @PositionY, @FontSize, @FontOrder)";
@@ -314,15 +319,14 @@ namespace WebApplication.Application
                     var parameters = new Dictionary<string, object>
                             {
                                 { "ID", sample.Id },
-                                //{ "ImageType", sample.ImageType},
                                 { "Name", sample.Name},
                                 { "ImageSizeX", sample.ImageSizeX},
                                 { "ImageSizeY", sample.ImageSizeY},
-                                //{ "Style", sample.Style},
                                 { "ImageURL", sample.ImageUrl},
                                 { "BgImage", sample.BgImage},
                                 { "MainTextNumber", sample.MainTextNumber},
-                                { "IfHasSmallText", sample.IfHasSmallText}
+                                { "IfHasSmallText", sample.IfHasSmallText},
+                                { "Font", sample.Font }
                             };
                     contexto.AddParams(cmd, parameters);
                     cmd.ExecuteNonQuery();
