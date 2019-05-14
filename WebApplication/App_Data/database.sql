@@ -79,3 +79,9 @@ COLLATE='utf8mb4_0900_ai_ci'
 ENGINE=InnoDB
 AUTO_INCREMENT=2
 ;
+
+
+
+--2019-5-13
+ALTER TABLE sample ADD Font VARCHAR(50) NOT NULL DEFAULT '';
+UPDATE sample s SET font = (SELECT font FROM imagetext WHERE sampleid = s.id ORDER BY id ASC LIMIT 1) ;
