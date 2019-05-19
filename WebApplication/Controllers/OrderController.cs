@@ -15,12 +15,14 @@ namespace WebApplication.Controllers
     {
         private OrderService orderService;
         private SampleService sampleService;
+        private ImageFontService imageFontService;
         private log4net.ILog log = log4net.LogManager.GetLogger("OrderController");
 
         public OrderController()
         {
             sampleService = new SampleService();
             orderService = new OrderService();
+            imageFontService = new ImageFontService();
         }
 
         // GET: Order
@@ -173,7 +175,16 @@ namespace WebApplication.Controllers
 
         [HttpGet]
         public ActionResult Create()
-        { 
+        {
+            //font list
+            List<ImageFont> imageFonts = imageFontService.GetAll();
+            List<SelectListItem> fontList = new List<SelectListItem>();
+            foreach (var item in imageFonts)
+            {
+                fontList.Add(new SelectListItem { Text = item.name, Value = item.id.ToString() });
+            }
+            ViewBag.FontList = fontList;
+
             string sampleIdStr = Request["sampleId"];
             Sample sample = new Sample();
             if (!string.IsNullOrEmpty(sampleIdStr) && sampleIdStr != "0")
@@ -187,12 +198,28 @@ namespace WebApplication.Controllers
         [HttpPost]
         public ActionResult Create(FormCollection collection, string type)
         {
-            Order order = new Order();
+            Order order = new Order(); 
             order.SampleId = int.Parse(collection["SampleId"]);
-            order.TaobaoId = DateTime.Now.ToLongDateString();
+            order.TaobaoId = order.SampleId + "_" + DateTime.Now.Ticks;
             order.ImageUrl = collection["ImageUrl"];
             order.MainText = collection["MainText"];
             order.SmallText = collection["SmallText"];
+            string fontStr = collection["Font"];
+            ImageFont font = null;
+            order.Sample = sampleService.GetSample(order.SampleId, true);
+            if (fontStr != "" && fontStr != "0") //改了sample的字体
+            {
+                int fontId = int.Parse(fontStr);
+                font = imageFontService.GetById(fontId);
+                order.Font = font.name;
+                order.Sample.imageFont = font;
+            }
+            else//沿用sample的字体
+            { 
+                order.Font = order.Sample.Font;
+                font = imageFontService.GetByName(order.Sample.Font);
+                order.Sample.imageFont = font;
+            }
             if (type == "提交订单")
             {
                 try
@@ -207,9 +234,9 @@ namespace WebApplication.Controllers
                     order.ProductTime = DateTime.MinValue;
                     order.AuditTime = DateTime.MinValue;
                     order.DeleteTime = DateTime.MinValue;
+                
                     orderService.Save(order);
-
-                    return RedirectToAction("Result", "Front", new { message = "订单提交成功!" });
+                    return RedirectToAction("Index", "Order");
                 }
                 catch (Exception ex)
                 {
@@ -227,7 +254,8 @@ namespace WebApplication.Controllers
                     {
                         return Json(new { status = "Fail", message = "该淘宝订单号已经生成订单！" }, JsonRequestBehavior.AllowGet);
                     }
-                    order.Sample = sampleService.GetSample(order.SampleId, true);
+                    //order.Sample = sampleService.GetSample(order.SampleId, true);
+                    //if (font != null) order.Sample.Font = font.name;
                     if (order.MainText.Length != order.Sample.MainTextNumber)
                     {
                         return Json(new { status = "Fail", message = "输入的文字数量不对！" }, JsonRequestBehavior.AllowGet);

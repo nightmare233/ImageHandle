@@ -164,24 +164,25 @@ namespace WebApplication.Application
 
         public int Insert(Order order)
         {
-            const string commandSQL = @"INSERT into orders(TaobaoId, SampleId, ImageUrl, SubmitTime, Status, AuditTime, ProductTime, DeleteTime, MainText,SmallText)  
-                                        VALUES(@TaobaoId, @SampleId, @ImageUrl, @SubmitTime, @Status, @AuditTime, @ProductTime, @DeleteTime, @MainText,@SmallText)";
+            const string commandSQL = @"INSERT into orders(TaobaoId, SampleId, ImageUrl, SubmitTime, Status, AuditTime, ProductTime, DeleteTime, MainText, SmallText, Font)  
+                                        VALUES(@TaobaoId, @SampleId, @ImageUrl, @SubmitTime, @Status, @AuditTime, @ProductTime, @DeleteTime, @MainText,@SmallText, @font)";
             if (order.SmallText == null)
                 order.SmallText = "";
             var parameters = new Dictionary<string, object>
-            { 
+            {
                 { "TaobaoId", order.TaobaoId },
                 { "SampleId", order.SampleId },
                 { "ImageUrl", order.ImageUrl},
                 { "SubmitTime", order.SubmitTime },
-                { "Status", order.Status }, 
+                { "Status", order.Status },
                 { "MainText", order.MainText},
                 { "SmallText", order.SmallText},
-                { "AuditTime", order.AuditTime }, 
+                { "AuditTime", order.AuditTime },
                 { "Auditor", order.Auditor },
                 { "Productor", order.Productor },
                 { "ProductTime", order.ProductTime },
                 { "DeleteTime", order.DeleteTime },
+                { "Font", order.Font }
             };
             return contexto.ExecuteCommand(commandSQL, parameters);
         }
@@ -189,7 +190,8 @@ namespace WebApplication.Application
         private int Update(Order order)
         {
             var commandSQL = @"UPDATE Orders SET TaobaoId = @TaobaoId, SampleId=@SampleId, ImageUrl = @ImageUrl, SubmitTime= @SubmitTime, Status= @Status, 
-                            MainText= @MainText, SmallText= @SmallText, AuditTime= @AuditTime, Auditor= @Auditor, Productor= @Productor, ProductTime= @ProductTime, DeleteTime= @DeleteTime 
+                            MainText= @MainText, SmallText= @SmallText, AuditTime= @AuditTime, Auditor= @Auditor, Productor= @Productor, ProductTime= @ProductTime, 
+                            DeleteTime= @DeleteTime, Font= @Font
                             WHERE Id = @Id";
             var parameters = new Dictionary<string, object>
             {
@@ -206,6 +208,7 @@ namespace WebApplication.Application
                 { "Productor", order.Productor },
                 { "ProductTime", order.ProductTime },
                 { "DeleteTime", order.DeleteTime },
+                { "Font", order.Font }
             };
             return contexto.ExecuteCommand(commandSQL, parameters);
         }

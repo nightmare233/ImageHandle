@@ -24,5 +24,6 @@ namespace Models
         public string MainText { get; set; }
         public string SmallText { get; set; }
         public string ImageUrl { get; set; } //生成的印章图片地址。
+        public string Font { get; set; }
     } 
 }

@@ -6,8 +6,8 @@
 <div class="page-header">
     <h1>创建订单</h1>
 </div>
-@*<form class="form-horizontal" role="form" action="Create" method="get">*@
-    <div class="row">
+<p style="font-weight:bold;font-size:24pt; color:red;">第一步：选择印章方案</p>
+<div class="row">
         <div class="form-group">
             <label for="ImageType" class="col-sm-1 control-label">印章类型</label>
             <select id="ImageType" name="ImageType" class="dropdown form-control">
@@ -28,10 +28,6 @@
                 <option value="1">阳文</option>
             </select>
         </div>
-        @*<div class="form-group">
-                <label for="Font" class="col-sm-1 control-label">字体</label>
-                @Html.DropDownList("Font", (List<SelectListItem>)ViewData["FontList"], "全部", new { @class = "col-sm-1 form-control" })
-            </div>*@
         <div class="form-group">
             <label for="NumberOfText" class="col-sm-1 control-label">文字个数</label>
             <select id="NumberOfText" name="NumberOfText" class="dropdown form-control">
@@ -57,48 +53,52 @@
             <input type="button" value="筛选" class="btn col-sm-1" onclick="QuerySample()" />
         </div>
     </div>
-@*</form>*@
 <br />
 <!--Sample 列表-->
 @{
     Html.RenderAction("_samplelist");
 }
 <!--填写订单文字及预览图-->
-<form id="itemForm" class="form-horizontal" role="form" action="Create" method="post">
-    <div>
+<hr />
+<p style="font-weight:bold;font-size:24pt; color:red;">第二步：输入印章内容和预览</p>
+<form id="itemForm" role="form" action="Create" method="post" class="form-horizontal">
+    <div class="row">
         <div class="form-group">
-            <h3>您选择的方案为：</h3>
-            <br />
-            <label for="SampleId" class="control-label">方案编号:</label>
-            <label for="SampleId">@Model.Id</label>
+            <label for="SampleId" class="control-label col-sm-2">您选择的方案编号:@Model.Id</label>
+            <label for="SampleName" class="control-label col-sm-3">方案名称: @Model.Name</label>
+            <label for="Font" class="control-label col-sm-3">默认字体: @Model.Font</label>
             <input id="SampleId" name="SampleId" value="@Model.Id" hidden="hidden" />
         </div>
         <div class="form-group">
-            <label for="SampleName" class="control-label">方案名称:</label>
-            <label for="SampleName">@Model.Name</label>
+            <label for="Font" class="control-label col-sm-1">改变字体:</label>
+            @Html.DropDownList("Font", (List<SelectListItem>)ViewData["FontList"], "全部", new { @class = "form-control col-sm-1" })
         </div>
         <div class="form-group">
-            <label for="preview" class="control-label">请输入主文字</label>
+            <label for="preview" class="control-label col-sm-1">主文字</label>
             <label for="Sample.Style">(文字数量 @Model.MainTextNumber 个):</label>
-            <input id="MainText" name="MainText" type="text" class="form-control" placeholder="印章文字" required="required" />
+            <input id="MainText" name="MainText" type="text" class="form-control col-sm-1" placeholder="印章文字" required="required" />
         </div>
         <div class="form-group">
             @if (Model.IfHasSmallText)
             {
-                <label for="preview" class="control-label">请输入附加文字(文字数量最多11个):</label>
-                <input id="SmallText" name="SmallText" type="text" value="" class="form-control" placeholder="印章附加文字" />
+                <label for="preview" class="control-label col-sm-1">副文字</label>
+                <input id="SmallText" name="SmallText" type="text" value="" class="form-control col-sm-1" placeholder="印章附加文字，最多11个" />
             }
         </div>
         <div class="form-group">
-            <input type="button" value="预览" onclick="CreateImage(); return false;" class="btn" />
+            <label for="preview" class="control-label col-sm-1"></label>
+            <input type="button" value="预览" onclick="CreateImage(); return false;" class="btn col-sm-1" />
         </div>
         <div class="form-group">
             <input id="ImageUrl" name="ImageUrl" value="" type="text" hidden="hidden" />
             <img id="orderImage" src="" style="width:198px;" hidden="hidden" />
         </div>
+
+        <div style="font-weight:bold;font-size:24pt; color:red;" class="col-sm-12">第三步：提交订单</div>
         <label style="color:red">@ViewBag.Message</label>
         <div class="form-group">
-            <input type="submit" name="type" value="提交订单" class="btn" />
+            <label for="preview" class="control-label col-sm-1"></label>
+            <input type="submit" name="type" value="提交订单" class="btn col-sm-1" />
         </div>
     </div>
 </form>

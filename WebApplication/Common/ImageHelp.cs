@@ -13,7 +13,6 @@ namespace Models
             Image imgBack = null;
             Graphics g = null;
             SolidBrush drawBrush = new SolidBrush(Color.Red);
-            //int size = 296;
             if (sample.ImageType == EnumImageType.方形章)
             {
                 if (!string.IsNullOrEmpty(sample.BgImage))
@@ -108,11 +107,12 @@ namespace Models
             }
 
             /////////////////////////////////////////写主文字//////////////////////////////////////////////////////
+             
             if (sample.MainText.Count == sample.MainTextNumber)
             {
                 for (int i = 0; i < sample.MainTextNumber; i++)
                 {
-                    DrawMainText(g, sample.MainText[i], sample.Style, sample.ImageType);
+                    DrawMainText(g, sample.MainText[i], sample.Style, sample.ImageType, sample.imageFont);
                 }
             }
             else
@@ -121,7 +121,7 @@ namespace Models
             }
             if (sample.IfHasSmallText)
             {
-                DrawSmallText(g, sample.SmallText, sample.Style, sample.ImageType);
+                DrawSmallText(g, sample.SmallText, sample.Style, sample.ImageType, sample.imageFont);
             }
             #region 测试 瞄准线，后面要删掉。
             //if(ifSample)
@@ -146,25 +146,120 @@ namespace Models
             imgBack.Save(saveImagePath, ImageFormat.Png);//save new image to file system.
             return filename;
         }
+        #region 
+        //private static void DrawMainText(Graphics g, ImageText mainText, EnumImageStyle style, EnumImageType type)
+        //{
+        //    FontFamily font = null; 
+        //    if (!mainText.imageFont.ifSystem)
+        //    {
+        //        //读取字体文件             
+        //        string path = AppDomain.CurrentDomain.BaseDirectory + mainText.imageFont.url;
+        //        PrivateFontCollection pfc = new PrivateFontCollection();
+        //        pfc.AddFontFile(path);
+        //        font = pfc.Families[0];
+        //    }
+        //    else
+        //    {
+        //        font = new FontFamily(mainText.imageFont.name);
+        //    }
 
-        private static void DrawMainText(Graphics g, ImageText mainText, EnumImageStyle style, EnumImageType type)
+        //    String drawString = mainText.Text; // Create font and brush.
+
+        //    Font drawFont = new Font(font, mainText.FontSize);    //实例化字体            
+        //    SolidBrush drawBrush;
+        //    float x = mainText.PositionX, y = mainText.PositionY;
+        //    if (type == EnumImageType.儿童印章)
+        //    {
+        //        drawBrush = new SolidBrush(Color.Black); //儿童印章不区分阴文和阳文，统一用黑色文字。
+        //    }
+        //    else
+        //    {
+        //        if (style == EnumImageStyle.阳文)
+        //        {
+        //            drawBrush = new SolidBrush(Color.Red);
+        //        }
+        //        else
+        //        {
+        //            drawBrush = new SolidBrush(Color.White);
+        //        }
+        //    }
+        //    ////减缓锯齿 
+        //    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+        //    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+        //    g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+        //    g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+        //    g.DrawString(drawString, drawFont, drawBrush, x, y);
+        //}
+
+        //private static void DrawSmallText(Graphics g, ImageText smallText, EnumImageStyle style, EnumImageType type)
+        //{
+        //    FontFamily font = null;
+        //    if (!smallText.imageFont.ifSystem)
+        //    {
+        //        //读取字体文件             
+        //        string path = AppDomain.CurrentDomain.BaseDirectory + smallText.imageFont.url;
+        //        PrivateFontCollection pfc = new PrivateFontCollection();
+        //        pfc.AddFontFile(path);
+        //        font = pfc.Families[0];
+        //    }
+        //    else
+        //    {
+        //        font = new FontFamily(smallText.imageFont.name);
+        //    }
+        //    string drawString = "";
+        //    if (smallText.Order)
+        //    {
+        //        drawString = smallText.Text; // Create font and brush.
+        //    }
+        //    else //反向打印
+        //    {
+        //        drawString = WebApplication.Common.Utils.ReverseCharArray(smallText.Text);
+        //    }
+        //    Font drawFont = new Font(font, smallText.FontSize); //实例化字体             
+        //    SolidBrush drawBrush;
+        //    float x = smallText.PositionX; float y = smallText.PositionY;
+        //    if (type == EnumImageType.儿童印章)
+        //    {
+        //        drawBrush = new SolidBrush(Color.Black);
+        //    }
+        //    else
+        //    {
+        //        if (style == EnumImageStyle.阳文)
+        //        {
+        //            drawBrush = new SolidBrush(Color.Red);
+        //        }
+        //        else
+        //        {
+        //            drawBrush = new SolidBrush(Color.White);
+        //        }
+        //    }
+        //    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+        //    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+        //    g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+        //    g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+        //    g.DrawString(drawString, drawFont, drawBrush, x, y);
+        //}
+        #endregion
+
+        //5-19需求修改，一个印章只有一个字体
+        private static void DrawMainText(Graphics g, ImageText mainText, EnumImageStyle style, EnumImageType type, ImageFont imageFont)
         {
-            FontFamily font = null; 
-            if (!mainText.imageFont.ifSystem)
+            FontFamily font = null;
+            if (!imageFont.ifSystem)
             {
                 //读取字体文件             
-                string path = AppDomain.CurrentDomain.BaseDirectory + mainText.imageFont.url;
+                string path = AppDomain.CurrentDomain.BaseDirectory + imageFont.url;
                 PrivateFontCollection pfc = new PrivateFontCollection();
                 pfc.AddFontFile(path);
                 font = pfc.Families[0];
             }
             else
             {
-                font = new FontFamily(mainText.imageFont.name);
+                font = new FontFamily(imageFont.name);
             }
-              
+
             String drawString = mainText.Text; // Create font and brush.
-                                              
+
             Font drawFont = new Font(font, mainText.FontSize);    //实例化字体            
             SolidBrush drawBrush;
             float x = mainText.PositionX, y = mainText.PositionY;
@@ -191,20 +286,20 @@ namespace Models
             g.DrawString(drawString, drawFont, drawBrush, x, y);
         }
 
-        private static void DrawSmallText(Graphics g, ImageText smallText, EnumImageStyle style, EnumImageType type)
+        private static void DrawSmallText(Graphics g, ImageText smallText, EnumImageStyle style, EnumImageType type, ImageFont imageFont)
         {
             FontFamily font = null;
-            if (!smallText.imageFont.ifSystem)
+            if (!imageFont.ifSystem)
             {
                 //读取字体文件             
-                string path = AppDomain.CurrentDomain.BaseDirectory + smallText.imageFont.url;
+                string path = AppDomain.CurrentDomain.BaseDirectory + imageFont.url;
                 PrivateFontCollection pfc = new PrivateFontCollection();
                 pfc.AddFontFile(path);
                 font = pfc.Families[0];
             }
             else
             {
-                font = new FontFamily(smallText.imageFont.name);
+                font = new FontFamily(imageFont.name);
             }
             string drawString = "";
             if (smallText.Order)
