@@ -228,5 +228,13 @@ namespace WebApplication.Application
             return contexto.ExecuteCommand(commandSQL, parameters);
         }
 
+        public bool CheckTaobaoIdExist(string taobaoId)
+        { 
+            var order = GetOrderByTaobaoId(taobaoId);
+            if (order == null)
+                return false;
+            return true;
+        }
+
     }
 }

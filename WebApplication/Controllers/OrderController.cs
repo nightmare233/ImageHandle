@@ -14,10 +14,12 @@ namespace WebApplication.Controllers
     public class OrderController : Controller
     {
         private OrderService orderService;
+        private SampleService sampleService;
         private log4net.ILog log = log4net.LogManager.GetLogger("OrderController");
 
         public OrderController()
         {
+            sampleService = new SampleService();
             orderService = new OrderService();
         }
 
@@ -168,8 +170,140 @@ namespace WebApplication.Controllers
 
             return File(new FileStream(filePath, FileMode.Open), "application/octet-stream", Server.UrlEncode(fileName));
         }
-         
-         
+
+        [HttpGet]
+        public ActionResult Create()
+        { 
+            string sampleIdStr = Request["sampleId"];
+            Sample sample = new Sample();
+            if (!string.IsNullOrEmpty(sampleIdStr) && sampleIdStr != "0")
+            {
+                int sampleId = int.Parse(sampleIdStr);
+                sample = sampleService.GetSample(sampleId, true);
+            }
+            return View(sample);
+        }
+
+        [HttpPost]
+        public ActionResult Create(FormCollection collection, string type)
+        {
+            Order order = new Order();
+            order.SampleId = int.Parse(collection["SampleId"]);
+            order.TaobaoId = DateTime.Now.ToLongDateString();
+            order.ImageUrl = collection["ImageUrl"];
+            order.MainText = collection["MainText"];
+            order.SmallText = collection["SmallText"];
+            if (type == "提交订单")
+            {
+                try
+                {
+                    if (string.IsNullOrEmpty(order.ImageUrl))
+                    {
+                        throw new Exception("请先生成订单图片！");
+                    }
+                    order.SubmitTime = DateTime.Now;
+                    order.Status = (int)EnumStatus.待审批;
+                    order.SubmitTime = DateTime.Now;
+                    order.ProductTime = DateTime.MinValue;
+                    order.AuditTime = DateTime.MinValue;
+                    order.DeleteTime = DateTime.MinValue;
+                    orderService.Save(order);
+
+                    return RedirectToAction("Result", "Front", new { message = "订单提交成功!" });
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.Message = ex.Message;
+                    log.Error(ex);
+                    return View("Create2", order);
+                }
+            }
+            else if (type == "CreateImage")
+            {
+                try
+                {
+                    var ifExist = orderService.CheckTaobaoIdExist(order.TaobaoId);
+                    if (ifExist)
+                    {
+                        return Json(new { status = "Fail", message = "该淘宝订单号已经生成订单！" }, JsonRequestBehavior.AllowGet);
+                    }
+                    order.Sample = sampleService.GetSample(order.SampleId, true);
+                    if (order.MainText.Length != order.Sample.MainTextNumber)
+                    {
+                        return Json(new { status = "Fail", message = "输入的文字数量不对！" }, JsonRequestBehavior.AllowGet);
+                    }
+
+                    for (int i = 0; i < order.Sample.MainTextNumber; i++)
+                    {
+                        order.Sample.MainText[i].Text = order.MainText[i].ToString();
+                    }
+                    if (order.Sample.IfHasSmallText)
+                    {
+                        if (string.IsNullOrEmpty(order.SmallText))
+                        {
+                            return Json(new { status = "Fail", message = "请输入副文字！" }, JsonRequestBehavior.AllowGet);
+                        }
+                        else
+                        {
+                            if (order.SmallText.Length > 11)
+                            {
+                                return Json(new { status = "Fail", message = "副文字不能超过11个字！" }, JsonRequestBehavior.AllowGet);
+                            }
+                            order.Sample.SmallText.Text = order.SmallText;
+
+                        }
+                    }
+
+                    string imageUrl = ImageHelp.CreateImage(order.Sample, false, order.TaobaoId);
+                    var result = Json(imageUrl);
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                    return Json(new { status = "Fail", message = ex.Message }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            return View(order);
+        }
+
+        public PartialViewResult _SampleList()
+        {
+            List<Sample> samples = new List<Sample>();
+            string _type = Request["ImageType"];
+            string _style = Request["Style"];
+            string _hasBgImage = Request["IfHasBgImage"];
+            string _keywords = Request["Keywords"]; 
+            try
+            {
+                EnumImageType? enumImageType = null;
+                EnumImageStyle? enumImageStyle = null; 
+                bool? booLIfHasBgImage = null;
+                if (!string.IsNullOrEmpty(_type))
+                {
+                    var i = Convert.ToInt32(_type);
+                    if (i > 1) enumImageType = (EnumImageType)i;
+                } 
+          
+                if (!string.IsNullOrEmpty(_style))
+                {
+                    var i = Convert.ToInt32(_style);
+                    if (i > -1)  enumImageStyle = (EnumImageStyle)i;
+                }
+       
+                if (!string.IsNullOrEmpty(_hasBgImage))
+                {
+                    var i = Convert.ToInt32(_hasBgImage);
+                    if(i>-1) booLIfHasBgImage = Convert.ToBoolean(i);
+                }
+                samples = sampleService.ListAll(enumImageType, enumImageStyle, booLIfHasBgImage, _keywords, true, "");  //todo number of texts
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+            return PartialView(samples);
+        }
     }
 }
 

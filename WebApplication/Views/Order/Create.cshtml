@@ -1,0 +1,212 @@
+﻿@using Models
+@model Models.Sample
+@{
+    ViewBag.Title = "创建订单";
+}
+<div class="page-header">
+    <h1>创建订单</h1>
+</div>
+@*<form class="form-horizontal" role="form" action="Create" method="get">*@
+    <div class="row">
+        <div class="form-group">
+            <label for="ImageType" class="col-sm-1 control-label">印章类型</label>
+            <select id="ImageType" name="ImageType" class="dropdown form-control">
+                <option value="1" selected="selected">全部</option>
+                <option value="2">圆形章</option>
+                <option value="3">方形章</option>
+                <option value="4">扁章</option>
+                <option value="5">闲章</option>
+                <option value="6">儿童印章</option>
+                <option value="7">个性签名章</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="Style" class="col-sm-1 control-label">样式</label>
+            <select id="Style" name="Style" class="dropdown form-control">
+                <option value="-1" selected="selected">全部</option>
+                <option value="0">阴文</option>
+                <option value="1">阳文</option>
+            </select>
+        </div>
+        @*<div class="form-group">
+                <label for="Font" class="col-sm-1 control-label">字体</label>
+                @Html.DropDownList("Font", (List<SelectListItem>)ViewData["FontList"], "全部", new { @class = "col-sm-1 form-control" })
+            </div>*@
+        <div class="form-group">
+            <label for="NumberOfText" class="col-sm-1 control-label">文字个数</label>
+            <select id="NumberOfText" name="NumberOfText" class="dropdown form-control">
+                <option value="0" selected="selected">全部</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="IfHasBgImage" class="col-sm-1 control-label">背景图</label>
+            <select id="IfHasBgImage" name="IfHasBgImage" class="dropdown form-control">
+                <option value="-1" selected="selected">全部</option>
+                <option value="0">无背景图</option>
+                <option value="1">有背景图</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="Keywords" class="col-sm-1 control-label">关键词</label>
+            <input id="Keywords" name="Keywords" type="text" placeholder="关键词搜索" class="form-control col-sm-1" />
+            <span class="col-sm-1"></span>
+            <input type="button" value="筛选" class="btn col-sm-1" onclick="QuerySample()" />
+        </div>
+    </div>
+@*</form>*@
+<br />
+<!--Sample 列表-->
+@{
+    Html.RenderAction("_samplelist");
+}
+<!--填写订单文字及预览图-->
+<form id="itemForm" class="form-horizontal" role="form" action="Create" method="post">
+    <div>
+        <div class="form-group">
+            <h3>您选择的方案为：</h3>
+            <br />
+            <label for="SampleId" class="control-label">方案编号:</label>
+            <label for="SampleId">@Model.Id</label>
+            <input id="SampleId" name="SampleId" value="@Model.Id" hidden="hidden" />
+        </div>
+        <div class="form-group">
+            <label for="SampleName" class="control-label">方案名称:</label>
+            <label for="SampleName">@Model.Name</label>
+        </div>
+        <div class="form-group">
+            <label for="preview" class="control-label">请输入主文字</label>
+            <label for="Sample.Style">(文字数量 @Model.MainTextNumber 个):</label>
+            <input id="MainText" name="MainText" type="text" class="form-control" placeholder="印章文字" required="required" />
+        </div>
+        <div class="form-group">
+            @if (Model.IfHasSmallText)
+            {
+                <label for="preview" class="control-label">请输入附加文字(文字数量最多11个):</label>
+                <input id="SmallText" name="SmallText" type="text" value="" class="form-control" placeholder="印章附加文字" />
+            }
+        </div>
+        <div class="form-group">
+            <input type="button" value="预览" onclick="CreateImage(); return false;" class="btn" />
+        </div>
+        <div class="form-group">
+            <input id="ImageUrl" name="ImageUrl" value="" type="text" hidden="hidden" />
+            <img id="orderImage" src="" style="width:198px;" hidden="hidden" />
+        </div>
+        <label style="color:red">@ViewBag.Message</label>
+        <div class="form-group">
+            <input type="submit" name="type" value="提交订单" class="btn" />
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var _type = getQueryString("ImageType");
+        if (_type != null && _type > 1) {
+            $("#ImageType").val(_type);
+        }
+        var _style = getQueryString("Style");
+        if (_style != null && _style > -1) {
+            $("#Style").val(_style);
+        }
+        var _numberOfText = getQueryString("NumberOfText");
+        if (_numberOfText != null && _numberOfText > -1) {
+            $("#NumberOfText").val(_numberOfText);
+        }
+        var _ifHasBgImage = getQueryString("IfHasBgImage");
+        if (_ifHasBgImage != null && _ifHasBgImage > -1) {
+            $("#IfHasBgImage").val(_ifHasBgImage);
+        }
+
+        var _keyword = getQueryString("keywords");
+        if (_keyword != null && _keyword != "") {
+            $("#Keywords").val(_keyword);
+        }
+
+    });
+    function QuerySample() {
+        var sampleId = 0;
+        var type1 = $("#ImageType").val()
+        var stype1 = $("#Style").val();
+        var numberOfTexts = $("#NumberOfText").val();
+        var ifhasbgimg1 = $("#IfHasBgImage").val();
+        var keywords = $("#Keywords").val();
+
+        location.href = "/Order/Create?ImageType=" + type1 + "&style=" + stype1 + "&numberOfText=" + numberOfTexts + "&ifHasBgImage=" + ifhasbgimg1 + "&keywords=" + keywords + "&sampleId=" + sampleId;
+    }
+
+    var currentSampleId = 0;
+    function SelectSample(sampleid) {
+        $("#" + currentSampleId).css("border", "none");
+        currentSampleId = sampleid;
+        $("#" + currentSampleId).css("border", "1px solid #BBBBBB");
+        if (currentSampleId != 0) {
+            $("#btn_confim").show();
+        }
+    }
+
+    function StepTwo() {
+        if (currentSampleId == 0) {
+            alert("请先选择一种样式！");
+            return;
+        }
+        var sampleId = currentSampleId;
+        var type1 = $("#ImageType").val()
+        var stype1 = $("#Style").val();
+        var numberOfTexts = $("#NumberOfText").val();
+        var ifhasbgimg1 = $("#IfHasBgImage").val();
+        var keywords = $("#Keywords").val();
+
+        location.href = "/Order/Create?ImageType=" + type1 + "&style=" + stype1 + "&numberOfText=" + numberOfTexts + "&ifHasBgImage=" + ifhasbgimg1 + " + " +
+            "&keywords=" + keywords + "&sampleId=" + sampleId;
+    }
+    //生产订单图片。
+    function CreateImage() {
+        var maintext = $("#MainText").val();
+        var taobaoId = $("#TaobaoId").val();
+        if (maintext == "") {
+            alert("请输入印章文字！");
+            return;
+        }
+        if (taobaoId == "") {
+            alert("请输入淘宝订单号！");
+            return;
+        }
+        var formData = new FormData($("#itemForm")[0]);
+        $.ajax({
+            dataType: "json",
+            type: "post",
+            url: '/Order/Create?type=CreateImage',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                if (data.status == "Fail") {
+                    alert(data.message);
+                } else {
+                    $("#ImageUrl").val(data);
+                    $("#orderImage").attr('src', "\\UploadFiles\\OutputImgs\\" + data + "?t=" + Math.random());
+                    $("#orderImage").show();
+                }
+            },
+            error: function (response, ajaxOptions, thrownError) {
+                alert("生成图片发生错误");
+            }
+        });
+    }
+
+    //网上找的获取querystring的方法。
+    function getQueryString(name) {
+        var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) {
+            return unescape(r[2]);
+        }
+        return null;
+    }
+
+
+</script>

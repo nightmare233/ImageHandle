@@ -241,6 +241,8 @@
     <Content Include="Views\Sample\Update.cshtml" />
     <Content Include="Views\ImageFont\UploadFile.cshtml" />
     <Content Include="Views\ImageFont\Index.cshtml" />
+    <Content Include="Views\Order\Create.cshtml" />
+    <Content Include="Views\Order\_samplelist.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\" />

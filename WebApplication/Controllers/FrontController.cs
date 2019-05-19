@@ -137,7 +137,7 @@ namespace WebApplication.Controllers
             {
                 try
                 {
-                    var ifExist = CheckTaobaoIdExist(order.TaobaoId);
+                    var ifExist = orderService.CheckTaobaoIdExist(order.TaobaoId);
                     if (ifExist)
                     {
                         return Json(new { status = "Fail", message = "该淘宝订单号已经生成订单！" }, JsonRequestBehavior.AllowGet);
@@ -188,13 +188,6 @@ namespace WebApplication.Controllers
             ViewBag.Message = message;
             return View();
         }
-
-        private bool CheckTaobaoIdExist(string taobaoId)
-        {
-            var order = orderService.GetOrderByTaobaoId(taobaoId);
-            if (order == null)
-                return false;
-            return true;
-        }
+         
     }
 }
