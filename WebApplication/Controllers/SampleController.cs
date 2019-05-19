@@ -148,14 +148,18 @@ namespace WebApplication.Controllers
                 List<ImageText> mainTexts = new List<ImageText>();
                 ImageText imageText = null;
                 ImageFont imageFont = null;
+                int fontId = int.Parse(collection["Font"]);
+                imageFont = imageFontService.GetById(fontId);
+                sample.Font = imageFont.name;//第一个字的字体作为sample的字体，用于搜索过滤。
+                sample.imageFont = imageFont;
                 for (int i = 1; i < 5; i++)
                 {
                     if (!string.IsNullOrEmpty(collection["Text" + i]))
                     {
                         imageText = new ImageText();
                         imageText.Text = collection["Text" + i];
-                        int fontId = int.Parse(collection["Font" + i]);
-                        imageFont = imageFontService.GetById(fontId);
+                        //int fontId = int.Parse(collection["Font" + i]);
+                        //imageFont = imageFontService.GetById(fontId);
                         imageText.Font = imageFont.name;
                         imageText.imageFont = imageFont;
                         imageText.FontSize = int.Parse(collection["FontSize" + i]);
@@ -168,14 +172,13 @@ namespace WebApplication.Controllers
                 }
                 sample.MainText = mainTexts;
                 sample.MainTextNumber = mainTexts.Count;
-                sample.Font = sample.MainText[0].Font;//第一个字的字体作为sample的字体，用于搜索过滤。
-                sample.imageFont = imageFontService.GetByName(sample.Font);
+               
                 if (!string.IsNullOrEmpty(collection["Text5"]))  //small text
                 {
                     imageText = new ImageText();
                     imageText.Text = collection["Text5"];
-                    int fontId = int.Parse(collection["Font5"]);
-                    imageFont = imageFontService.GetById(fontId);
+                    //int fontId = int.Parse(collection["Font5"]);
+                    //imageFont = imageFontService.GetById(fontId);
                     imageText.Font = imageFont.name;
                     imageText.imageFont = imageFont;
                     imageText.FontSize = int.Parse(collection["FontSize5"]);
@@ -246,11 +249,11 @@ namespace WebApplication.Controllers
             ////var a = sli.Select(t => t.Value == sample.IfHasBgImg.ToString()).FirstOrDefault();
             //SelectList select = new SelectList(sli, "Value", "Text");
             ViewBag.VBIfHasBgImg = sample.IfHasBgImg?"1":"0";
-            string font = "";
-            for (int i=0;i<sample.MainText.Count;i++)
-            {
-                font += sample.MainText[i].Font + "|"; 
-            }
+            string font = sample.Font;
+            //for (int i=0;i<sample.MainText.Count;i++)
+            //{
+            //    font += sample.MainText[i].Font + "|"; 
+            //}
             ViewBag.Font = font;
             if (sample.IfHasSmallText)
             {
@@ -310,14 +313,18 @@ namespace WebApplication.Controllers
                 List<ImageText> mainTexts = new List<ImageText>();
                 ImageText imageText = null;
                 ImageFont imageFont = null;
+                int fontId = int.Parse(collection["Font"]);
+                imageFont = imageFontService.GetById(fontId);
+                sample.Font = imageFont.name;//第一个字的字体作为sample的字体，用于搜索过滤。
+                sample.imageFont = imageFont;
                 for (int i = 1; i < 5; i++)
                 {
                     if (!string.IsNullOrEmpty(collection["Text" + i]))
                     {
                         imageText = new ImageText();
                         imageText.Text = collection["Text" + i];
-                        int fontId = int.Parse(collection["Font" + i]);
-                        imageFont = imageFontService.GetById(fontId);
+                        //int fontId = int.Parse(collection["Font" + i]);
+                        //imageFont = imageFontService.GetById(fontId);
                         imageText.Font = imageFont.name;
                         imageText.imageFont = imageFont;
                         imageText.FontSize = int.Parse(collection["FontSize" + i]);
@@ -330,14 +337,13 @@ namespace WebApplication.Controllers
                 }
                 sample.MainText = mainTexts;
                 sample.MainTextNumber = mainTexts.Count;
-                sample.Font = sample.MainText[0].Font;//第一个字的字体作为sample的字体，用于搜索过滤。
-                sample.imageFont = imageFontService.GetByName(sample.Font);
+              
                 if (!string.IsNullOrEmpty(collection["Text5"]))  //small text
                 {
                     imageText = new ImageText();
                     imageText.Text = collection["Text5"];
-                    int fontId = int.Parse(collection["Font5"]);
-                    imageFont = imageFontService.GetById(fontId);
+                    //int fontId = int.Parse(collection["Font5"]);
+                    //imageFont = imageFontService.GetById(fontId);
                     imageText.Font = imageFont.name;
                     imageText.imageFont = imageFont;
                     imageText.FontSize = int.Parse(collection["FontSize5"]);
