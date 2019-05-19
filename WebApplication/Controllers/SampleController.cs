@@ -74,11 +74,11 @@ namespace WebApplication.Controllers
                     {
                         booLIfHasBgImage = Convert.ToBoolean(ifHasBgImage);
                     }
-                    samples = sampleService.ListAll(enumImageType, enumImageStyle, booLIfHasBgImage, keywords, true, font);
+                    samples = sampleService.ListAll(enumImageType, enumImageStyle, booLIfHasBgImage, keywords, true, font, 100, 0);
                 }
                 else
                 {
-                    samples = sampleService.ListAll(null, null, null, null, true, "");
+                    samples = sampleService.ListAll(null, null, null, null, true, "", 100, 0);
                 }
             }
             catch (Exception ex)
@@ -169,6 +169,7 @@ namespace WebApplication.Controllers
                 sample.MainText = mainTexts;
                 sample.MainTextNumber = mainTexts.Count;
                 sample.Font = sample.MainText[0].Font;//第一个字的字体作为sample的字体，用于搜索过滤。
+                sample.imageFont = imageFontService.GetByName(sample.Font);
                 if (!string.IsNullOrEmpty(collection["Text5"]))  //small text
                 {
                     imageText = new ImageText();
@@ -330,6 +331,7 @@ namespace WebApplication.Controllers
                 sample.MainText = mainTexts;
                 sample.MainTextNumber = mainTexts.Count;
                 sample.Font = sample.MainText[0].Font;//第一个字的字体作为sample的字体，用于搜索过滤。
+                sample.imageFont = imageFontService.GetByName(sample.Font);
                 if (!string.IsNullOrEmpty(collection["Text5"]))  //small text
                 {
                     imageText = new ImageText();

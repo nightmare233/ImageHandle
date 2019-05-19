@@ -301,12 +301,14 @@ namespace WebApplication.Controllers
             string _type = Request["ImageType"];
             string _style = Request["Style"];
             string _hasBgImage = Request["IfHasBgImage"];
-            string _keywords = Request["Keywords"]; 
+            string _keywords = Request["Keywords"];
+            string _numberOfText = Request["NumberOfText"];
             try
             {
                 EnumImageType? enumImageType = null;
                 EnumImageStyle? enumImageStyle = null; 
                 bool? booLIfHasBgImage = null;
+                int numberOfText = 0;
                 if (!string.IsNullOrEmpty(_type))
                 {
                     var i = Convert.ToInt32(_type);
@@ -324,7 +326,14 @@ namespace WebApplication.Controllers
                     var i = Convert.ToInt32(_hasBgImage);
                     if(i>-1) booLIfHasBgImage = Convert.ToBoolean(i);
                 }
-                samples = sampleService.ListAll(enumImageType, enumImageStyle, booLIfHasBgImage, _keywords, true, "");  //todo number of texts
+                if (!string.IsNullOrEmpty(_numberOfText))
+                {
+                    numberOfText = Convert.ToInt32(_numberOfText); 
+                }
+
+                int pageSize = 100;
+                
+                samples = sampleService.ListAll(enumImageType, enumImageStyle, booLIfHasBgImage, _keywords, true, "", pageSize, numberOfText); 
             }
             catch (Exception ex)
             {

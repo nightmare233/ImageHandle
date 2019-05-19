@@ -79,7 +79,7 @@ namespace WebApplication.Controllers
                 var Font = imageFontService.GetById(fontId);
                 font = Font.name;
             } 
-            samples = sampleService.ListAll((EnumImageType)type, (EnumImageStyle)style, ifHasBgImageBool, null, false, font);
+            samples = sampleService.ListAll((EnumImageType)type, (EnumImageStyle)style, ifHasBgImageBool, null, false, font, 40, 0);
             ViewBag.type1 = type;
             ViewBag.style1 = style;
             ViewBag.ifHasBgImage1 = ifHasBgImage;

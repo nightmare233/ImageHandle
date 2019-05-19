@@ -18,7 +18,7 @@ namespace WebApplication.Application
             contexto = new Contexto();
         }
 
-        public List<Sample> ListAll(EnumImageType? enumImageType, EnumImageStyle? enumImageStyle, bool? ifHasBgImage, string keywords, bool ifGetTexts, string font)
+        public List<Sample> ListAll(EnumImageType? enumImageType, EnumImageStyle? enumImageStyle, bool? ifHasBgImage, string keywords, bool ifGetTexts, string font, int pageSize, int numberOfText)
         {
             var samples = new List<Sample>();
             StringBuilder sb = new StringBuilder("SELECT * FROM sample where 1=1 ");
@@ -41,6 +41,11 @@ namespace WebApplication.Application
             {
                 sb.Append($" and Font = '{font}'");
             }
+            if (numberOfText !=0)
+            {
+                sb.Append($" and MainTextNumber = {numberOfText}");
+            }
+
             Dictionary<string,object> parameters = null;
             if (!string.IsNullOrEmpty(keywords))
             {
@@ -50,7 +55,7 @@ namespace WebApplication.Application
                     { "keywords", keywords}
                 };
             }
-            sb.Append(" ORDER BY id DESC;");
+            sb.Append($" ORDER BY id DESC limit {pageSize};");
             var rows = contexto.ExecuteCommandSQL(sb.ToString(), parameters);
             foreach (var row in rows)
             {
