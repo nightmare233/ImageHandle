@@ -6,7 +6,7 @@
 <div class="page-header">
     <h1>创建订单</h1>
 </div>
-<p style="font-weight:bold;font-size:24pt; color:red;">第一步：选择印章方案</p>
+<p style="font-weight:bold;font-size:18pt; color:black;">第一步：选择印章方案</p>
 <div class="form-horizontal">
     <div class="form-group">
         <label for="ImageType" class="col-sm-1 control-label">印章类型</label>
@@ -66,7 +66,7 @@
 }
 <!--填写订单文字及预览图-->
 <hr />
-<p style="font-weight:bold;font-size:24pt; color:red;">第二步：输入印章内容和预览</p>
+<p style="font-weight:bold;font-size:18pt; color:black;">第二步：输入印章内容和预览</p>
 <form id="itemForm" role="form" action="Create" method="post" class="form-horizontal">
     <div class="row">
         <div class="form-group">
@@ -106,7 +106,7 @@
                     <img id="orderImage" src="" style="width:198px;" hidden="hidden" />
                 </div>
 
-                <div style="font-weight:bold;font-size:24pt; color:red;" class="col-sm-12">第三步：提交订单</div>
+                <div style="font-weight:bold;font-size:18pt; color:black;" class="col-sm-12">第三步：提交订单</div>
                 <label style="color:red">@ViewBag.Message</label>
                 <div class="form-group">
                     <label for="preview" class="control-label col-sm-1"></label>
@@ -131,13 +131,23 @@
         var _ifHasBgImage = getQueryString("IfHasBgImage");
         if (_ifHasBgImage != null && _ifHasBgImage > -1) {
             $("#IfHasBgImage").val(_ifHasBgImage);
-        }
-
+        } 
         var _keyword = getQueryString("keywords");
         if (_keyword != null && _keyword != "") {
             $("#Keywords").val(_keyword);
         }
-
+        $("#ImageType").change(function(){
+            QuerySample()
+        });
+        $("#Style").change(function () {
+            QuerySample()
+        });
+        $("#NumberOfText").change(function () {
+            QuerySample()
+        });
+        $("#IfHasBgImage").change(function () {
+            QuerySample()
+        }); 
     });
     function QuerySample() {
         var sampleId = 0;
