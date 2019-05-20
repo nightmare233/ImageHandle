@@ -48,31 +48,7 @@ namespace WebApplication.Controllers
         {
             return View();
         }
-        
-        // GET: Order/Edit/5
-        //public ActionResult Update(int id, int status)
-        //{
-        //    Order order = orderService.GetOrderById(id);
-        //    order.Status = status;
-        //    if (status == (int)EnumStatus.待生产)
-        //    {
-        //        order.Auditor = 10; //to do, current login user id.
-        //        order.AuditTime = DateTime.Now;
-        //    }
-        //    else if (status == (int)EnumStatus.生产中)
-        //    {
-        //        order.Productor = 10; //to do, current login user id.
-        //        order.ProductTime = DateTime.Now;
-        //    }
-        //    else if (status == (int)EnumStatus.已删除)
-        //    {
-        //        order.DeleteTime = DateTime.Now;
-        //    }
-
-        //    orderService.Save(order);
-
-        //    return View(order);
-        //}
+         
 
         // POST: Order/Edit/5
         [HttpPost]
@@ -332,8 +308,7 @@ namespace WebApplication.Controllers
                     numberOfText = Convert.ToInt32(_numberOfText); 
                 }
 
-                int pageSize = 100;
-                
+                int pageSize = 60; //默认显示60个
                 samples = sampleService.ListAll(enumImageType, enumImageStyle, booLIfHasBgImage, _keywords, true, "", pageSize, numberOfText); 
             }
             catch (Exception ex)

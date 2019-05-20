@@ -3,12 +3,12 @@
 @using Models;
 @if (Model.Count<Sample>() > 0)
 {
-    <div style="margin-top:30px; max-height:600px; overflow:auto;" class="form-horizontal">
+    <div style="margin-top:30px; max-height:490px; overflow:auto;" class="form-horizontal">
         <table class="table text-center table-hover" cellpadding="0" cellspacing="0" border="0">
             @{int index = 1; }
             @foreach (Sample sample in Model)
             {
-                if (index % 4 == 1)
+                if (index % 6 == 1)
                 {
                     @Html.Raw("<tr>");
                 }
@@ -19,7 +19,7 @@
                         <span style="font-weight:normal">@sample.Name</span>
                     </div>
                 </td>
-                if (index % 4 == 0)
+                if (index % 6 == 0)
                 {
                     @Html.Raw("</tr>");
                 };
