@@ -37,7 +37,8 @@ namespace WebApplication.Controllers
             }
             else
             {
-                orders = orderService.ListAll();
+                int lastDays = 2;
+                orders = orderService.ListAll(lastDays);
             }
             return View(orders);
         }

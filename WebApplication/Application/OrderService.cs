@@ -17,15 +17,24 @@ namespace WebApplication.Application
             contexto = new Contexto();
         }
 
-        public List<Order> ListAll()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lastDays">取最近多少天的数据,0为全部</param>
+        /// <returns></returns>
+        public List<Order> ListAll(int lastDays)
         {
             var Orders = new List<Order>();
             string strQuery = @"SELECT o1.*, u1.`Name` as 'AuditorName',u2.`Name` as 'ProductorName' FROM `orders` o1
                                     left join users as u1 on o1. auditor = u1.id
                                     left join users as u2 on o1.Productor = u2.id
-                                    where o1.`Status` <> 4
-                                    order by o1.id desc ";
-          
+                                    where o1.`Status` <> 4 ";
+                                 
+            if (lastDays != 0)
+            {
+                strQuery += $" and o1.submittime >= date_sub(curdate(), interval {lastDays} DAY)";
+            }
+            strQuery += " order by o1.id desc;"; 
             var rows = contexto.ExecuteCommandSQL(strQuery, null);
             foreach (var row in rows)
             {
