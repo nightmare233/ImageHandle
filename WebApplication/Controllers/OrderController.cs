@@ -54,41 +54,49 @@ namespace WebApplication.Controllers
         [HttpPost]
         public ActionResult Update(int id, int status)
         {
-            Order order = orderService.GetOrderById(id);
-            order.Status = status;
-            if (status == (int)EnumStatus.待生产) //审批
+            try
             {
-                if (UserHelper.GetCurrentUser.Role == EnumRole.生产员.ToString())
+                Order order = orderService.GetOrderById(id);
+                order.Status = status;
+                if (status == (int)EnumStatus.待生产) //审批
                 {
-                    log.Error("生产员试图点击审批！");
+                    if (UserHelper.GetCurrentUser.Role == EnumRole.生产员.ToString())
+                    {
+                        log.Error("生产员试图点击审批！");
+                    }
+                    order.Auditor = UserHelper.GetCurrentUser.Id;
+                    order.AuditTime = DateTime.Now;
                 }
-                order.Auditor = UserHelper.GetCurrentUser.Id;
-                order.AuditTime = DateTime.Now;
-            }
-            else if (status == (int)EnumStatus.生产中)  //生产
-            {
-                if (UserHelper.GetCurrentUser.Role == EnumRole.客服.ToString())
+                else if (status == (int)EnumStatus.生产中)  //生产
                 {
-                    log.Error("客服试图点击生产！");
+                    if (UserHelper.GetCurrentUser.Role == EnumRole.客服.ToString())
+                    {
+                        log.Error("客服试图点击生产！");
+                    }
+                    order.Productor = UserHelper.GetCurrentUser.Id;
+                    order.ProductTime = DateTime.Now;
                 }
-                order.Productor = UserHelper.GetCurrentUser.Id;
-                order.ProductTime = DateTime.Now;
-            }
-            else if (status == (int)EnumStatus.已完成)
-            {
-                if (UserHelper.GetCurrentUser.Role == EnumRole.客服.ToString())
+                else if (status == (int)EnumStatus.已完成)
                 {
-                    log.Error("客服试图点击完成！");
+                    if (UserHelper.GetCurrentUser.Role == EnumRole.客服.ToString())
+                    {
+                        log.Error("客服试图点击完成！");
+                    }
                 }
-            }
-            else if (status == (int)EnumStatus.已删除)
-            {
-                log.Error(UserHelper.GetCurrentUser.Name + "删除了订单：" + order.Id);
-                order.DeleteTime = DateTime.Now;
-            }
+                else if (status == (int)EnumStatus.已删除)
+                {
+                    log.Error(UserHelper.GetCurrentUser.Name + "删除了订单：" + order.Id);
+                    order.DeleteTime = DateTime.Now;
+                }
 
-            orderService.Save(order); 
-            return RedirectToAction("Index");
+                orderService.Save(order);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+                return RedirectToAction("Index");
+            } 
         }
 
         // GET: Order/Delete/5
@@ -161,7 +169,7 @@ namespace WebApplication.Controllers
                 fontList.Add(new SelectListItem { Text = item.name, Value = item.id.ToString() });
             }
             ViewBag.FontList = fontList;
-
+            //如果sampleid不等于0.
             string sampleIdStr = Request["sampleId"];
             Sample sample = new Sample();
             if (!string.IsNullOrEmpty(sampleIdStr) && sampleIdStr != "0")
@@ -213,13 +221,13 @@ namespace WebApplication.Controllers
                     order.DeleteTime = DateTime.MinValue;
                 
                     orderService.Save(order);
-                    return RedirectToAction("Index", "Order");
+                    return RedirectToAction("Create"); //继续停留在提交订单页面。
                 }
                 catch (Exception ex)
                 {
                     ViewBag.Message = ex.Message;
                     log.Error(ex);
-                    return View("Create2", order);
+                    return View("Create", order.Sample);
                 }
             }
             else if (type == "CreateImage")
@@ -246,7 +254,7 @@ namespace WebApplication.Controllers
                     {
                         if (string.IsNullOrEmpty(order.SmallText))
                         {
-                            return Json(new { status = "Fail", message = "请输入副文字！" }, JsonRequestBehavior.AllowGet);
+                            order.Sample.SmallText.Text = ""; //可以为空，可以没有副文字。
                         }
                         else
                         {
@@ -277,7 +285,8 @@ namespace WebApplication.Controllers
             List<Sample> samples = new List<Sample>();
             string _type = Request["ImageType"];
             string _style = Request["Style"];
-            string _hasBgImage = Request["IfHasBgImage"];
+            //string _hasBgImage = Request["IfHasBgImage"];
+            string _tag = Request["Tag"];
             string _keywords = Request["Keywords"];
             string _numberOfText = Request["NumberOfText"];
             try
@@ -297,11 +306,15 @@ namespace WebApplication.Controllers
                     var i = Convert.ToInt32(_style);
                     if (i > -1)  enumImageStyle = (EnumImageStyle)i;
                 }
-       
-                if (!string.IsNullOrEmpty(_hasBgImage))
+
+                //if (!string.IsNullOrEmpty(_hasBgImage))
+                //{
+                //    var i = Convert.ToInt32(_hasBgImage);
+                //    if(i>-1) booLIfHasBgImage = Convert.ToBoolean(i);
+                //}
+                if (string.IsNullOrEmpty(_keywords) && _tag != "0" && !string.IsNullOrEmpty(_tag))
                 {
-                    var i = Convert.ToInt32(_hasBgImage);
-                    if(i>-1) booLIfHasBgImage = Convert.ToBoolean(i);
+                    _keywords = _tag; //如果tag有值，keyword没值，就把tag当成keyword。主要用于儿童印章。
                 }
                 if (!string.IsNullOrEmpty(_numberOfText))
                 {

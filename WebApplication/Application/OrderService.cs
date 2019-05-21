@@ -54,7 +54,8 @@ namespace WebApplication.Application
                 tempOrder.Productor = int.Parse(row["Productor"].ToString());
                 tempOrder.ProductorName = row["ProductorName"] == null ? "" : row["ProductorName"].ToString();
                 tempOrder.ProductTime = DateTime.Parse(row["ProductTime"].ToString());
-                tempOrder.DeleteTime = DateTime.Parse(row["DeleteTime"].ToString()); 
+                tempOrder.DeleteTime = DateTime.Parse(row["DeleteTime"].ToString());
+                tempOrder.Font = row["Font"].ToString();
                 Orders.Add(tempOrder);
             }
             return Orders;
@@ -92,6 +93,7 @@ namespace WebApplication.Application
                 tempOrder.ProductorName = row["ProductorName"] == null ? "" : row["ProductorName"].ToString();
                 tempOrder.ProductTime = DateTime.Parse(row["ProductTime"].ToString());
                 tempOrder.DeleteTime = DateTime.Parse(row["DeleteTime"].ToString());
+                tempOrder.Font = row["Font"].ToString();
                 Orders.Add(tempOrder); 
             }
             return Orders;
@@ -130,7 +132,8 @@ namespace WebApplication.Application
             tempOrder.Productor = int.Parse(row["Productor"].ToString());
             tempOrder.ProductorName = row["ProductorName"] == null ? "" : row["ProductorName"].ToString();
             tempOrder.ProductTime = DateTime.Parse(row["ProductTime"].ToString());
-            tempOrder.DeleteTime = DateTime.Parse(row["DeleteTime"].ToString()); 
+            tempOrder.DeleteTime = DateTime.Parse(row["DeleteTime"].ToString());
+            tempOrder.Font = row["Font"].ToString();
             return tempOrder;
         }
 
@@ -168,6 +171,7 @@ namespace WebApplication.Application
             tempOrder.ProductorName = row["ProductorName"] == null ? "" : row["ProductorName"].ToString();
             tempOrder.ProductTime = DateTime.Parse(row["ProductTime"].ToString());
             tempOrder.DeleteTime = DateTime.Parse(row["DeleteTime"].ToString());
+            tempOrder.Font = row["Font"].ToString();
             return tempOrder;
         }
 

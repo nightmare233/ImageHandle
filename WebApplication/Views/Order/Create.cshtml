@@ -42,12 +42,22 @@
     </div>
 
     <div class="form-group">
-        <label for="IfHasBgImage" class="col-sm-1 control-label">背景图</label>
+        @*<label for="IfHasBgImage" class="col-sm-1 control-label">背景图</label>
         <div class="col-sm-2">
             <select id="IfHasBgImage" name="IfHasBgImage" class="dropdown form-control">
                 <option value="-1" selected="selected">全部</option>
                 <option value="0">无背景图</option>
                 <option value="1">有背景图</option>
+            </select>
+        </div>*@
+        <label for="Tag" class="col-sm-1 control-label">分类</label>
+        <div class="col-sm-2">
+            <select id="Tag" name="Tag" class="dropdown form-control">
+                <option value="0" selected="selected">全部</option>
+                <option value="A">A-男孩款</option>
+                <option value="B">B-女孩款</option>
+                <option value="C">C-生肖</option>
+                <option value="D">D-其他</option>
             </select>
         </div>
         <label for="Keywords" class="col-sm-1 control-label">关键词</label>
@@ -128,9 +138,13 @@
         if (_numberOfText != null && _numberOfText > -1) {
             $("#NumberOfText").val(_numberOfText);
         }
-        var _ifHasBgImage = getQueryString("IfHasBgImage");
-        if (_ifHasBgImage != null && _ifHasBgImage > -1) {
-            $("#IfHasBgImage").val(_ifHasBgImage);
+        //var _ifHasBgImage = getQueryString("IfHasBgImage");
+        //if (_ifHasBgImage != null && _ifHasBgImage > -1) {
+        //    $("#IfHasBgImage").val(_ifHasBgImage);
+        //} 
+        var _tag = getQueryString("tag");
+        if (_tag != null && _tag != "0") {
+            $("#Tag").val(_tag);
         } 
         var _keyword = getQueryString("keywords");
         if (_keyword != null && _keyword != "") {
@@ -145,7 +159,7 @@
         $("#NumberOfText").change(function () {
             QuerySample()
         });
-        $("#IfHasBgImage").change(function () {
+        $("#Tag").change(function () {
             QuerySample()
         }); 
     });
@@ -154,10 +168,11 @@
         var type1 = $("#ImageType").val()
         var stype1 = $("#Style").val();
         var numberOfTexts = $("#NumberOfText").val();
-        var ifhasbgimg1 = $("#IfHasBgImage").val();
+        //var ifhasbgimg1 = $("#IfHasBgImage").val();
+        var tag = $("#Tag").val();
         var keywords = $("#Keywords").val();
 
-        location.href = "/Order/Create?ImageType=" + type1 + "&style=" + stype1 + "&numberOfText=" + numberOfTexts + "&ifHasBgImage=" + ifhasbgimg1 + "&keywords=" + keywords + "&sampleId=" + sampleId;
+        location.href = "/Order/Create?ImageType=" + type1 + "&style=" + stype1 + "&numberOfText=" + numberOfTexts + "&tag=" + tag + "&keywords=" + keywords + "&sampleId=" + sampleId;
     }
 
     var currentSampleId = 0;
@@ -165,9 +180,10 @@
         $("#" + currentSampleId).css("border", "none");
         currentSampleId = sampleid;
         $("#" + currentSampleId).css("border", "1px solid #BBBBBB");
-        if (currentSampleId != 0) {
-            $("#btn_confim").show();
-        }
+        //if (currentSampleId != 0) {
+        //    $("#btn_confim").show();
+        //}
+        StepTwo();
     }
 
     function StepTwo() {
@@ -179,10 +195,11 @@
         var type1 = $("#ImageType").val()
         var stype1 = $("#Style").val();
         var numberOfTexts = $("#NumberOfText").val();
-        var ifhasbgimg1 = $("#IfHasBgImage").val();
+        //var ifhasbgimg1 = $("#IfHasBgImage").val();
+        var tag = $("#Tag").val();
         var keywords = $("#Keywords").val();
 
-        location.href = "/Order/Create?ImageType=" + type1 + "&style=" + stype1 + "&numberOfText=" + numberOfTexts + "&ifHasBgImage=" + ifhasbgimg1 + " + " +
+        location.href = "/Order/Create?ImageType=" + type1 + "&style=" + stype1 + "&numberOfText=" + numberOfTexts + "&tag=" + tag +
             "&keywords=" + keywords + "&sampleId=" + sampleId;
     }
     //生产订单图片。
