@@ -20,7 +20,7 @@ namespace WebApplication.Application
         {
             List<ImageFont> list = new List<ImageFont>();
             ImageFont imageFont = null;
-            string sql = "SELECT * FROM imagefont;";
+            string sql = "SELECT * FROM imagefont ORDER BY CONVERT(NAME USING gbk);";
             var rows = contexto.ExecuteCommandSQL(sql, null);
             foreach (var row in rows)
             {

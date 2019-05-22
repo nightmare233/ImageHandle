@@ -26,7 +26,7 @@ namespace WebApplication.Controllers
         }
 
         // GET: Order
-        public ActionResult Index()
+        public ActionResult Index(int lastdays = 1)
         {
             // 管理员和客服可以对订单做任何操作。
             // 生产员只能看到已经审批后的订单。
@@ -36,10 +36,11 @@ namespace WebApplication.Controllers
                 orders = orderService.List(new int[] { (int)EnumStatus.待生产, (int)EnumStatus.生产中 });
             }
             else
-            {
-                int lastDays = 2;
-                orders = orderService.ListAll(lastDays);
+            { 
+                orders = orderService.ListAll(lastdays);
             }
+            ViewBag.lastdays = lastdays;
+            ViewBag.count = orders.Count;
             return View(orders);
         }
 

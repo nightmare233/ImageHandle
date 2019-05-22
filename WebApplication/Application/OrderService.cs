@@ -29,11 +29,7 @@ namespace WebApplication.Application
                                     left join users as u1 on o1. auditor = u1.id
                                     left join users as u2 on o1.Productor = u2.id
                                     where o1.`Status` <> 4 ";
-                                 
-            if (lastDays != 0)
-            {
-                strQuery += $" and o1.submittime >= date_sub(curdate(), interval {lastDays} DAY)";
-            }
+            strQuery += $" and o1.submittime >= date_sub(curdate(), interval {lastDays} DAY)";
             strQuery += " order by o1.id desc;"; 
             var rows = contexto.ExecuteCommandSQL(strQuery, null);
             foreach (var row in rows)
