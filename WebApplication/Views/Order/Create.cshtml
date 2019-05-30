@@ -3,9 +3,10 @@
 @{
     ViewBag.Title = "创建订单";
 }
-<div class="page-header">
+@*<div class="page-header">
     <h1>创建订单</h1>
-</div>
+</div>*@
+<h1>创建订单</h1>
 <p style="font-weight:bold;font-size:18pt; color:black;">第一步：选择印章方案</p>
 <div class="form-horizontal">
     <div class="form-group">
@@ -138,10 +139,6 @@
         if (_numberOfText != null && _numberOfText > -1) {
             $("#NumberOfText").val(_numberOfText);
         }
-        //var _ifHasBgImage = getQueryString("IfHasBgImage");
-        //if (_ifHasBgImage != null && _ifHasBgImage > -1) {
-        //    $("#IfHasBgImage").val(_ifHasBgImage);
-        //} 
         var _tag = getQueryString("tag");
         if (_tag != null && _tag != "0") {
             $("#Tag").val(_tag);

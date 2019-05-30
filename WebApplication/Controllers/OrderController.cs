@@ -221,7 +221,8 @@ namespace WebApplication.Controllers
                     order.DeleteTime = DateTime.MinValue;
                 
                     orderService.Save(order);
-                    return RedirectToAction("Create"); //继续停留在提交订单页面。
+                    //return RedirectToAction("Create"); //继续停留在提交订单页面。、
+                    return RedirectToAction("DownloadFile", new { imageURL = order.ImageUrl});
                 }
                 catch (Exception ex)
                 {
