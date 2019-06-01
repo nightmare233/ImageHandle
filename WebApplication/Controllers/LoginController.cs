@@ -14,9 +14,11 @@ namespace WebApplication.Controllers
     public class LoginController : Controller
     {
         private UserService userService;
+        private LogService logService;
         private log4net.ILog log = log4net.LogManager.GetLogger("LoginController");
         public LoginController()
         {
+            logService = new LogService();
             userService = new UserService();
         }
         // GET: Login
@@ -44,17 +46,8 @@ namespace WebApplication.Controllers
                 return View(user);
             }
             HttpContext.Session["User"] = userFromDb;
-            //存一份到cookie中，防止session意外丢失。
-            //HttpCookie cookie = new HttpCookie("cookieUser");
-            //cookie["LoginName"] = userFromDb.LoginName;
-            //cookie["Name"] = userFromDb.Name;
-            //cookie["Id"] = userFromDb.Id.ToString();
-            //cookie["Role"] = userFromDb.Role;
-            //DateTime dtNow = DateTime.Now;
-            //TimeSpan tsTime = new TimeSpan(0, 10, 0, 0);
-            //cookie.Expires = dtNow + tsTime;
-            //Response.Cookies.Add(cookie);
-
+            var logs = new Logs { Action = EnumAction.登录, Detail = user.Name, UserId = UserHelper.GetCurrentUser.Id, Time = DateTime.Now };
+            logService.Insert(logs);
             return RedirectToAction("Index", "Order");
         }
 
@@ -65,6 +58,8 @@ namespace WebApplication.Controllers
             {
                 log.Error("user logout: " + user.LoginName); 
                 HttpContext.Session["User"] = null;
+                var logs = new Logs { Action = EnumAction.登出, Detail = user.Name, UserId = UserHelper.GetCurrentUser.Id, Time = DateTime.Now };
+                logService.Insert(logs);
                 return RedirectToAction("Login", "Login");
             }
             return RedirectToAction("Login", "Login"); 

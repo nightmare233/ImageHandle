@@ -22,8 +22,10 @@ namespace WebApplication.Controllers
         {
             string beginDateStr = Request["begindate"];
             string endDateStr = Request["enddate"];
+            string logActionStr = Request["logAction"];
             DateTime beginDate = DateTime.Now.AddDays(-3);
             DateTime endDate = DateTime.Now;
+            EnumAction? enumAction = null;
             if (!string.IsNullOrEmpty(beginDateStr))
             {
                 beginDate = DateTime.Parse(beginDateStr);
@@ -32,8 +34,12 @@ namespace WebApplication.Controllers
             {
                 endDate = DateTime.Parse(endDateStr);
             }
+            if (!string.IsNullOrEmpty(logActionStr) && logActionStr !="0")
+            {
+                enumAction = (EnumAction)Enum.Parse(typeof(EnumAction), logActionStr);
+            }
             UserService userService = new UserService();
-            List<Logs> logs = _logsService.ListAll(beginDate, endDate);
+            List<Logs> logs = _logsService.ListAll(beginDate, endDate, enumAction);
             logs.ForEach(t => t.UserName = userService.GetUserById(t.UserId).Name);
             ViewBag.count = logs.Count;
             return View(logs);

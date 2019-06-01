@@ -19,9 +19,14 @@ namespace WebApplication.Application
         { 
         }
 
-        public List<Logs> ListAll(DateTime beginDate, DateTime endDate)
+        public List<Logs> ListAll(DateTime beginDate, DateTime endDate, EnumAction? enumAction)
         {
-            string sql = $"SELECT * FROM Logs where time BETWEEN '{beginDate}' AND '{endDate}' ORDER BY id DESC;";
+            string sql = $"SELECT * FROM Logs where time BETWEEN '{beginDate}' AND '{endDate}' ";
+            if (enumAction.HasValue)
+            {
+                sql += $" and action = {(int)enumAction}";
+            }
+            sql += " ORDER BY id DESC;";
             using (IDbConnection conn = new MySqlConnection(DapperHelper.connStr))
             {
                 
