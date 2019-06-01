@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using WebApplication.Filters;
 using WebApplication.Application;
 using Models;
+using WebApplication.Common;
 
 namespace WebApplication.Controllers
 {
@@ -13,10 +14,12 @@ namespace WebApplication.Controllers
     public class ImageFontController : Controller
     {
         private ImageFontService imageFontService;
+        private LogService logService;
         private log4net.ILog log = log4net.LogManager.GetLogger("ImageFontController");
 
         public ImageFontController()
         {
+            logService = new LogService();
             imageFontService = new ImageFontService();
         }
 
@@ -44,26 +47,12 @@ namespace WebApplication.Controllers
                 {
                     HttpFileCollection files = System.Web.HttpContext.Current.Request.Files;
                     if (files.Count == 0)
-                        return Json(new { status = "Fail", message = "请先上传文件！"}, JsonRequestBehavior.AllowGet);
-                    //MD5 md5Hasher = new MD5CryptoServiceProvider();
-                    ///*计算指定Stream对象的哈希值*/
-                    //byte[] arrbytHashValue = md5Hasher.ComputeHash(files[0].InputStream);
-                    ///*由以连字符分隔的十六进制对构成的String，其中每一对表示value中对应的元素；例如“F-2C-4A”*/
-                    //string strHashData = System.BitConverter.ToString(arrbytHashValue).Replace("-", "");
-                    //string FileEextension = Path.GetExtension(files[0].FileName);
-                    //string uploadDate = DateTime.Now.ToString("yyyyMMdd");
-                    //string virtualPath = string.Format("/Data/ComponentAttachments/{0}/{1}{2}", uploadDate, strHashData, FileEextension);
-                    //string fullFileName = Server.MapPath(virtualPath);
-                    ////创建文件夹，保存文件
-                    //string path = Path.GetDirectoryName(fullFileName);
-                    //Directory.CreateDirectory(path);
+                        return Json(new { status = "Fail", message = "请先上传文件！"}, JsonRequestBehavior.AllowGet); 
                     var fullFileName = $"/UploadFiles/FontFiles/{Guid.NewGuid() + "_" + files[0].FileName}";
                     if (!System.IO.File.Exists(fullFileName))
                     {
                         files[0].SaveAs(Server.MapPath(fullFileName));
-                    }
-                    //string fileName = files[0].FileName.Substring(files[0].FileName.LastIndexOf("\\") + 1, files[0].FileName.Length - files[0].FileName.LastIndexOf("\\") - 1);
-                    //string fileSize = GetFileSize(files[0].ContentLength);
+                    } 
                     return Content(fullFileName);
                 }
                 catch (Exception ex)
@@ -94,6 +83,8 @@ namespace WebApplication.Controllers
                     imageFont.url = "";
                 }
                 imageFontService.Add(imageFont);
+                var logs = new Logs { Action = EnumAction.新建字体, Detail = imageFont.name, UserId = UserHelper.GetCurrentUser.Id, Time = DateTime.Now };
+                logService.Insert(logs);
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -125,6 +116,8 @@ namespace WebApplication.Controllers
             try
             {
                 imageFontService.Delete(id);
+                var logs = new Logs { Action = EnumAction.删除字体, Detail = "id:"+id, UserId = UserHelper.GetCurrentUser.Id, Time = DateTime.Now };
+                logService.Insert(logs);
                 return Content("success");
             }
             catch (Exception ex)

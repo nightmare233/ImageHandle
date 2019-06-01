@@ -13,10 +13,11 @@ namespace WebApplication.Controllers
     public class UserController : Controller
     { 
         private UserService userService;
+        private LogService logService;
         private log4net.ILog log = log4net.LogManager.GetLogger("UserController");
         public UserController()
         {
-            //CheckPermission();
+            logService = new LogService();
             userService = new UserService();
         } 
 
@@ -58,7 +59,9 @@ namespace WebApplication.Controllers
                     return View(user);
                 } 
              
-                userService.Save(user); 
+                userService.Save(user);
+                var logs = new Logs { Action = EnumAction.创建用户, Detail = user.Name, UserId = UserHelper.GetCurrentUser.Id, Time = DateTime.Now };
+                logService.Insert(logs);
                 return RedirectToAction("Index");
             }
             catch(Exception ex)
@@ -109,6 +112,8 @@ namespace WebApplication.Controllers
             try
             {
                 userService.Delete(id);
+                var logs = new Logs { Action = EnumAction.删除用户, Detail = "id:"+id, UserId = UserHelper.GetCurrentUser.Id, Time = DateTime.Now };
+                logService.Insert(logs);
                 return RedirectToAction("Index");
             }
             catch(Exception ex)

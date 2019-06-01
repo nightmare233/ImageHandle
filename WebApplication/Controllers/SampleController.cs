@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using WebApplication.Application;
 using Models;
 using WebApplication.Filters;
+using WebApplication.Common;
 
 namespace WebApplication.Controllers
 {
@@ -14,12 +15,14 @@ namespace WebApplication.Controllers
     {
         private SampleService sampleService;
         private ImageFontService imageFontService;
+        private LogService logService;
         private log4net.ILog log = log4net.LogManager.GetLogger("SampleController");
 
         public SampleController()
         {
             sampleService = new SampleService();
             imageFontService = new ImageFontService();
+            logService = new LogService();
         }
 
         private void InitData()
@@ -177,8 +180,6 @@ namespace WebApplication.Controllers
                 {
                     imageText = new ImageText();
                     imageText.Text = collection["Text5"];
-                    //int fontId = int.Parse(collection["Font5"]);
-                    //imageFont = imageFontService.GetById(fontId);
                     imageText.Font = imageFont.name;
                     imageText.imageFont = imageFont;
                     imageText.FontSize = int.Parse(collection["FontSize5"]);
@@ -198,6 +199,8 @@ namespace WebApplication.Controllers
                         throw new Exception("请先生成样式图片！");
                     }
                     sampleService.Insert(sample);
+                    var logs = new Logs { Action = EnumAction.新建预设样式, Detail = sample.Name, UserId = UserHelper.GetCurrentUser.Id, Time = DateTime.Now };
+                    logService.Insert(logs);
                     return RedirectToAction("Index");
                 }
                 else if (type == "CreateImage")
@@ -233,27 +236,9 @@ namespace WebApplication.Controllers
         {
             Sample sample = sampleService.GetSample(id, true);
             InitData();
-          
-            //List<SelectListItem> sli = new List<SelectListItem>();
-            //if (sample.IfHasBgImg)
-            //{
-            //    sli.Add(new SelectListItem() { Value = "0", Text = "无背景图", Selected = false });
-            //    sli.Add(new SelectListItem() { Value = "1", Text = "有背景图", Selected = true });
-
-            //}
-            //else
-            //{
-            //    sli.Add(new SelectListItem() { Value = "0", Text = "无背景图", Selected = true });
-            //    sli.Add(new SelectListItem() { Value = "1", Text = "有背景图", Selected = false });
-            //}
-            ////var a = sli.Select(t => t.Value == sample.IfHasBgImg.ToString()).FirstOrDefault();
-            //SelectList select = new SelectList(sli, "Value", "Text");
+           
             ViewBag.VBIfHasBgImg = sample.IfHasBgImg?"1":"0";
-            string font = sample.Font;
-            //for (int i=0;i<sample.MainText.Count;i++)
-            //{
-            //    font += sample.MainText[i].Font + "|"; 
-            //}
+            string font = sample.Font; 
             ViewBag.Font = font;
             if (sample.IfHasSmallText)
             {
@@ -413,6 +398,8 @@ namespace WebApplication.Controllers
                     System.IO.File.Delete(path);
                 }
                 sampleService.Delete(id);
+                var logs = new Logs { Action = EnumAction.删除预设样式, Detail = sample.Name, UserId = UserHelper.GetCurrentUser.Id, Time = DateTime.Now };
+                logService.Insert(logs);
                 return Content("success");
             }
             catch(Exception ex)

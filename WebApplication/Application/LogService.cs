@@ -21,7 +21,7 @@ namespace WebApplication.Application
 
         public List<Logs> ListAll(DateTime beginDate, DateTime endDate)
         {
-            string sql = $"SELECT * FROM Logs where time BETWEEN '{beginDate}' AND '{endDate}';";
+            string sql = $"SELECT * FROM Logs where time BETWEEN '{beginDate}' AND '{endDate}' ORDER BY id DESC;";
             using (IDbConnection conn = new MySqlConnection(DapperHelper.connStr))
             {
                 
