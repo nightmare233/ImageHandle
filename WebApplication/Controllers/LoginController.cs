@@ -31,7 +31,7 @@ namespace WebApplication.Controllers
         public ActionResult Login(User user)
         {
             log.Error("user login: " + user.LoginName);
-            var userFromDb = userService.GetUserForLoginName(user.LoginName);
+            var userFromDb = userService.GetUserByLoginName(user.LoginName);
             string pwd = Utils.Encrypt(user.Password);
             if (userFromDb == null)
             {

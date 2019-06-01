@@ -81,7 +81,7 @@ namespace WebApplication.Application
             return contexto.ExecuteCommand(commandSQL, parameters);
         }
 
-        public User GetUserForId(int Id)
+        public User GetUserById(int Id)
         {
             var Users = new List<User>();
             const string commandSQL = "SELECT * FROM Users WHERE Id=@Id";
@@ -107,7 +107,7 @@ namespace WebApplication.Application
             return Users.FirstOrDefault();
         }
 
-        public User GetUserForLoginName(string LoginName)
+        public User GetUserByLoginName(string LoginName)
         {
             var Users = new List<User>();
             const string commandSQL = "SELECT * FROM Users WHERE LoginName = @LoginName";

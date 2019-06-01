@@ -30,7 +30,7 @@ namespace WebApplication.Controllers
         // GET: User/Details/5
         public ActionResult Details(int id)
         {
-            var user = userService.GetUserForId(id);
+            var user = userService.GetUserById(id);
             return View("Details", user);
         }
 
@@ -51,7 +51,7 @@ namespace WebApplication.Controllers
                 user.LoginName = collection["LoginName"];
                 user.Role = collection["Role"];
                 user.Password = Utils.Encrypt(collection["Password"]);//加密
-                var existUser = userService.GetUserForLoginName(user.LoginName);
+                var existUser = userService.GetUserByLoginName(user.LoginName);
                 if (existUser != null && existUser.LoginName == user.LoginName)
                 {
                     ViewBag.Message = "登录名已经存在！";
@@ -72,7 +72,7 @@ namespace WebApplication.Controllers
         // GET: User/Update/5
         public ActionResult Update(int id)
         {
-            var user = userService.GetUserForId(id);
+            var user = userService.GetUserById(id);
             return View("Update", user); 
         }
 
@@ -82,7 +82,7 @@ namespace WebApplication.Controllers
         {
             try
             {
-                var oldUser = userService.GetUserForId(user.Id);
+                var oldUser = userService.GetUserById(user.Id);
                 if (string.IsNullOrEmpty(user.Password))
                 {
                     user.Password = oldUser.Password;

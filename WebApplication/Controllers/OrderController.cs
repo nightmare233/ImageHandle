@@ -16,6 +16,7 @@ namespace WebApplication.Controllers
         private OrderService orderService;
         private SampleService sampleService;
         private ImageFontService imageFontService;
+        private LogService logService;
         private log4net.ILog log = log4net.LogManager.GetLogger("OrderController");
 
         public OrderController()
@@ -23,6 +24,7 @@ namespace WebApplication.Controllers
             sampleService = new SampleService();
             orderService = new OrderService();
             imageFontService = new ImageFontService();
+            logService = new LogService();
         }
 
         // GET: Order
@@ -222,7 +224,9 @@ namespace WebApplication.Controllers
                     order.DeleteTime = DateTime.MinValue;
                 
                     orderService.Save(order);
-                    //return RedirectToAction("Create"); //继续停留在提交订单页面。、
+                    //return RedirectToAction("Create"); //继续停留在提交订单页面。
+                    var logs = new Logs { Action = EnumAction.新建订单, Detail = order.MainText, UserId = UserHelper.GetCurrentUser.Id, Time = DateTime.Now };
+                    logService.Insert(logs);
                     return RedirectToAction("DownloadFile", new { imageURL = order.ImageUrl});
                 }
                 catch (Exception ex)
@@ -270,6 +274,10 @@ namespace WebApplication.Controllers
                     }
 
                     string imageUrl = ImageHelp.CreateImage(order.Sample, false, order.TaobaoId);
+
+                    var logs = new Logs { Action = EnumAction.创建订单图片, Detail = order.MainText, UserId = UserHelper.GetCurrentUser.Id, Time = DateTime.Now };
+                    logService.Insert(logs);
+
                     var result = Json(imageUrl);
                     return result;
                 }

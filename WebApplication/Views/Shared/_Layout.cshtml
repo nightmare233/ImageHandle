@@ -36,7 +36,7 @@
                         <li>@Html.ActionLink("字体管理", "Index", "ImageFont")</li>
                         <li>@Html.ActionLink("用户管理", "Index", "User")</li>
                     }
-                    <li>@Html.ActionLink("联系方式", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("系统日志", "Index", "Logs")</li>
                     @if (UserHelper.GetCurrentUser != null)
                     {
                         <li>@Html.ActionLink(@UserHelper.GetCurrentUser.Name + ", 退出", "Logout", "Login")</li>

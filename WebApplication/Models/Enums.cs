@@ -50,22 +50,22 @@ namespace Models
 
     public enum EnumAction
     {
-        AddOrder=1,
-        CreateOrderImage=2,
-        FinishOrder=3,
-        DeleteOrder=4,
+        新建订单=1,
+        创建订单图片=2,
+        完成订单=3,
+        删除订单=4,
         
-        AddSample=11,
-        DeleteSample=12,
+        新建预设样式=11,
+        删除预设样式=12,
 
-        AddFont=21,
-        DeleteFont=22,
+        新建字体=21,
+        删除字体=22,
 
-        AddUser=31,
-        DeleteUser=32,
+        创建用户=31,
+        删除用户=32,
 
-        Login=41,
-        Logout=42,
+        登录=41,
+        登出=42,
     }
 
 }
