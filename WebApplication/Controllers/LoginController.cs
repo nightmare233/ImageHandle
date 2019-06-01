@@ -46,7 +46,7 @@ namespace WebApplication.Controllers
                 return View(user);
             }
             HttpContext.Session["User"] = userFromDb;
-            var logs = new Logs { Action = EnumAction.登录, Detail = user.Name, UserId = UserHelper.GetCurrentUser.Id, Time = DateTime.Now };
+            var logs = new Logs { Action = EnumAction.登录, Detail = userFromDb.Name, UserId = userFromDb.Id, Time = DateTime.Now };
             logService.Insert(logs);
             return RedirectToAction("Index", "Order");
         }
@@ -56,9 +56,9 @@ namespace WebApplication.Controllers
             var user = UserHelper.GetCurrentUser;
             if (user != null)
             {
-                log.Error("user logout: " + user.LoginName); 
+                log.Error("user logout: " + user.LoginName);
+                var logs = new Logs { Action = EnumAction.登出, Detail = user.Name, UserId = user.Id, Time = DateTime.Now };
                 HttpContext.Session["User"] = null;
-                var logs = new Logs { Action = EnumAction.登出, Detail = user.Name, UserId = UserHelper.GetCurrentUser.Id, Time = DateTime.Now };
                 logService.Insert(logs);
                 return RedirectToAction("Login", "Login");
             }
