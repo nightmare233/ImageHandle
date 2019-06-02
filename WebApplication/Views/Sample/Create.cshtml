@@ -12,7 +12,7 @@
         <div>
             <div class="form-group">
                 <label for="Name" class="col-sm-1 control-label">名称</label>
-                <input id="Name" type="text" name="Name" class="form-control" required placeholder="样式名称"/>
+                <input id="Name" type="text" name="Name" class="form-control" required placeholder="样式名称" />
             </div>
             <div class="form-group">
                 <label for="ImageType" class="col-sm-1 control-label">印章类型</label>
@@ -47,6 +47,16 @@
                     <input id="BgImage" name="BgImage" value="" type="text" hidden="hidden" />
                 </div>
             </div>
+            <div class="form-group" id="sizeDiv" hidden="hidden">
+                <label for="Size" class="col-sm-1 control-label">尺寸</label>
+                <select id="Size" name="Size" class="dropdown form-control">
+                    <option value="1" selected="selected">6x14mm扁章</option>
+                    <option value="2" selected="selected">4x12mm扁章</option>
+                    <option value="3" selected="selected">8x15mm扁章</option>
+                    <option value="4" selected="selected">5x13mm扁章</option>
+                    <option value="5" selected="selected">8x14mm扁章</option>
+                </select>
+            </div>
             <div class="form-group">
                 <label for="Font" class="col-sm-1 control-label">字体</label>
                 @Html.DropDownList("Font", (List<SelectListItem>)ViewData["FontList"], "--选择字体--", new { @class = "col-sm-1 form-control" })
@@ -54,9 +64,7 @@
             <div id="mainTextDiv">
                 <div id="mainText1" class="form-group">
                     <label for="Text1" class="col-sm-1 control-label">主文字</label>
-                    <input type="text" id="Text1" name="Text1" class="col-sm-1 form-control" required/>
-                    @*<label for="Font1" class="col-sm-1 control-label">字体</label>
-                    @Html.DropDownList("Font1", (List<SelectListItem>)ViewData["FontList"], "--Select One--", new { @class = "col-sm-1 form-control" })*@
+                    <input type="text" id="Text1" name="Text1" class="col-sm-1 form-control" required />
                     <label for="FontSize1" class="col-sm-1 control-label">文字大小</label><input id="FontSize1" type="text" name="FontSize1" class="col-sm-1 form-control" value="160" />
                     <label for="PositionX1" class="col-sm-1 control-label">X位置</label><input id="PositionX1" type="text" name="PositionX1" class="col-sm-1 form-control" value="280" />
                     <label for="PositionY1" class="col-sm-1 control-label">Y位置</label><input id="PositionY1" type="text" name="PositionY1" class="col-sm-1 form-control" value="50" />
@@ -64,8 +72,6 @@
                 <div id="mainText2" class="form-group">
                     <label for="Text2" class="col-sm-1 control-label">主文字2</label>
                     <input type="text" name="Text2" class="col-sm-1 form-control" />
-                    @*<label for="Font2" class="col-sm-1 control-label">字体</label>
-                    @Html.DropDownList("Font2", (List<SelectListItem>)ViewData["FontList"], "--Select One--", new { @class = "col-sm-1 form-control" })*@
                     <label for="FontSize2" class="col-sm-1 control-label">文字大小</label><input id="FontSize2" type="text" name="FontSize2" class="col-sm-1 form-control" value="160" />
                     <label for="PositionX2" class="col-sm-1 control-label">X位置</label><input id="PositionX2" type="text" name="PositionX2" class="col-sm-1 form-control" value="280" />
                     <label for="PositionY2" class="col-sm-1 control-label">Y位置</label><input id="PositionY2" type="text" name="PositionY2" class="col-sm-1 form-control" value="270" />
@@ -74,8 +80,6 @@
                 <div id="mainText3" class="form-group">
                     <label for="Text3" class="col-sm-1 control-label">主文字3</label>
                     <input type="text" name="Text3" class="col-sm-1 form-control" />
-                    @*<label for="Font3" class="col-sm-1 control-label">字体</label>
-                    @Html.DropDownList("Font3", (List<SelectListItem>)ViewData["FontList"], "--Select One--", new { @class = "col-sm-1 form-control" })*@
                     <label for="FontSize3" class="col-sm-1 control-label">文字大小</label><input id="FontSize3" type="text" name="FontSize3" class="col-sm-1 form-control" value="160" />
                     <label for="PositionX3" class="col-sm-1 control-label">X位置</label><input id="PositionX3" type="text" name="PositionX3" class="col-sm-1 form-control" value="60" />
                     <label for="PositionY3" class="col-sm-1 control-label">Y位置</label><input id="PositionY3" type="text" name="PositionY3" class="col-sm-1 form-control" value="50" />
@@ -84,8 +88,6 @@
                 <div id="mainText4" class="form-group">
                     <label for="Text4" class="col-sm-1 control-label">主文字4</label>
                     <input type="text" name="Text4" class="col-sm-1 form-control" />
-                    @*<label for="Font4" class="col-sm-1 control-label">字体</label>
-                    @Html.DropDownList("Font4", (List<SelectListItem>)ViewData["FontList"], "--Select One--", new { @class = "col-sm-1 form-control" })*@
                     <label for="FontSize4" class="col-sm-1 control-label">文字大小</label><input id="FontSize4" type="text" name="FontSize4" class="col-sm-1 form-control" value="160" />
                     <label for="PositionX4" class="col-sm-1 control-label">X位置</label><input id="PositionX4" type="text" name="PositionX4" class="col-sm-1 form-control" value="60" />
                     <label for="PositionY4" class="col-sm-1 control-label">Y位置</label><input id="PositionY4" type="text" name="PositionY4" class="col-sm-1 form-control" value="270" />
@@ -97,8 +99,6 @@
             <div id="smalltext" class="form-group">
                 <label for="Text5" class="col-sm-1 control-label">副文字</label>
                 <input type="text" name="Text5" class="col-sm-1 form-control" />
-                @*<label for="Font4" class="col-sm-1 control-label">字体</label>
-                @Html.DropDownList("Font5", (List<SelectListItem>)ViewData["FontList"], "--Select One--", new { @class = "col-sm-1 form-control" })*@
                 <label for="FontSize5" class="col-sm-1 control-label">文字大小</label><input id="FontSize5" type="text" name="FontSize5" class="col-sm-1 form-control" value="40" />
                 <label for="PositionX5" class="col-sm-1 control-label">X位置</label><input id="PositionX5" type="text" name="PositionX5" class="col-sm-1 form-control" value="140" />
                 <label for="PositionY5" class="col-sm-1 control-label">Y位置</label><input id="PositionY5" type="text" name="PositionY5" class="col-sm-1 form-control" value="250" />
@@ -115,7 +115,7 @@
                 <input type="button" value="生产预览图" onclick="CreateImage(); return false;" class="btn" />
             </div>
             <div class="form-group">
-                <div style="width:198px; height:198px">
+                <div style="width:198px;">
                     <input id="ImageUrl" name="ImageUrl" value="" type="text" hidden="hidden" />
                     <img id="sampleimage" src="" style="width:198px; border: 1px solid #dddddd;" hidden="hidden" />
                 </div>
@@ -130,7 +130,6 @@
 </form>
 
 <script src="~/Scripts/jquery.form.min.js"></script>
-@*<script src="~/Scripts/ajaxfileupload.js"></script>*@
 <script type="text/javascript" language="javascript">
     $(document).ready(function () {
         $("#mainText2").hide();
@@ -148,7 +147,9 @@
         });
 
         //改变默认文字位置。
-        $("#ImageType").change(function () { 
+        $("#ImageType").change(function () {
+            $("#uploadDiv").hide();
+            $("#sizeDiv").hide();
             var type = $("#ImageType").val(); 
             if (type == "2") {  //圆形章
                 $("#PositionX1").val("280");
@@ -214,7 +215,28 @@
                 $("#IfHasBgImage").val(1);
                 $("#uploadDiv").show();    //儿童印章默认要上传背景图。
             }
-            else { //其他：个性签名,扁章
+            else if (type == "4") { //扁章
+                $("#sizeDiv").show();
+                $("#PositionX1").val("0");
+                $("#PositionX2").val("70");
+                $("#PositionX3").val("140");
+                $("#PositionX4").val("210");
+
+                $("#PositionY1").val("18");
+                $("#PositionY2").val("18");
+                $("#PositionY3").val("18");
+                $("#PositionY4").val("18");
+
+                $("#FontSize1").val("30");
+                $("#FontSize2").val("30");
+                $("#FontSize3").val("30");
+                $("#FontSize4").val("30");
+
+                $("#PositionX5").val("0");
+                $("#PositionY5").val("0");
+                $("#FontSize5").val("20");
+            }
+            else if (type == "7") { //个性签名章
                 $("#PositionX1").val("0");
                 $("#PositionX2").val("70");
                 $("#PositionX3").val("140");

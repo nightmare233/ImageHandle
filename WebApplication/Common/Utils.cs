@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Security.Cryptography;
 using System.Text;
+using Models;
 
 namespace WebApplication.Common
 {
@@ -28,6 +29,32 @@ namespace WebApplication.Common
             }
             return reverse;
         }
-         
+
+        public static Sample SetSize(int sizeInt, Sample sample)
+        {
+            switch (sizeInt) {
+                case 1:
+                    sample.ImageSizeX = 165;
+                    sample.ImageSizeY = 71;
+                    break;
+                case 2:
+                    sample.ImageSizeX = 142;
+                    sample.ImageSizeY = 72;
+                    break;
+                case 3:
+                    sample.ImageSizeX = 177;
+                    sample.ImageSizeY = 94;
+                    break;
+                case 4:
+                    sample.ImageSizeX = 154;
+                    sample.ImageSizeY = 59;
+                    break;
+                case 5:
+                    sample.ImageSizeX = 165;
+                    sample.ImageSizeY = 94;
+                    break;
+            }
+            return sample;
+        }
     }
 }

@@ -41,7 +41,7 @@ namespace Models
             else if (sample.ImageType == EnumImageType.圆形章)
             {
                 if (!string.IsNullOrEmpty(sample.BgImage))
-                { 
+                {
                     string bgImgPath = AppDomain.CurrentDomain.BaseDirectory + sample.BgImage;
                     imgBack = Image.FromFile(bgImgPath);     //相框图片 
                     g = Graphics.FromImage(imgBack);
@@ -64,23 +64,24 @@ namespace Models
             }
             else if (sample.ImageType == EnumImageType.扁章) //没有背景图
             {
-                int size = 600;//296;
-                imgBack = new System.Drawing.Bitmap(size, size/2);
+                int sizeX = sample.ImageSizeX;
+                int sizeY = sample.ImageSizeY;
+                imgBack = new System.Drawing.Bitmap(sizeX, sizeY);
                 g = Graphics.FromImage(imgBack);
                 if (sample.Style == EnumImageStyle.阳文)
                 {
                     Pen pen = new Pen(Color.Red, 28.0F);
-                    g.DrawRectangle(pen, 0, 0, size, size/2);
+                    g.DrawRectangle(pen, 0, 0, sizeX, sizeY);
                 }
                 else if (sample.Style == EnumImageStyle.阴文)
                 {
-                    g.FillRectangle(drawBrush, 0, 0, size, size/2);
+                    g.FillRectangle(drawBrush, 0, 0, sizeX, sizeY);
                 }
             }
             else if (sample.ImageType == EnumImageType.儿童印章) //必须要有背景图
             {
                 if (!string.IsNullOrEmpty(sample.BgImage))
-                { 
+                {
                     string bgImgPath = AppDomain.CurrentDomain.BaseDirectory + sample.BgImage;
                     imgBack = Image.FromFile(bgImgPath);     //相框图片 
                     g = Graphics.FromImage(imgBack);
@@ -92,17 +93,44 @@ namespace Models
             }
             else if (sample.ImageType == EnumImageType.个性签名章)  //纯文字，没有边框，没有背景,
             {
-                int size = 600;//300;
-                imgBack = new System.Drawing.Bitmap(size, size/3);
+                int sizeX = 354;
+                int sizeY = 118;
+
+                imgBack = new System.Drawing.Bitmap(sizeX, sizeY);
                 g = Graphics.FromImage(imgBack);
                 if (sample.Style == EnumImageStyle.阳文)
                 {
                     Pen pen = new Pen(Color.Red, 28.0F);
-                    //g.DrawRectangle(pen, 0, 0, size, size / 3);  //不要边框
                 }
                 else if (sample.Style == EnumImageStyle.阴文)
                 {
-                    g.FillRectangle(drawBrush, 0, 0, size, size / 3); 
+                    g.FillRectangle(drawBrush, 0, 0, sizeX, sizeY);
+                }
+            }
+            else if (sample.ImageType == EnumImageType.闲章)
+            {
+                if (!string.IsNullOrEmpty(sample.BgImage))
+                {
+                    string bgImgPath = AppDomain.CurrentDomain.BaseDirectory + sample.BgImage;
+                    imgBack = Image.FromFile(bgImgPath);     //相框图片 
+                    g = Graphics.FromImage(imgBack);
+                }
+                else
+                {
+                    int sizeX = 295;
+                    int sizeY = 413;
+                    imgBack = new System.Drawing.Bitmap(sizeX, sizeY);
+                    g = Graphics.FromImage(imgBack);
+                    if (sample.Style == EnumImageStyle.阳文)
+                    {
+                        float width = 56.0F;
+                        Pen pen = new Pen(Color.Red, width);
+                        g.DrawRectangle(pen, 0, 0, sizeX, sizeY);
+                    }
+                    else if (sample.Style == EnumImageStyle.阴文)
+                    {
+                        g.FillRectangle(drawBrush, 0, 0, sizeX, sizeY);
+                    }
                 }
             }
 

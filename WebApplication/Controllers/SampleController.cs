@@ -147,6 +147,8 @@ namespace WebApplication.Controllers
                 sample.ImageType = (EnumImageType)int.Parse(collection["ImageType"]);
                 sample.Style = (EnumImageStyle)int.Parse(collection["Style"]);
                 sample.ImageUrl = collection["ImageUrl"];
+                int sizeInt = int.Parse(collection["Size"]);
+                sample = Utils.SetSize(sizeInt, sample);
             
                 List<ImageText> mainTexts = new List<ImageText>();
                 ImageText imageText = null;
@@ -302,14 +304,14 @@ namespace WebApplication.Controllers
                 imageFont = imageFontService.GetById(fontId);
                 sample.Font = imageFont.name;//第一个字的字体作为sample的字体，用于搜索过滤。
                 sample.imageFont = imageFont;
+                int sizeInt = int.Parse(collection["Size"]);
+                sample = Utils.SetSize(sizeInt, sample);
                 for (int i = 1; i < 5; i++)
                 {
                     if (!string.IsNullOrEmpty(collection["Text" + i]))
                     {
                         imageText = new ImageText();
-                        imageText.Text = collection["Text" + i];
-                        //int fontId = int.Parse(collection["Font" + i]);
-                        //imageFont = imageFontService.GetById(fontId);
+                        imageText.Text = collection["Text" + i]; 
                         imageText.Font = imageFont.name;
                         imageText.imageFont = imageFont;
                         imageText.FontSize = int.Parse(collection["FontSize" + i]);
@@ -326,9 +328,7 @@ namespace WebApplication.Controllers
                 if (!string.IsNullOrEmpty(collection["Text5"]))  //small text
                 {
                     imageText = new ImageText();
-                    imageText.Text = collection["Text5"];
-                    //int fontId = int.Parse(collection["Font5"]);
-                    //imageFont = imageFontService.GetById(fontId);
+                    imageText.Text = collection["Text5"]; 
                     imageText.Font = imageFont.name;
                     imageText.imageFont = imageFont;
                     imageText.FontSize = int.Parse(collection["FontSize5"]);
