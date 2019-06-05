@@ -23,6 +23,7 @@
                     <option value="5">闲章</option>
                     <option value="6">儿童印章</option>
                     <option value="7">个性签名章</option>
+                    <option value="8">光敏章</option>
                 </select>
             </div>
             <div class="form-group">
@@ -197,17 +198,17 @@
                 $("#PositionX2").val("190");
                 $("#PositionX3").val("260");
                 $("#PositionX4").val("330");
-              
+
                 $("#PositionY1").val("22");
                 $("#PositionY2").val("22");
                 $("#PositionY3").val("22");
                 $("#PositionY4").val("22");
-             
+
                 $("#FontSize1").val("40");
                 $("#FontSize2").val("40");
                 $("#FontSize3").val("40");
                 $("#FontSize4").val("40");
-              
+
                 $("#PositionX5").val("0");
                 $("#PositionY5").val("0");
                 $("#FontSize5").val("20");
@@ -255,6 +256,9 @@
                 $("#PositionX5").val("0");
                 $("#PositionY5").val("0");
                 $("#FontSize5").val("20");
+            }
+            else if (type == "8") {
+                //to do.
             }
         });
         //第1个文字的字体改变时后面的文字字体一起改变。后面的文字改变不影响其他文字字体。

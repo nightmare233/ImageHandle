@@ -30,7 +30,8 @@ namespace Models
                 new ImageType { Name = EnumImageType.扁章.ToString(), Id = (int)EnumImageType.扁章},
                 new ImageType { Name = EnumImageType.闲章.ToString(), Id = (int)EnumImageType.闲章},
                 new ImageType { Name = EnumImageType.儿童印章.ToString(), Id = (int)EnumImageType.儿童印章},
-                new ImageType { Name = EnumImageType.个性签名章.ToString(), Id = (int)EnumImageType.个性签名章}
+                new ImageType { Name = EnumImageType.个性签名章.ToString(), Id = (int)EnumImageType.个性签名章},
+                new ImageType { Name = EnumImageType.光敏章.ToString(), Id = (int)EnumImageType.光敏章}
             };
         }
     }

@@ -16,7 +16,8 @@ namespace Models
         扁章 = 4,
         闲章 = 5,
         儿童印章 = 6,
-        个性签名章 = 7
+        个性签名章 = 7,
+        光敏章=8,
     }
 
     public enum EnumStatus
