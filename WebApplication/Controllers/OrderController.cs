@@ -224,7 +224,8 @@ namespace WebApplication.Controllers
                     order.DeleteTime = DateTime.MinValue;
                 
                     orderService.Save(order);
-                    var logs = new Logs { Action = EnumAction.新建订单, Detail = order.MainText, UserId = UserHelper.GetCurrentUser.Id, Time = DateTime.Now };
+                    string logDetail = order.Sample.ImageType.ToString() + "-" + order.MainText;
+                    var logs = new Logs { Action = EnumAction.新建订单, Detail = logDetail, UserId = UserHelper.GetCurrentUser.Id, Time = DateTime.Now };
                     logService.Insert(logs);
                     return RedirectToAction("DownloadFile", new { imageURL = order.ImageUrl});
                 }
