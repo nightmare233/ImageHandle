@@ -190,8 +190,10 @@ namespace WebApplication.Controllers
             order.SampleId = int.Parse(collection["SampleId"]);
             order.TaobaoId = order.SampleId + "_" + DateTime.Now.Ticks;
             order.ImageUrl = collection["ImageUrl"];
-            order.MainText = collection["MainText"];
-            order.SmallText = collection["SmallText"];
+            string mainText = collection["MainText"] ?? "";
+            string smallText = collection["SmallText"] ?? "";
+            order.MainText = mainText.Trim();
+            order.SmallText = smallText.Trim();
             string fontStr = collection["Font"];
             ImageFont font = null;
             order.Sample = sampleService.GetSample(order.SampleId, true);

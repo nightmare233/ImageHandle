@@ -202,7 +202,7 @@
     }
     //生产订单图片。
     function CreateImage() {
-        var maintext = $("#MainText").val();
+        var maintext = $("#MainText").val().trim();
         var taobaoId = $("#TaobaoId").val();
         if (maintext == "") {
             alert("请输入印章文字！");
