@@ -21,7 +21,8 @@ namespace Models
         public List<ImageText> MainText { get; set; }
         public ImageText SmallText { get; set; } 
         public string Font { get; set; }
-        public ImageFont imageFont { get; set; }
+        public ImageFont ImageFont { get; set; }
+        public int Boarder { get; set; }
     }
 
     public class ImageText

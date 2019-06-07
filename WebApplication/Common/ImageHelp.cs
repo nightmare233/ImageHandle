@@ -122,6 +122,29 @@ namespace Models
                     }
                     break;
                 case EnumImageType.光敏章:
+                    if (!string.IsNullOrEmpty(sample.BgImage))
+                    {
+                        string bgImgPath = AppDomain.CurrentDomain.BaseDirectory + sample.BgImage;
+                        imgBack = Image.FromFile(bgImgPath);     //相框图片 
+                        g = Graphics.FromImage(imgBack);
+                    }
+                    else
+                    {
+                        sizeX = sample.ImageSizeX;
+                        sizeY = sample.ImageSizeY;
+                        imgBack = new System.Drawing.Bitmap(sizeX, sizeY);
+                        g = Graphics.FromImage(imgBack);
+                        if (sample.Style == EnumImageStyle.阳文)
+                        {
+                            float width = 56.0F;
+                            Pen pen = new Pen(Color.Red, width);
+                            g.DrawRectangle(pen, 0, 0, sizeX, sizeY);
+                        }
+                        else if (sample.Style == EnumImageStyle.阴文)
+                        {
+                            g.FillRectangle(drawBrush, 0, 0, sizeX, sizeY);
+                        }
+                    } 
                     break;
             }
             /////////////////////////////////////////写主文字//////////////////////////////////////////////////////
@@ -130,7 +153,7 @@ namespace Models
             {
                 for (int i = 0; i < sample.MainTextNumber; i++)
                 {
-                    DrawMainText(g, sample.MainText[i], sample.Style, sample.ImageType, sample.imageFont);
+                    DrawMainText(g, sample.MainText[i], sample.Style, sample.ImageType, sample.ImageFont);
                 }
             }
             else
@@ -139,7 +162,7 @@ namespace Models
             }
             if (sample.IfHasSmallText)
             {
-                DrawSmallText(g, sample.SmallText, sample.Style, sample.ImageType, sample.imageFont);
+                DrawSmallText(g, sample.SmallText, sample.Style, sample.ImageType, sample.ImageFont);
             }
             #region 测试 瞄准线，后面要删掉。
             //if(ifSample)

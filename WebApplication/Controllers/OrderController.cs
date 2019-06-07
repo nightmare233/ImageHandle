@@ -202,13 +202,13 @@ namespace WebApplication.Controllers
                 int fontId = int.Parse(fontStr);
                 font = imageFontService.GetById(fontId);
                 order.Font = font.name;
-                order.Sample.imageFont = font;
+                order.Sample.ImageFont = font;
             }
             else//沿用sample的字体
             { 
                 order.Font = order.Sample.Font;
                 font = imageFontService.GetByName(order.Sample.Font);
-                order.Sample.imageFont = font;
+                order.Sample.ImageFont = font;
             }
             if (type == "提交订单")
             {

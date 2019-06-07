@@ -147,8 +147,8 @@ namespace WebApplication.Controllers
                 sample.ImageType = (EnumImageType)int.Parse(collection["ImageType"]);
                 sample.Style = (EnumImageStyle)int.Parse(collection["Style"]);
                 sample.ImageUrl = collection["ImageUrl"];
-                int sizeInt = int.Parse(collection["Size"]);
-                sample = Utils.SetSize(sizeInt, sample);
+                string sizeStr = collection["Size"];
+                sample = Utils.SetSize(sizeStr, sample);
             
                 List<ImageText> mainTexts = new List<ImageText>();
                 ImageText imageText = null;
@@ -156,7 +156,7 @@ namespace WebApplication.Controllers
                 int fontId = int.Parse(collection["Font"]);
                 imageFont = imageFontService.GetById(fontId);
                 sample.Font = imageFont.name;//第一个字的字体作为sample的字体，用于搜索过滤。
-                sample.imageFont = imageFont;
+                sample.ImageFont = imageFont;
                 for (int i = 1; i < 5; i++)
                 {
                     if (!string.IsNullOrEmpty(collection["Text" + i]))
@@ -303,9 +303,9 @@ namespace WebApplication.Controllers
                 int fontId = int.Parse(collection["Font"]);
                 imageFont = imageFontService.GetById(fontId);
                 sample.Font = imageFont.name;//第一个字的字体作为sample的字体，用于搜索过滤。
-                sample.imageFont = imageFont;
-                int sizeInt = int.Parse(collection["Size"]);
-                sample = Utils.SetSize(sizeInt, sample);
+                sample.ImageFont = imageFont;
+                string sizeStr = collection["Size"];
+                sample = Utils.SetSize(sizeStr, sample);
                 for (int i = 1; i < 5; i++)
                 {
                     if (!string.IsNullOrEmpty(collection["Text" + i]))
