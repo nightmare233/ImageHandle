@@ -43,7 +43,7 @@
                     </select>
                 </div> 
                     <label for="Font" class="col-sm-1 control-label">字体</label>
-                    @Html.DropDownList("Font", (List<SelectListItem>)ViewData["FontList"], "--选择字体--", new { @class = "col-sm-2 form-control" })
+                    @Html.DropDownList("Font", (List<SelectListItem>)ViewData["FontList"], new { @class = "col-sm-2 form-control" })
             </div>
             <div class="form-group">
                 <label for="IfHasBgImage" class="col-sm-1 control-label">背景图</label>
@@ -62,47 +62,64 @@
             </div>  
             <div id="mainTextDiv">
                 <div id="mainText1" class="form-group">
-                    <label for="Text1" class="col-sm-1 control-label">主文字</label>
-                    <input type="text" id="Text1" name="Text1" class="col-sm-1 form-control" required />
-                    <label for="FontSize1" class="col-sm-1 control-label">文字大小</label><input id="FontSize1" type="text" name="FontSize1" class="col-sm-1 form-control" value="160" />
-                    <label for="PositionX1" class="col-sm-1 control-label">X位置</label><input id="PositionX1" type="text" name="PositionX1" class="col-sm-1 form-control" value="280" />
-                    <label for="PositionY1" class="col-sm-1 control-label">Y位置</label><input id="PositionY1" type="text" name="PositionY1" class="col-sm-1 form-control" value="50" />
+                    <label for="Text1" class="col-sm-1 control-label">主文字1</label>
+                    <input type="text" id="Text1" name="Text1" class="col-sm-1 form-control" style="width:100px;" required />
+                    <label for="FontSize1" class="col-sm-1 control-label">文字大小</label>
+                    <input id="FontSize1" type="text" name="FontSize1" class="col-sm-1 form-control" value="160" style="width:100px;" />
+                    <label for="PositionX1" class="col-sm-1 control-label">X位置</label>
+                    <input id="PositionX1" type="text" name="PositionX1" class="col-sm-1 form-control" value="280" style="width:100px;" />
+                    <label for="PositionY1" class="col-sm-1 control-label">Y位置</label>
+                    <input id="PositionY1" type="text" name="PositionY1" class="col-sm-1 form-control" value="50" style="width:100px;" />
+                    <a id="addmainbtn1" onclick="AddMainText(1); return false;" class="btn btn-link">添加主文字</a>
                 </div>
-                <div id="mainText2" class="form-group">
+                @*<div id="mainText2" class="form-group">
                     <label for="Text2" class="col-sm-1 control-label">主文字2</label>
-                    <input type="text" name="Text2" class="col-sm-1 form-control" />
-                    <label for="FontSize2" class="col-sm-1 control-label">文字大小</label><input id="FontSize2" type="text" name="FontSize2" class="col-sm-1 form-control" value="160" />
-                    <label for="PositionX2" class="col-sm-1 control-label">X位置</label><input id="PositionX2" type="text" name="PositionX2" class="col-sm-1 form-control" value="280" />
-                    <label for="PositionY2" class="col-sm-1 control-label">Y位置</label><input id="PositionY2" type="text" name="PositionY2" class="col-sm-1 form-control" value="270" />
-                </div>
+                    <input type="text" name="Text2" class="col-sm-1 form-control" style="width:100px;" />
+                    <label for="FontSize2" class="col-sm-1 control-label">文字大小</label>
+                    <input id="FontSize2" type="text" name="FontSize2" class="col-sm-1 form-control" value="160" style="width:100px;" />
+                    <label for="PositionX2" class="col-sm-1 control-label">X位置</label>
+                    <input id="PositionX2" type="text" name="PositionX2" class="col-sm-1 form-control" value="280" style="width:100px;" />
+                    <label for="PositionY2" class="col-sm-1 control-label">Y位置</label>
+                    <input id="PositionY2" type="text" name="PositionY2" class="col-sm-1 form-control" value="270" style="width:100px;" />
+                    <input id="del_mainText4" type="button" onclick="DeleteText(4)" />
+                </div>*@
 
-                <div id="mainText3" class="form-group">
+                @*<div id="mainText3" class="form-group">
                     <label for="Text3" class="col-sm-1 control-label">主文字3</label>
-                    <input type="text" name="Text3" class="col-sm-1 form-control" />
-                    <label for="FontSize3" class="col-sm-1 control-label">文字大小</label><input id="FontSize3" type="text" name="FontSize3" class="col-sm-1 form-control" value="160" />
-                    <label for="PositionX3" class="col-sm-1 control-label">X位置</label><input id="PositionX3" type="text" name="PositionX3" class="col-sm-1 form-control" value="60" />
-                    <label for="PositionY3" class="col-sm-1 control-label">Y位置</label><input id="PositionY3" type="text" name="PositionY3" class="col-sm-1 form-control" value="50" />
+                    <input type="text" name="Text3" class="col-sm-1 form-control" style="width:100px;" />
+                    <label for="FontSize3" class="col-sm-1 control-label">文字大小</label>
+                    <input id="FontSize3" type="text" name="FontSize3" class="col-sm-1 form-control" value="160" style="width:100px;" />
+                    <label for="PositionX3" class="col-sm-1 control-label">X位置</label>
+                    <input id="PositionX3" type="text" name="PositionX3" class="col-sm-1 form-control" value="60" style="width:100px;" />
+                    <label for="PositionY3" class="col-sm-1 control-label">Y位置</label>
+                    <input id="PositionY3" type="text" name="PositionY3" class="col-sm-1 form-control" value="50" style="width:100px;" />
                 </div>
 
                 <div id="mainText4" class="form-group">
                     <label for="Text4" class="col-sm-1 control-label">主文字4</label>
-                    <input type="text" name="Text4" class="col-sm-1 form-control" />
-                    <label for="FontSize4" class="col-sm-1 control-label">文字大小</label><input id="FontSize4" type="text" name="FontSize4" class="col-sm-1 form-control" value="160" />
-                    <label for="PositionX4" class="col-sm-1 control-label">X位置</label><input id="PositionX4" type="text" name="PositionX4" class="col-sm-1 form-control" value="60" />
-                    <label for="PositionY4" class="col-sm-1 control-label">Y位置</label><input id="PositionY4" type="text" name="PositionY4" class="col-sm-1 form-control" value="270" />
-                </div>
+                    <input type="text" name="Text4" class="col-sm-1 form-control" style="width:100px;" />
+                    <label for="FontSize4" class="col-sm-1 control-label">文字大小</label>
+                    <input id="FontSize4" type="text" name="FontSize4" class="col-sm-1 form-control" value="160" style="width:100px;" />
+                    <label for="PositionX4" class="col-sm-1 control-label">X位置</label>
+                    <input id="PositionX4" type="text" name="PositionX4" class="col-sm-1 form-control" value="60" style="width:100px;" />
+                    <label for="PositionY4" class="col-sm-1 control-label">Y位置</label>
+                    <input id="PositionY4" type="text" name="PositionY4" class="col-sm-1 form-control" value="270" style="width:100px;" />
+                </div>*@
             </div>
-            <div class="form-group">
-                <a onclick="AddMainText(); return false;" class="btn btn-link">添加主文字</a>
-            </div>
+            @*<div class="form-group">
+                <a onclick="AddMainText(1); return false;" class="btn btn-link">添加主文字</a>
+            </div>*@
             <div id="smalltext" class="form-group">
                 <label for="Text5" class="col-sm-1 control-label">副文字</label>
-                <input type="text" name="Text5" class="col-sm-1 form-control" />
-                <label for="FontSize5" class="col-sm-1 control-label">文字大小</label><input id="FontSize5" type="text" name="FontSize5" class="col-sm-1 form-control" value="40" />
-                <label for="PositionX5" class="col-sm-1 control-label">X位置</label><input id="PositionX5" type="text" name="PositionX5" class="col-sm-1 form-control" value="140" />
-                <label for="PositionY5" class="col-sm-1 control-label">Y位置</label><input id="PositionY5" type="text" name="PositionY5" class="col-sm-1 form-control" value="250" />
+                <input type="text" name="Text5" class="col-sm-1 form-control" style="width:100px;" />
+                <label for="FontSize5" class="col-sm-1 control-label">文字大小</label>
+                <input id="FontSize5" type="text" name="FontSize5" class="col-sm-1 form-control" value="40" style="width:100px;" />
+                <label for="PositionX5" class="col-sm-1 control-label">X位置</label>
+                <input id="PositionX5" type="text" name="PositionX5" class="col-sm-1 form-control" value="140" style="width:100px;" />
+                <label for="PositionY5" class="col-sm-1 control-label">Y位置</label>
+                <input id="PositionY5" type="text" name="PositionY5" class="col-sm-1 form-control" value="250" style="width:100px;" />
                 <label for="FontOrder" class="col-sm-1 control-label">文字顺序: </label>
-                <select id="FontOrder" name="FontOrder" class="col-sm-1 form-control">
+                <select id="FontOrder" name="FontOrder" class="col-sm-1 form-control" style="width:120px;" >
                     <option value="1" selected="selected">从左往右</option>
                     <option value="0">从右往左</option>
                 </select>
@@ -314,11 +331,41 @@
         //    $("#Font4").val(selectedFont);
         //});
     });
-    function AddMainText() {
-        if ($('#mainText2').is(':hidden')) { $("#mainText2").show() }
-        else if ($('#mainText3').is(':hidden')) { $("#mainText3").show() }
-        else if ($('#mainText4').is(':hidden')) { $("#mainText4").show() }
-        else { alert("最多支持4个字"); }
+    function AddMainText(preindex) {
+        //if ($('#mainText2').is(':hidden')) { $("#mainText2").show() }
+        //else if ($('#mainText3').is(':hidden')) { $("#mainText3").show() }
+        //else if ($('#mainText4').is(':hidden')) { $("#mainText4").show() }
+        //else { alert("最多支持4个字"); }
+      
+        var aa = "addmainbtn" + preindex;
+        var bb = "del_mainText" + preindex;
+        $("#" + aa).hide();
+        $("#" + bb).hide();
+        var domIndex = "mainTextDiv";
+        var index = preindex + 1;
+        var nextindex = index + 1;
+        //alert(index);
+        $("#" + domIndex).append("<div id='mainText" + index + "' class='form-group'>"+
+        "<label for='Text" + index + "' class='col-sm-1 control-label'>主文字" + index + "</label>"+
+        "<input type='text' name='Text" + index + "' class='col-sm-1 form-control' style='width:100px;'/>"+
+        "<label for='FontSize" + index + "' class='col-sm-1 control-label'>文字大小</label>"+
+        "<input id='FontSize" + index + "' type='text' name='FontSize" + index + "' class='col-sm-1 form-control' value='160' style='width:100px;'/>"+
+        "<label for='PositionX" + index + "' class='col-sm-1 control-label'>X位置</label>"+
+        "<input id='PositionX" + index + "' type='text' name='PositionX" + index + "' class='col-sm-1 form-control' value='60' style='width:100px;'/>"+
+        "<label for='PositionY" + index + "' class='col-sm-1 control-label'>Y位置</label>"+
+        "<input id='PositionY" + index + "' type='text' name='PositionY" + index + "' class='col-sm-1 form-control' value='50' style='width:100px;'/>" +
+        "<input id='del_mainText" + index + "' type='button' value='删除' class='btn' onclick='DeleteText(" + index + ");'/>" +
+        "<a id='addmainbtn" + index + "' onclick='AddMainText(" + index + "); return false;' class='btn btn-link'>添加主文字</a>" +
+        "</div>");  
+    }
+    function DeleteText(index) {
+        var preindex = index - 1;
+        var aa = "addmainbtn" + preindex;
+        var bb = "del_mainText" + preindex;
+        $("#" + aa).show();
+        $("#" + bb).show();
+        var cc = "mainText" + index;
+        $("#" + cc).remove();
     }
     function AddSmallText() {
         $("#smalltext").toggle();
