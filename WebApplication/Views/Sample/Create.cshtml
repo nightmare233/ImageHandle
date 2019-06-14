@@ -5,7 +5,7 @@
 }
 
 <div class="page-header">
-    <h1>添加预设样式</h1> 
+    <h1>添加预设样式</h1>
 </div>
 <form id="itemForm" method="POST" action="Create" enctype="multipart/form-data" class="form-horizontal" role="form">
     <fieldset>
@@ -32,7 +32,7 @@
                     <div class="col-sm-4">
                         <select id="Size" name="Size" class="dropdown form-control"></select>
                     </div>
-                </div>  
+                </div>
             </div>
             <div class="form-group">
                 <label for="Style" class="col-sm-1 control-label">样式</label>
@@ -41,9 +41,9 @@
                         <option value="0" selected="selected">阴文</option>
                         <option value="1">阳文</option>
                     </select>
-                </div> 
-                    <label for="Font" class="col-sm-1 control-label">字体</label>
-                    @Html.DropDownList("Font", (List<SelectListItem>)ViewData["FontList"], new { @class = "col-sm-2 form-control" })
+                </div>
+                <label for="Font" class="col-sm-1 control-label">字体</label>
+                @Html.DropDownList("Font", (List<SelectListItem>)ViewData["FontList"], new { @class = "col-sm-2 form-control" })
             </div>
             <div class="form-group">
                 <label for="IfHasBgImage" class="col-sm-1 control-label">背景图</label>
@@ -59,7 +59,7 @@
                     <input type="button" value="上传背景图" onclick="UploadFile(); return false;" class="col-sm-2" />
                     <input id="BgImage" name="BgImage" value="" type="text" hidden="hidden" />
                 </div>
-            </div>  
+            </div>
             <div id="mainTextDiv">
                 <div id="mainText1" class="form-group">
                     <label for="Text1" class="col-sm-1 control-label">主文字1</label>
@@ -72,60 +72,27 @@
                     <input id="PositionY1" type="text" name="PositionY1" class="col-sm-1 form-control" value="50" style="width:100px;" />
                     <a id="addmainbtn1" onclick="AddMainText(1); return false;" class="btn btn-link">添加主文字</a>
                 </div>
-                @*<div id="mainText2" class="form-group">
-                    <label for="Text2" class="col-sm-1 control-label">主文字2</label>
-                    <input type="text" name="Text2" class="col-sm-1 form-control" style="width:100px;" />
-                    <label for="FontSize2" class="col-sm-1 control-label">文字大小</label>
-                    <input id="FontSize2" type="text" name="FontSize2" class="col-sm-1 form-control" value="160" style="width:100px;" />
-                    <label for="PositionX2" class="col-sm-1 control-label">X位置</label>
-                    <input id="PositionX2" type="text" name="PositionX2" class="col-sm-1 form-control" value="280" style="width:100px;" />
-                    <label for="PositionY2" class="col-sm-1 control-label">Y位置</label>
-                    <input id="PositionY2" type="text" name="PositionY2" class="col-sm-1 form-control" value="270" style="width:100px;" />
-                    <input id="del_mainText4" type="button" onclick="DeleteText(4)" />
-                </div>*@
-
-                @*<div id="mainText3" class="form-group">
-                    <label for="Text3" class="col-sm-1 control-label">主文字3</label>
-                    <input type="text" name="Text3" class="col-sm-1 form-control" style="width:100px;" />
-                    <label for="FontSize3" class="col-sm-1 control-label">文字大小</label>
-                    <input id="FontSize3" type="text" name="FontSize3" class="col-sm-1 form-control" value="160" style="width:100px;" />
-                    <label for="PositionX3" class="col-sm-1 control-label">X位置</label>
-                    <input id="PositionX3" type="text" name="PositionX3" class="col-sm-1 form-control" value="60" style="width:100px;" />
-                    <label for="PositionY3" class="col-sm-1 control-label">Y位置</label>
-                    <input id="PositionY3" type="text" name="PositionY3" class="col-sm-1 form-control" value="50" style="width:100px;" />
+            </div>
+            <div id="smallTextDiv">
+                <a onclick="ShowSmallText1(); return false;" class="btn btn-link">添加副文字</a>
+                <div id="smalltext1" class="form-group">
+                    <label for="SmallText1" class="col-sm-1 control-label">副文字</label>
+                    <input type="text" name="SmallText1" class="col-sm-1 form-control" style="width:100px;" />
+                    <label for="SmallFontSize1" class="col-sm-1 control-label">文字大小</label>
+                    <input id="SmallFontSize1" type="text" name="SmallFontSize1" class="col-sm-1 form-control" value="40" style="width:100px;" />
+                    <label for="SmallPositionX1" class="col-sm-1 control-label">X位置</label>
+                    <input id="SmallPositionX1" type="text" name="SmallPositionX1" class="col-sm-1 form-control" value="140" style="width:100px;" />
+                    <label for="SmallPositionY1" class="col-sm-1 control-label">Y位置</label>
+                    <input id="SmallPositionY1" type="text" name="SmallPositionY1" class="col-sm-1 form-control" value="250" style="width:100px;" />
+                    <label for="SmallFontOrder1" class="col-sm-1 control-label">文字顺序: </label>
+                    <select id="SmallFontOrder1" name="FontOrder1" class="col-sm-1 form-control" style="width:120px;">
+                        <option value="1" selected="selected">从左往右</option>
+                        <option value="0">从右往左</option>
+                    </select>
+                    <input id="del_smallText1" type="button" value="删除" class="btn" onclick="HideSmallText1(1);" />
+                    @*<a onclick="AddSmallText(); return false;" class="btn btn-link">添加副文字</a>*@
+                    <a id="addsmallbtn1" onclick="AddSmallText(1); return false;" class="btn btn-link">添加副文字</a>
                 </div>
-
-                <div id="mainText4" class="form-group">
-                    <label for="Text4" class="col-sm-1 control-label">主文字4</label>
-                    <input type="text" name="Text4" class="col-sm-1 form-control" style="width:100px;" />
-                    <label for="FontSize4" class="col-sm-1 control-label">文字大小</label>
-                    <input id="FontSize4" type="text" name="FontSize4" class="col-sm-1 form-control" value="160" style="width:100px;" />
-                    <label for="PositionX4" class="col-sm-1 control-label">X位置</label>
-                    <input id="PositionX4" type="text" name="PositionX4" class="col-sm-1 form-control" value="60" style="width:100px;" />
-                    <label for="PositionY4" class="col-sm-1 control-label">Y位置</label>
-                    <input id="PositionY4" type="text" name="PositionY4" class="col-sm-1 form-control" value="270" style="width:100px;" />
-                </div>*@
-            </div>
-            @*<div class="form-group">
-                <a onclick="AddMainText(1); return false;" class="btn btn-link">添加主文字</a>
-            </div>*@
-            <div id="smalltext" class="form-group">
-                <label for="Text5" class="col-sm-1 control-label">副文字</label>
-                <input type="text" name="Text5" class="col-sm-1 form-control" style="width:100px;" />
-                <label for="FontSize5" class="col-sm-1 control-label">文字大小</label>
-                <input id="FontSize5" type="text" name="FontSize5" class="col-sm-1 form-control" value="40" style="width:100px;" />
-                <label for="PositionX5" class="col-sm-1 control-label">X位置</label>
-                <input id="PositionX5" type="text" name="PositionX5" class="col-sm-1 form-control" value="140" style="width:100px;" />
-                <label for="PositionY5" class="col-sm-1 control-label">Y位置</label>
-                <input id="PositionY5" type="text" name="PositionY5" class="col-sm-1 form-control" value="250" style="width:100px;" />
-                <label for="FontOrder" class="col-sm-1 control-label">文字顺序: </label>
-                <select id="FontOrder" name="FontOrder" class="col-sm-1 form-control" style="width:120px;" >
-                    <option value="1" selected="selected">从左往右</option>
-                    <option value="0">从右往左</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <a onclick="AddSmallText(); return false;" class="btn btn-link">添加副文字</a>
             </div>
             <div class="form-group">
                 <input type="button" value="生产预览图" onclick="CreateImage(); return false;" class="btn" />
@@ -151,7 +118,7 @@
         $("#mainText2").hide();
         $("#mainText3").hide();
         $("#mainText4").hide();
-        $("#smalltext").hide();
+        $("#smalltext1").hide();
         $("#uploadDiv").hide();
         $("#IfHasBgImage").change(function () {
             if ($("#IfHasBgImage").val() == "1") {
@@ -166,7 +133,7 @@
         $("#ImageType").change(function () {
             $("#uploadDiv").hide();
             $("#sizeDiv").hide();
-            var type = $("#ImageType").val(); 
+            var type = $("#ImageType").val();
             if (type == "2") {  //圆形章
                 $("#PositionX1").val("280");
                 $("#PositionX2").val("280");
@@ -281,7 +248,7 @@
             else if (type == "8") {
                 $("#sizeDiv").show();
                 //$("#Size").find("option").remove();
-                $("#Size").empty(); 
+                $("#Size").empty();
                 $("#Size").prepend("<option value='413*118' selected='selected'>10 * 35mm</option>");
                 $("#Size").prepend("<option value='591*118'>10 * 50mm</option>");
                 $("#Size").prepend("<option value='78*189'>16 * 32mm</option>");
@@ -332,11 +299,6 @@
         //});
     });
     function AddMainText(preindex) {
-        //if ($('#mainText2').is(':hidden')) { $("#mainText2").show() }
-        //else if ($('#mainText3').is(':hidden')) { $("#mainText3").show() }
-        //else if ($('#mainText4').is(':hidden')) { $("#mainText4").show() }
-        //else { alert("最多支持4个字"); }
-      
         var aa = "addmainbtn" + preindex;
         var bb = "del_mainText" + preindex;
         $("#" + aa).hide();
@@ -345,19 +307,20 @@
         var index = preindex + 1;
         var nextindex = index + 1;
         //alert(index);
-        $("#" + domIndex).append("<div id='mainText" + index + "' class='form-group'>"+
-        "<label for='Text" + index + "' class='col-sm-1 control-label'>主文字" + index + "</label>"+
-        "<input type='text' name='Text" + index + "' class='col-sm-1 form-control' style='width:100px;'/>"+
-        "<label for='FontSize" + index + "' class='col-sm-1 control-label'>文字大小</label>"+
-        "<input id='FontSize" + index + "' type='text' name='FontSize" + index + "' class='col-sm-1 form-control' value='160' style='width:100px;'/>"+
-        "<label for='PositionX" + index + "' class='col-sm-1 control-label'>X位置</label>"+
-        "<input id='PositionX" + index + "' type='text' name='PositionX" + index + "' class='col-sm-1 form-control' value='60' style='width:100px;'/>"+
-        "<label for='PositionY" + index + "' class='col-sm-1 control-label'>Y位置</label>"+
-        "<input id='PositionY" + index + "' type='text' name='PositionY" + index + "' class='col-sm-1 form-control' value='50' style='width:100px;'/>" +
-        "<input id='del_mainText" + index + "' type='button' value='删除' class='btn' onclick='DeleteText(" + index + ");'/>" +
-        "<a id='addmainbtn" + index + "' onclick='AddMainText(" + index + "); return false;' class='btn btn-link'>添加主文字</a>" +
-        "</div>");  
+        $("#" + domIndex).append("<div id='mainText" + index + "' class='form-group'>" +
+            "<label for='Text" + index + "' class='col-sm-1 control-label'>主文字" + index + "</label>" +
+            "<input type='text' name='Text" + index + "' class='col-sm-1 form-control' style='width:100px;'/>" +
+            "<label for='FontSize" + index + "' class='col-sm-1 control-label'>文字大小</label>" +
+            "<input id='FontSize" + index + "' type='text' name='FontSize" + index + "' class='col-sm-1 form-control' value='160' style='width:100px;'/>" +
+            "<label for='PositionX" + index + "' class='col-sm-1 control-label'>X位置</label>" +
+            "<input id='PositionX" + index + "' type='text' name='PositionX" + index + "' class='col-sm-1 form-control' value='60' style='width:100px;'/>" +
+            "<label for='PositionY" + index + "' class='col-sm-1 control-label'>Y位置</label>" +
+            "<input id='PositionY" + index + "' type='text' name='PositionY" + index + "' class='col-sm-1 form-control' value='50' style='width:100px;'/>" +
+            "<input id='del_mainText" + index + "' type='button' value='删除' class='btn' onclick='DeleteText(" + index + ");'/>" +
+            "<a id='addmainbtn" + index + "' onclick='AddMainText(" + index + "); return false;' class='btn btn-link'>添加主文字</a>" +
+            "</div>");
     }
+
     function DeleteText(index) {
         var preindex = index - 1;
         var aa = "addmainbtn" + preindex;
@@ -367,16 +330,53 @@
         var cc = "mainText" + index;
         $("#" + cc).remove();
     }
-    function AddSmallText() {
-        $("#smalltext").toggle();
+
+    function AddSmallText(preindex) {
+        var aa = "addsmallbtn" + preindex;
+        var bb = "del_smallText" + preindex;
+        $("#" + aa).hide();
+        $("#" + bb).hide();
+        var domIndex = "smallTextDiv";
+        var index = preindex + 1;
+        var nextindex = index + 1;
+        alert(index);
+        $("#" + domIndex).append("<div id='smallText" + index + "' class='form-group'>" +
+            "<label for='Text" + index + "' class='col-sm-1 control-label'>主文字" + index + "</label>" +
+            "<input type='text' name='Text" + index + "' class='col-sm-1 form-control' style='width:100px;'/>" +
+            "<label for='FontSize" + index + "' class='col-sm-1 control-label'>文字大小</label>" +
+            "<input id='FontSize" + index + "' type='text' name='FontSize" + index + "' class='col-sm-1 form-control' value='160' style='width:100px;'/>" +
+            "<label for='PositionX" + index + "' class='col-sm-1 control-label'>X位置</label>" +
+            "<input id='PositionX" + index + "' type='text' name='PositionX" + index + "' class='col-sm-1 form-control' value='60' style='width:100px;'/>" +
+            "<label for='PositionY" + index + "' class='col-sm-1 control-label'>Y位置</label>" +
+            "<input id='PositionY" + index + "' type='text' name='PositionY" + index + "' class='col-sm-1 form-control' value='50' style='width:100px;'/>" +
+            "<input id='del_smallText" + index + "' type='button' value='删除' class='btn' onclick='DeleteSmallText(" + index + ");'/>" +
+            "<a id='addsmallbtn" + index + "' onclick='AddSmallText(" + index + "); return false;' class='btn btn-link'>添加副文字</a>" +
+            "</div>");
+    }
+
+    function DeleteSmallText(index) {
+        var preindex = index - 1;
+        var aa = "addmainbtn" + preindex;
+        var bb = "del_mainText" + preindex;
+        $("#" + aa).show();
+        $("#" + bb).show();
+        var cc = "mainText" + index;
+        $("#" + cc).remove();
+    }
+
+    function ShowSmallText1() {
+        $("#smalltext1").show();
+    }
+    function HideSmallText1() {
+        $("#smalltext1").hide();
     }
     function CreateImage() {
         var name = $("#Name").val();
-        var text1 = $("#Text1").val(); 
+        var text1 = $("#Text1").val();
         if (name == "" || name == null) {
             alert("请先输入样式名称！");
             return;
-        } 
+        }
 
         var formData = new FormData($("#itemForm")[0]);
         $.ajax({
@@ -394,7 +394,7 @@
                     $("#ImageUrl").val(data);
                     $("#sampleimage").attr('src', "\\UploadFiles\\SampleImgs\\" + data + "?t=" + Math.random());
                     $("#sampleimage").show();
-                } 
+                }
             },
             error: function (response, ajaxOptions, thrownError) {
                 alert("生成图片发生错误");
