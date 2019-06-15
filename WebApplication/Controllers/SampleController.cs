@@ -140,31 +140,34 @@ namespace WebApplication.Controllers
                         log.Error(ex.Message);
                         return Json(new { status = "Fail", message = ex.Message }, JsonRequestBehavior.AllowGet);
                     }
-                    
+
                 }
-              
+
                 sample.Name = collection["Name"];
                 sample.ImageType = (EnumImageType)int.Parse(collection["ImageType"]);
                 sample.Style = (EnumImageStyle)int.Parse(collection["Style"]);
                 sample.ImageUrl = collection["ImageUrl"];
                 string sizeStr = collection["Size"];
                 sample = Utils.SetSize(sizeStr, sample);
-            
+
                 List<ImageText> mainTexts = new List<ImageText>();
+                List<ImageText> smallTexts = new List<ImageText>();
                 ImageText imageText = null;
                 ImageFont imageFont = null;
                 int fontId = int.Parse(collection["Font"]);
                 imageFont = imageFontService.GetById(fontId);
                 sample.Font = imageFont.name;//第一个字的字体作为sample的字体，用于搜索过滤。
                 sample.ImageFont = imageFont;
-                for (int i = 1; i < 5; i++)
+
+                var mainTextArray = collection.AllKeys.Where(t => t.StartsWith("Text"));  //把所有Text开头的拿出来，遍历。
+                foreach (string str in mainTextArray)
                 {
-                    if (!string.IsNullOrEmpty(collection["Text" + i]))
+                    int i = Convert.ToInt32(str.Substring(4, 1)); //Text1 取后面的数字
+                    string text = collection["Text" + i];
+                    if (!string.IsNullOrEmpty(text))
                     {
                         imageText = new ImageText();
-                        imageText.Text = collection["Text" + i];
-                        //int fontId = int.Parse(collection["Font" + i]);
-                        //imageFont = imageFontService.GetById(fontId);
+                        imageText.Text = text;
                         imageText.Font = imageFont.name;
                         imageText.imageFont = imageFont;
                         imageText.FontSize = int.Parse(collection["FontSize" + i]);
@@ -176,23 +179,33 @@ namespace WebApplication.Controllers
                     }
                 }
                 sample.MainText = mainTexts;
-                sample.MainTextNumber = mainTexts.Count;
-               
-                if (!string.IsNullOrEmpty(collection["Text5"]))  //small text
+                sample.MainTextNumber = mainTexts.Count; 
+                var smallTextArray = collection.AllKeys.Where(t => t.StartsWith("SmallText"));  //把所有SmallText开头的拿出来，遍历。
+                foreach (string str in smallTextArray)
                 {
-                    imageText = new ImageText();
-                    imageText.Text = collection["Text5"];
-                    imageText.Font = imageFont.name;
-                    imageText.imageFont = imageFont;
-                    imageText.FontSize = int.Parse(collection["FontSize5"]);
-                    imageText.PositionX = int.Parse(collection["PositionX5"]);
-                    imageText.PositionY = int.Parse(collection["PositionY5"]);
-                    imageText.Type = (int)EnumTextType.SmallText;
-                    imageText.Order = Convert.ToBoolean(int.Parse(collection["FontOrder"]));
-                    sample.IfHasSmallText = true;
-                    sample.SmallText = imageText;
+                    int i = Convert.ToInt32(str.Substring(9, 1)); //SmallText1 取后面的数字
+                    string text = collection["SmallText" + i];
+                    if (!string.IsNullOrEmpty(text))  //small text
+                    {
+                        imageText = new ImageText();
+                        imageText.Text = text;
+                        imageText.Font = imageFont.name;
+                        imageText.imageFont = imageFont;
+                        imageText.FontSize = int.Parse(collection["SmallFontSize" + i]);
+                        imageText.PositionX = int.Parse(collection["SmallPositionX" + i]);
+                        imageText.PositionY = int.Parse(collection["SmallPositionY" + i]);
+                        imageText.Type = (int)EnumTextType.SmallText;
+                        imageText.Order = Convert.ToBoolean(int.Parse(collection["SmallFontOrder" + i]));
+                        smallTexts.Add(imageText);
+                    }
                 }
-                 
+                sample.SmallText = smallTexts;
+                if(smallTexts.Count>0)
+                {
+                    sample.IfHasSmallText = true;
+                    sample.SmallTextNumber = smallTexts.Count;
+                }
+                
                 #endregion
                 if (type == "保存")
                 {
@@ -242,17 +255,18 @@ namespace WebApplication.Controllers
             ViewBag.VBIfHasBgImg = sample.IfHasBgImg?"1":"0";
             string font = sample.Font; 
             ViewBag.Font = font;
-            if (sample.IfHasSmallText)
-            {
-                ViewBag.VBSmallFont = sample.SmallText.Font;
-                ViewBag.VBSmallOrder = sample.SmallText.Order;
-            }
-            else
-            {
-                ViewBag.VBSmallFont = "1";
-                ViewBag.VBSmallOrder = "1";
-            }
-            
+            //if (sample.IfHasSmallText)
+            //{
+            //    ViewBag.VBSmallFont = sample.SmallText.Font;
+            //    ViewBag.VBSmallOrder = sample.SmallText.Order;
+            //}
+            //else
+            //{
+            //    ViewBag.VBSmallFont = "1";
+            //    ViewBag.VBSmallOrder = "1";
+            //}
+            ViewBag.VBSmallFont = "1";  //todo 
+            ViewBag.VBSmallOrder = "1";
             return View(sample);
         }
 
@@ -324,21 +338,21 @@ namespace WebApplication.Controllers
                 }
                 sample.MainText = mainTexts;
                 sample.MainTextNumber = mainTexts.Count;
-              
-                if (!string.IsNullOrEmpty(collection["Text5"]))  //small text
-                {
-                    imageText = new ImageText();
-                    imageText.Text = collection["Text5"]; 
-                    imageText.Font = imageFont.name;
-                    imageText.imageFont = imageFont;
-                    imageText.FontSize = int.Parse(collection["FontSize5"]);
-                    imageText.PositionX = int.Parse(collection["PositionX5"]);
-                    imageText.PositionY = int.Parse(collection["PositionY5"]);
-                    imageText.Type = (int)EnumTextType.SmallText;
-                    imageText.Order = Convert.ToBoolean(int.Parse(collection["FontOrder"]));
-                    sample.IfHasSmallText = true;
-                    sample.SmallText = imageText;
-                }
+                // todo
+                //if (!string.IsNullOrEmpty(collection["Text5"]))  //small text 
+                //{
+                //    imageText = new ImageText();
+                //    imageText.Text = collection["Text5"]; 
+                //    imageText.Font = imageFont.name;
+                //    imageText.imageFont = imageFont;
+                //    imageText.FontSize = int.Parse(collection["FontSize5"]);
+                //    imageText.PositionX = int.Parse(collection["PositionX5"]);
+                //    imageText.PositionY = int.Parse(collection["PositionY5"]);
+                //    imageText.Type = (int)EnumTextType.SmallText;
+                //    imageText.Order = Convert.ToBoolean(int.Parse(collection["FontOrder"]));
+                //    sample.IfHasSmallText = true;
+                //    sample.SmallText = imageText;
+                //}
 
                 #endregion
                 if (type == "保存")

@@ -258,19 +258,14 @@ namespace WebApplication.Controllers
                     }
                     if (order.Sample.IfHasSmallText)
                     {
-                        if (string.IsNullOrEmpty(order.SmallText))
+                        for (int i = 0; i < order.Sample.SmallTextNumber; i++)
                         {
-                            order.Sample.SmallText.Text = ""; //可以为空，可以没有副文字。
-                        }
-                        else
-                        {
-                            if (order.SmallText.Length > 11)
+                            if (order.SmallText[i].ToString().Length > 11)
                             {
                                 return Json(new { status = "Fail", message = "副文字不能超过11个字！" }, JsonRequestBehavior.AllowGet);
                             }
-                            order.Sample.SmallText.Text = order.SmallText;
-
-                        }
+                            order.Sample.SmallText[i].Text = order.SmallText[i].ToString();
+                        } 
                     }
 
                     string imageUrl = ImageHelp.CreateImage(order.Sample, false, order.TaobaoId);

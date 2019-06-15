@@ -160,9 +160,12 @@ namespace Models
             {
                 throw new Exception("方案文字和预设文字数量不一致！");
             }
-            if (sample.IfHasSmallText)
+            if (sample.SmallText.Count == sample.SmallTextNumber)
             {
-                DrawSmallText(g, sample.SmallText, sample.Style, sample.ImageType, sample.ImageFont);
+                for (int i = 0; i < sample.SmallTextNumber; i++)
+                {
+                    DrawMainText(g, sample.SmallText[i], sample.Style, sample.ImageType, sample.ImageFont);
+                }
             }
             #region 测试 瞄准线，后面要删掉。
             //if(ifSample)
@@ -173,7 +176,7 @@ namespace Models
             //    g.DrawLine(new Pen(drawBrush1), new Point(147, 0), new Point(147, 295));
             //    g.DrawLine(new Pen(drawBrush1), new Point(0, 147), new Point(295, 147));
             //}
-      
+
             #endregion
 
             GC.Collect();

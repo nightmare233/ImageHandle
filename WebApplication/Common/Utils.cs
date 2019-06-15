@@ -32,12 +32,15 @@ namespace WebApplication.Common
 
         public static Sample SetSize(string sizeStr, Sample sample)
         {
-            var sizeArray = sizeStr.Split('*');
-            if (sizeArray.Length == 2)
+            if (sizeStr != null)
             {
-                sample.ImageSizeX = int.Parse(sizeArray[0]);
-                sample.ImageSizeY = int.Parse(sizeArray[1]);
-            } 
+                var sizeArray = sizeStr.Split('*');
+                if (sizeArray.Length == 2)
+                {
+                    sample.ImageSizeX = int.Parse(sizeArray[0]);
+                    sample.ImageSizeY = int.Parse(sizeArray[1]);
+                }
+            }
             return sample;
         } 
     }

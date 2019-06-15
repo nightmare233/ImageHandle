@@ -164,8 +164,11 @@ namespace WebApplication.Controllers
                             {
                                 return Json(new { status = "Fail", message = "副文字不能超过11个字！" }, JsonRequestBehavior.AllowGet);
                             }
-                            order.Sample.SmallText.Text = order.SmallText;
-
+                            
+                            for (int i = 0; i < order.Sample.SmallTextNumber; i++)
+                            {
+                                order.Sample.SmallText[i].Text = order.SmallText[i].ToString();
+                            }
                         }
                     }
 

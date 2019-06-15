@@ -18,8 +18,9 @@ namespace Models
         public string BgImage { get; set; } //印章背景图片，阴文和阳文没有图案， 为null
         public int MainTextNumber { get; set; }
         public bool IfHasSmallText { get; set; }
+        public int SmallTextNumber { get; set; }
         public List<ImageText> MainText { get; set; }
-        public ImageText SmallText { get; set; } 
+        public List<ImageText> SmallText { get; set; } 
         public string Font { get; set; }
         public ImageFont ImageFont { get; set; }
         public int Boarder { get; set; }
@@ -28,7 +29,7 @@ namespace Models
     public class ImageText
     {
         public int SampleId { get; set; }
-        public int Type { get; set; }
+        public int Type { get; set; } //1 maintext, 2 small text
         public string Text { get; set; } //印章文字， 文字是客户输入的。
         public string Font { get; set; }  //印章字体， 宋体
         public int PositionX { get; set; } //第1个字的X坐标位置。

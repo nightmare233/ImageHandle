@@ -64,6 +64,7 @@ namespace WebApplication.Application
                 tempSample.Name = row["Name"].ToString();
                 tempSample.IfHasSmallText = Convert.ToBoolean(int.Parse(row["IfHasSmallText"].ToString()));
                 tempSample.MainTextNumber = int.Parse(row["MainTextNumber"].ToString());
+                tempSample.SmallTextNumber = int.Parse(row["SmallTextNumber"].ToString());
                 tempSample.ImageSizeX = int.Parse(row["ImageSizeX"].ToString());
                 tempSample.ImageSizeY = int.Parse(row["ImageSizeY"].ToString());
                 tempSample.ImageType = (EnumImageType)int.Parse(row["ImageType"].ToString());
@@ -93,6 +94,7 @@ namespace WebApplication.Application
                 tempSample.Name = rows[0]["Name"].ToString();
                 tempSample.IfHasSmallText = Convert.ToBoolean(int.Parse(rows[0]["IfHasSmallText"].ToString()));
                 tempSample.MainTextNumber = int.Parse(rows[0]["MainTextNumber"].ToString());
+                tempSample.SmallTextNumber = int.Parse(rows[0]["SmallTextNumber"].ToString());
                 tempSample.ImageSizeX = int.Parse(rows[0]["ImageSizeX"].ToString());
                 tempSample.ImageSizeY = int.Parse(rows[0]["ImageSizeY"].ToString());
                 tempSample.ImageType = (EnumImageType)int.Parse(rows[0]["ImageType"].ToString());
@@ -123,6 +125,7 @@ namespace WebApplication.Application
                 tempSample.Name = rows[0]["Name"].ToString();
                 tempSample.IfHasSmallText = Convert.ToBoolean(int.Parse(rows[0]["IfHasSmallText"].ToString()));
                 tempSample.MainTextNumber = int.Parse(rows[0]["MainTextNumber"].ToString());
+                tempSample.SmallTextNumber = int.Parse(rows[0]["SmallTextNumber"].ToString());
                 tempSample.ImageSizeX = int.Parse(rows[0]["ImageSizeX"].ToString());
                 tempSample.ImageSizeY = int.Parse(rows[0]["ImageSizeY"].ToString());
                 tempSample.ImageType = (EnumImageType)int.Parse(rows[0]["ImageType"].ToString());
@@ -145,6 +148,7 @@ namespace WebApplication.Application
             ImageFontService imageFontService = new ImageFontService();
             
             List<ImageText> mainTexts = new List<ImageText>();
+            List<ImageText> smallTexts = new List<ImageText>();
             string strQuery = $"SELECT * FROM imageText WHERE sampleId = {sampleId} order by id";
 
             var rows = contexto.ExecuteCommandSQL(strQuery, null);
@@ -169,20 +173,24 @@ namespace WebApplication.Application
                 }
                 else
                 {
-                    sample.SmallText = imageText;
+                    smallTexts.Add(imageText);
                 }
             }
             if (mainTexts.Count > 0)
             {
                 sample.MainText = mainTexts;
             }
+            if (smallTexts.Count > 0)
+            {
+                sample.SmallText = smallTexts; 
+            }
             return sample;
         }
 
         public int Insert(Sample sample)
         {
-            const string sql1 = @"INSERT into sample(ImageType, Name, ImageSizeX, ImageSizeY, Style, ImageURL, BgImage, MainTextNumber, IfHasSmallText, Font)  
-                                VALUES(@ImageType, @Name, @ImageSizeX, @ImageSizeY, @Style, @ImageURL, @BgImage, @MainTextNumber, @IfHasSmallText, @Font); 
+            const string sql1 = @"INSERT into sample(ImageType, Name, ImageSizeX, ImageSizeY, Style, ImageURL, BgImage, MainTextNumber, SmallTextNumber, IfHasSmallText, Font)  
+                                VALUES(@ImageType, @Name, @ImageSizeX, @ImageSizeY, @Style, @ImageURL, @BgImage, @MainTextNumber, @SmallTextNumber, @IfHasSmallText, @Font); 
                                 SELECT LAST_INSERT_ID();";
 
             const string sql2 = @"INSERT into imagetext(SampleId, Type, Text, Font, PositionX, PositionY, FontSize, FontOrder)  
@@ -208,6 +216,7 @@ namespace WebApplication.Application
                                 { "ImageURL", sample.ImageUrl},
                                 { "BgImage", sample.BgImage},
                                 { "MainTextNumber", sample.MainTextNumber},
+                                { "SmallTextNumber", sample.SmallTextNumber},
                                 { "IfHasSmallText", sample.IfHasSmallText},
                                 { "Font", sample.Font}
                             };
@@ -232,22 +241,23 @@ namespace WebApplication.Application
                         cmd.ExecuteNonQuery();
                         cmd.Parameters.Clear();
                     }
-                    if (sample.IfHasSmallText) //add small text
+                    foreach (var item in sample.SmallText)  //insert small text
                     {
                         var param = new Dictionary<string, object>
                             {
                                 { "SampleId", sampleId},
-                                { "Type", sample.SmallText.Type},
-                                { "Text", sample.SmallText.Text},
-                                { "Font", sample.SmallText.Font},
-                                { "PositionX", sample.SmallText.PositionX},
-                                { "PositionY", sample.SmallText.PositionY},
-                                { "FontSize", sample.SmallText.FontSize},
-                                { "FontOrder", sample.SmallText.Order}
+                                { "Type", item.Type},
+                                { "Text", item.Text},
+                                { "Font", item.Font},
+                                { "PositionX", item.PositionX},
+                                { "PositionY", item.PositionY},
+                                { "FontSize", item.FontSize},
+                                { "FontOrder", item.Order}
                             };
                         contexto.AddParams(cmd, param);
                         cmd.ExecuteNonQuery();
-                    }
+                        cmd.Parameters.Clear();
+                    } 
                     transaction.Commit();
                     return sampleId;
                 }
@@ -369,19 +379,23 @@ namespace WebApplication.Application
                     }
                     if (sample.IfHasSmallText) //add small text
                     {
-                        var param = new Dictionary<string, object>
+                        foreach (var item in sample.SmallText)  //insert maintext
+                        {
+                            Dictionary<string, object> param1 = new Dictionary<string, object>
                             {
                                 { "SampleId", sample.Id},
-                                { "Type", sample.SmallText.Type},
-                                { "Text", sample.SmallText.Text},
-                                { "Font", sample.SmallText.Font},
-                                { "PositionX", sample.SmallText.PositionX},
-                                { "PositionY", sample.SmallText.PositionY},
-                                { "FontSize", sample.SmallText.FontSize},
-                                { "FontOrder", sample.SmallText.Order}
+                                { "Type", item.Type},
+                                { "Text", item.Text},
+                                { "Font", item.Font},
+                                { "PositionX", item.PositionX},
+                                { "PositionY", item.PositionY},
+                                { "FontSize", item.FontSize},
+                                { "FontOrder", item.Order}
                             };
-                        contexto.AddParams(cmd, param);
-                        cmd.ExecuteNonQuery();
+                            contexto.AddParams(cmd, param1);
+                            cmd.ExecuteNonQuery();
+                            cmd.Parameters.Clear();
+                        } 
                     }
                     transaction.Commit(); 
                 }
