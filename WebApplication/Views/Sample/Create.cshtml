@@ -339,28 +339,33 @@
         var domIndex = "smallTextDiv";
         var index = preindex + 1;
         var nextindex = index + 1;
-        alert(index);
+        //alert(index);
         $("#" + domIndex).append("<div id='smallText" + index + "' class='form-group'>" +
-            "<label for='Text" + index + "' class='col-sm-1 control-label'>主文字" + index + "</label>" +
-            "<input type='text' name='Text" + index + "' class='col-sm-1 form-control' style='width:100px;'/>" +
-            "<label for='FontSize" + index + "' class='col-sm-1 control-label'>文字大小</label>" +
-            "<input id='FontSize" + index + "' type='text' name='FontSize" + index + "' class='col-sm-1 form-control' value='160' style='width:100px;'/>" +
-            "<label for='PositionX" + index + "' class='col-sm-1 control-label'>X位置</label>" +
-            "<input id='PositionX" + index + "' type='text' name='PositionX" + index + "' class='col-sm-1 form-control' value='60' style='width:100px;'/>" +
-            "<label for='PositionY" + index + "' class='col-sm-1 control-label'>Y位置</label>" +
-            "<input id='PositionY" + index + "' type='text' name='PositionY" + index + "' class='col-sm-1 form-control' value='50' style='width:100px;'/>" +
+            "<label for='SmallText" + index + "' class='col-sm-1 control-label'>副文字" + index + "</label>" +
+            "<input type='text' name='SmallText" + index + "' class='col-sm-1 form-control' style='width:100px;'/>" +
+            "<label for='SmallFontSize" + index + "' class='col-sm-1 control-label'>文字大小</label>" +
+            "<input id='SmallFontSize" + index + "' type='text' name='SmallFontSize" + index + "' class='col-sm-1 form-control' value='160' style='width:100px;'/>" +
+            "<label for='SmallPositionX" + index + "' class='col-sm-1 control-label'>X位置</label>" +
+            "<input id='SmallPositionX" + index + "' type='text' name='SmallPositionX" + index + "' class='col-sm-1 form-control' value='60' style='width:100px;'/>" +
+            "<label for='SmallPositionY" + index + "' class='col-sm-1 control-label'>Y位置</label>" +
+            "<input id='SmallPositionY" + index + "' type='text' name='SmallPositionY" + index + "' class='col-sm-1 form-control' value='50' style='width:100px;'/>" +
+            "<label for='SmallFontOrder1' class='col-sm-1 control-label'>文字顺序: </label>"+
+            "<select id='SmallFontOrder1' name='FontOrder1' class='col-sm-1 form-control' style='width:120px;'>"+
+            "<option value='1' selected='selected'>从左往右</option>"+
+            "<option value='0'>从右往左</option>"+
+            "</select>"+
             "<input id='del_smallText" + index + "' type='button' value='删除' class='btn' onclick='DeleteSmallText(" + index + ");'/>" +
             "<a id='addsmallbtn" + index + "' onclick='AddSmallText(" + index + "); return false;' class='btn btn-link'>添加副文字</a>" +
             "</div>");
     }
-
+     
     function DeleteSmallText(index) {
         var preindex = index - 1;
-        var aa = "addmainbtn" + preindex;
-        var bb = "del_mainText" + preindex;
+        var aa = "addsmallbtn" + preindex;
+        var bb = "del_smallText" + preindex;
         $("#" + aa).show();
         $("#" + bb).show();
-        var cc = "mainText" + index;
+        var cc = "smallText" + index;
         $("#" + cc).remove();
     }
 
