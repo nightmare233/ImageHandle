@@ -153,6 +153,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Common\CacheHelp.cs" />
+    <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\HtmlHelperCheckBoxListExtensions.cs" />
     <Compile Include="Common\UserHelper.cs" />
     <Compile Include="Common\Utils.cs" />

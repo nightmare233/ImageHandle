@@ -258,13 +258,17 @@ namespace WebApplication.Controllers
                     }
                     if (order.Sample.IfHasSmallText)
                     {
-                        for (int i = 0; i < order.Sample.SmallTextNumber; i++)
+                        var smallTextArray = collection.AllKeys.Where(t => t.StartsWith("SmallText"));
+                        foreach (var item in smallTextArray)
                         {
-                            if (order.SmallText[i].ToString().Length > 11)
+                            string indexSt = item.Substring(9, 1);
+                            int i = Convert.ToInt32(indexSt);
+                            string text = collection["SmallText" + i].ToString();
+                            if (text.Length > Constants.smallTextLimits)
                             {
                                 return Json(new { status = "Fail", message = "副文字不能超过11个字！" }, JsonRequestBehavior.AllowGet);
                             }
-                            order.Sample.SmallText[i].Text = order.SmallText[i].ToString();
+                            order.Sample.SmallText[i-1].Text = text;
                         } 
                     }
 
