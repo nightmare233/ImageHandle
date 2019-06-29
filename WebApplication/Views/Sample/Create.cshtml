@@ -54,7 +54,6 @@
                     </select>
                 </div>
                 <div id="uploadDiv" class="col-sm-8">
-                    @*上传背景图片*@
                     <input type="file" id="file" name="file" class="col-sm-4" />
                     <input type="button" value="上传背景图" onclick="UploadFile(); return false;" class="col-sm-2" />
                     <input id="BgImage" name="BgImage" value="" type="text" hidden="hidden" />
@@ -65,11 +64,11 @@
                     <label for="Text1" class="col-sm-1 control-label">主文字1</label>
                     <input type="text" id="Text1" name="Text1" class="col-sm-1 form-control" style="width:100px;" required />
                     <label for="FontSize1" class="col-sm-1 control-label">文字大小</label>
-                    <input id="FontSize1" type="text" name="FontSize1" class="col-sm-1 form-control" value="160" style="width:100px;" />
+                    <input id="FontSize1" type="text" name="FontSize1" class="col-sm-1 form-control" value="100" style="width:100px;" />
                     <label for="PositionX1" class="col-sm-1 control-label">X位置</label>
-                    <input id="PositionX1" type="text" name="PositionX1" class="col-sm-1 form-control" value="280" style="width:100px;" />
+                    <input id="PositionX1" type="text" name="PositionX1" class="col-sm-1 form-control" value="10" style="width:100px;" />
                     <label for="PositionY1" class="col-sm-1 control-label">Y位置</label>
-                    <input id="PositionY1" type="text" name="PositionY1" class="col-sm-1 form-control" value="50" style="width:100px;" />
+                    <input id="PositionY1" type="text" name="PositionY1" class="col-sm-1 form-control" value="10" style="width:100px;" />
                     <a id="addmainbtn1" onclick="AddMainText(1); return false;" class="btn btn-link">添加主文字</a>
                 </div>
             </div>
@@ -79,18 +78,17 @@
                     <label for="SmallText1" class="col-sm-1 control-label">副文字</label>
                     <input type="text" name="SmallText1" class="col-sm-1 form-control" style="width:100px;" />
                     <label for="SmallFontSize1" class="col-sm-1 control-label">文字大小</label>
-                    <input id="SmallFontSize1" type="text" name="SmallFontSize1" class="col-sm-1 form-control" value="40" style="width:100px;" />
+                    <input id="SmallFontSize1" type="text" name="SmallFontSize1" class="col-sm-1 form-control" value="20" style="width:100px;" />
                     <label for="SmallPositionX1" class="col-sm-1 control-label">X位置</label>
-                    <input id="SmallPositionX1" type="text" name="SmallPositionX1" class="col-sm-1 form-control" value="140" style="width:100px;" />
+                    <input id="SmallPositionX1" type="text" name="SmallPositionX1" class="col-sm-1 form-control" value="10" style="width:100px;" />
                     <label for="SmallPositionY1" class="col-sm-1 control-label">Y位置</label>
-                    <input id="SmallPositionY1" type="text" name="SmallPositionY1" class="col-sm-1 form-control" value="250" style="width:100px;" />
+                    <input id="SmallPositionY1" type="text" name="SmallPositionY1" class="col-sm-1 form-control" value="10" style="width:100px;" />
                     <label for="SmallFontOrder1" class="col-sm-1 control-label">文字顺序: </label>
                     <select id="SmallFontOrder1" name="SmallFontOrder1" class="col-sm-1 form-control" style="width:120px;">
                         <option value="1" selected="selected">从左往右</option>
                         <option value="0">从右往左</option>
                     </select>
                     <input id="del_smallText1" type="button" value="删除" class="btn" onclick="HideSmallText1(1);" />
-                    @*<a onclick="AddSmallText(); return false;" class="btn btn-link">添加副文字</a>*@
                     <a id="addsmallbtn1" onclick="AddSmallText(1); return false;" class="btn btn-link">添加副文字</a>
                 </div>
             </div>
@@ -114,10 +112,7 @@
 
 <script src="~/Scripts/jquery.form.min.js"></script>
 <script type="text/javascript" language="javascript">
-    $(document).ready(function () {
-        $("#mainText2").hide();
-        $("#mainText3").hide();
-        $("#mainText4").hide();
+    $(document).ready(function () { 
         $("#smalltext1").hide();
         $("#uploadDiv").hide();
         $("#IfHasBgImage").change(function () {
@@ -135,66 +130,13 @@
             $("#sizeDiv").hide();
             var type = $("#ImageType").val();
             if (type == "2") {  //圆形章
-                $("#PositionX1").val("280");
-                $("#PositionX2").val("280");
-                $("#PositionX3").val("60");
-                $("#PositionX4").val("60");
-
-                $("#PositionY1").val("50");
-                $("#PositionY2").val("270");
-                $("#PositionY3").val("50");
-                $("#PositionY4").val("270");
-
-                $("#FontSize1").val("160");
-                $("#FontSize2").val("160");
-                $("#FontSize3").val("160");
-                $("#FontSize4").val("160");
-
-                $("#PositionX5").val("140");
-                $("#PositionY5").val("250");
-                $("#FontSize5").val("40");
+                
             }
             else if (type == "3") //方章
             {
-                $("#PositionX1").val("300");
-                $("#PositionX2").val("300");
-                $("#PositionX3").val("40");
-                $("#PositionX4").val("40");
-
-                $("#PositionY1").val("40");
-                $("#PositionY2").val("290");
-                $("#PositionY3").val("40");
-                $("#PositionY4").val("290");
-
-                $("#FontSize1").val("160");
-                $("#FontSize2").val("160");
-                $("#FontSize3").val("160");
-                $("#FontSize4").val("160");
-
-                $("#PositionX5").val("140");
-                $("#PositionY5").val("250");
-                $("#FontSize5").val("40");
+                
             }
-            else if (type == "6") { //儿童印章
-                $("#PositionX1").val("120");
-                $("#PositionX2").val("190");
-                $("#PositionX3").val("260");
-                $("#PositionX4").val("330");
-
-                $("#PositionY1").val("22");
-                $("#PositionY2").val("22");
-                $("#PositionY3").val("22");
-                $("#PositionY4").val("22");
-
-                $("#FontSize1").val("40");
-                $("#FontSize2").val("40");
-                $("#FontSize3").val("40");
-                $("#FontSize4").val("40");
-
-                $("#PositionX5").val("0");
-                $("#PositionY5").val("0");
-                $("#FontSize5").val("20");
-
+            else if (type == "6") { //儿童印章 
                 $("#IfHasBgImage").val(1);
                 $("#uploadDiv").show();    //儿童印章默认要上传背景图。
             }
@@ -205,50 +147,15 @@
                 $("#Size").prepend("<option value='142*72'>4 * 12mm");
                 $("#Size").prepend("<option value='177*94'>8 * 15mm");
                 $("#Size").prepend("<option value='154*59'>5 * 13mm");
-                $("#Size").prepend("<option value='165*94'>8 * 14mm");
-                $("#PositionX1").val("0");
-                $("#PositionX2").val("70");
-                $("#PositionX3").val("140");
-                $("#PositionX4").val("210");
-
-                $("#PositionY1").val("18");
-                $("#PositionY2").val("18");
-                $("#PositionY3").val("18");
-                $("#PositionY4").val("18");
-
-                $("#FontSize1").val("30");
-                $("#FontSize2").val("30");
-                $("#FontSize3").val("30");
-                $("#FontSize4").val("30");
-
-                $("#PositionX5").val("0");
-                $("#PositionY5").val("0");
-                $("#FontSize5").val("20");
+                $("#Size").prepend("<option value='165*94'>8 * 14mm"); 
             }
             else if (type == "7") { //个性签名章
-                $("#PositionX1").val("0");
-                $("#PositionX2").val("70");
-                $("#PositionX3").val("140");
-                $("#PositionX4").val("210");
-
-                $("#PositionY1").val("18");
-                $("#PositionY2").val("18");
-                $("#PositionY3").val("18");
-                $("#PositionY4").val("18");
-
-                $("#FontSize1").val("50");
-                $("#FontSize2").val("50");
-                $("#FontSize3").val("50");
-                $("#FontSize4").val("50");
-
-                $("#PositionX5").val("0");
-                $("#PositionY5").val("0");
-                $("#FontSize5").val("20");
+              
             }
-            else if (type == "8") {
+            else if (type == "8") { //光敏章
+                $("#Style").val(1); //光敏章只有阳文
                 $("#sizeDiv").show();
-                //$("#Size").find("option").remove();
-                $("#Size").empty();
+                $("#Size").empty(); 
                 $("#Size").prepend("<option value='413*118' selected='selected'>10 * 35mm</option>");
                 $("#Size").prepend("<option value='591*118'>10 * 50mm</option>");
                 $("#Size").prepend("<option value='78*189'>16 * 32mm</option>");
@@ -269,34 +176,8 @@
                 $("#Size").prepend("<option value='295*295'>25 * 25mm</option>");
                 $("#Size").prepend("<option value='768*531'>45 * 65mm</option>");
                 $("#Size").prepend("<option value='1240*945'>80 * 105mm</option>");
-                $("#PositionX1").val("0");
-                $("#PositionX2").val("70");
-                $("#PositionX3").val("140");
-                $("#PositionX4").val("210");
-
-                $("#PositionY1").val("10");
-                $("#PositionY2").val("10");
-                $("#PositionY3").val("10");
-                $("#PositionY4").val("10");
-
-                $("#FontSize1").val("60");
-                $("#FontSize2").val("60");
-                $("#FontSize3").val("60");
-                $("#FontSize4").val("60");
-
-                $("#PositionX5").val("0");
-                $("#PositionY5").val("0");
-                $("#FontSize5").val("20");
-
             }
-        });
-        //第1个文字的字体改变时后面的文字字体一起改变。后面的文字改变不影响其他文字字体。
-        //$("#Font1").change(function () {
-        //    var selectedFont = $("#Font1").val();
-        //    $("#Font2").val(selectedFont);
-        //    $("#Font3").val(selectedFont);
-        //    $("#Font4").val(selectedFont);
-        //});
+        }); 
     });
     function AddMainText(preindex) {
         var aa = "addmainbtn" + preindex;
@@ -306,16 +187,15 @@
         var domIndex = "mainTextDiv";
         var index = preindex + 1;
         var nextindex = index + 1;
-        //alert(index);
         $("#" + domIndex).append("<div id='mainText" + index + "' class='form-group'>" +
             "<label for='Text" + index + "' class='col-sm-1 control-label'>主文字" + index + "</label>" +
             "<input type='text' name='Text" + index + "' class='col-sm-1 form-control' style='width:100px;'/>" +
             "<label for='FontSize" + index + "' class='col-sm-1 control-label'>文字大小</label>" +
-            "<input id='FontSize" + index + "' type='text' name='FontSize" + index + "' class='col-sm-1 form-control' value='160' style='width:100px;'/>" +
+            "<input id='FontSize" + index + "' type='text' name='FontSize" + index + "' class='col-sm-1 form-control' value='100' style='width:100px;'/>" +
             "<label for='PositionX" + index + "' class='col-sm-1 control-label'>X位置</label>" +
-            "<input id='PositionX" + index + "' type='text' name='PositionX" + index + "' class='col-sm-1 form-control' value='60' style='width:100px;'/>" +
+            "<input id='PositionX" + index + "' type='text' name='PositionX" + index + "' class='col-sm-1 form-control' value='10' style='width:100px;'/>" +
             "<label for='PositionY" + index + "' class='col-sm-1 control-label'>Y位置</label>" +
-            "<input id='PositionY" + index + "' type='text' name='PositionY" + index + "' class='col-sm-1 form-control' value='50' style='width:100px;'/>" +
+            "<input id='PositionY" + index + "' type='text' name='PositionY" + index + "' class='col-sm-1 form-control' value='10' style='width:100px;'/>" +
             "<input id='del_mainText" + index + "' type='button' value='删除' class='btn' onclick='DeleteText(" + index + ");'/>" +
             "<a id='addmainbtn" + index + "' onclick='AddMainText(" + index + "); return false;' class='btn btn-link'>添加主文字</a>" +
             "</div>");
@@ -339,16 +219,15 @@
         var domIndex = "smallTextDiv";
         var index = preindex + 1;
         var nextindex = index + 1;
-        //alert(index);
         $("#" + domIndex).append("<div id='smallText" + index + "' class='form-group'>" +
             "<label for='SmallText" + index + "' class='col-sm-1 control-label'>副文字" + index + "</label>" +
             "<input type='text' name='SmallText" + index + "' class='col-sm-1 form-control' style='width:100px;'/>" +
             "<label for='SmallFontSize" + index + "' class='col-sm-1 control-label'>文字大小</label>" +
-            "<input id='SmallFontSize" + index + "' type='text' name='SmallFontSize" + index + "' class='col-sm-1 form-control' value='160' style='width:100px;'/>" +
+            "<input id='SmallFontSize" + index + "' type='text' name='SmallFontSize" + index + "' class='col-sm-1 form-control' value='20' style='width:100px;'/>" +
             "<label for='SmallPositionX" + index + "' class='col-sm-1 control-label'>X位置</label>" +
-            "<input id='SmallPositionX" + index + "' type='text' name='SmallPositionX" + index + "' class='col-sm-1 form-control' value='60' style='width:100px;'/>" +
+            "<input id='SmallPositionX" + index + "' type='text' name='SmallPositionX" + index + "' class='col-sm-1 form-control' value='10' style='width:100px;'/>" +
             "<label for='SmallPositionY" + index + "' class='col-sm-1 control-label'>Y位置</label>" +
-            "<input id='SmallPositionY" + index + "' type='text' name='SmallPositionY" + index + "' class='col-sm-1 form-control' value='50' style='width:100px;'/>" +
+            "<input id='SmallPositionY" + index + "' type='text' name='SmallPositionY" + index + "' class='col-sm-1 form-control' value='10' style='width:100px;'/>" +
             "<label for='SmallFontOrder" + index + "' class='col-sm-1 control-label'>文字顺序: </label>"+
             "<select id='SmallFontOrder" + index + "' name='SmallFontOrder" + index + "' class='col-sm-1 form-control' style='width:120px;'>"+
             "<option value='1' selected='selected'>从左往右</option>"+
