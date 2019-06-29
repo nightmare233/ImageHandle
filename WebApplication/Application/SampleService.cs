@@ -73,6 +73,7 @@ namespace WebApplication.Application
                 tempSample.BgImage = row["BgImage"].ToString();
                 tempSample.IfHasBgImg = string.IsNullOrEmpty(tempSample.BgImage) ? false : true;
                 tempSample.Font = row["Font"].ToString();
+                tempSample.Boarder = float.Parse(rows[0]["Boarder"].ToString());
                 if (ifGetTexts)
                 {
                     tempSample = GetTexts(tempSample.Id, tempSample);
@@ -103,6 +104,7 @@ namespace WebApplication.Application
                 tempSample.BgImage = rows[0]["BgImage"].ToString();
                 tempSample.IfHasBgImg = string.IsNullOrEmpty(tempSample.BgImage) ? false : true;
                 tempSample.Font = rows[0]["Font"].ToString();
+                tempSample.Boarder = float.Parse(rows[0]["Boarder"].ToString());
                 if (ifGetTexts)
                 {
                     tempSample = GetTexts(tempSample.Id, tempSample); 
@@ -134,6 +136,7 @@ namespace WebApplication.Application
                 tempSample.BgImage = rows[0]["BgImage"].ToString();
                 tempSample.IfHasBgImg = string.IsNullOrEmpty(tempSample.BgImage) ? false : true;
                 tempSample.Font = rows[0]["Font"].ToString();
+                tempSample.Boarder = float.Parse(rows[0]["Boarder"].ToString());
                 if (ifGetTexts)
                 {
                     tempSample = GetTexts(tempSample.Id, tempSample);
@@ -189,8 +192,8 @@ namespace WebApplication.Application
 
         public int Insert(Sample sample)
         {
-            const string sql1 = @"INSERT into sample(ImageType, Name, ImageSizeX, ImageSizeY, Style, ImageURL, BgImage, MainTextNumber, SmallTextNumber, IfHasSmallText, Font)  
-                                VALUES(@ImageType, @Name, @ImageSizeX, @ImageSizeY, @Style, @ImageURL, @BgImage, @MainTextNumber, @SmallTextNumber, @IfHasSmallText, @Font); 
+            const string sql1 = @"INSERT into sample(ImageType, Name, ImageSizeX, ImageSizeY, Style, ImageURL, BgImage, MainTextNumber, SmallTextNumber, IfHasSmallText, Font, Boarder)  
+                                VALUES(@ImageType, @Name, @ImageSizeX, @ImageSizeY, @Style, @ImageURL, @BgImage, @MainTextNumber, @SmallTextNumber, @IfHasSmallText, @Font, @Boarder); 
                                 SELECT LAST_INSERT_ID();";
 
             const string sql2 = @"INSERT into imagetext(SampleId, Type, Text, Font, PositionX, PositionY, FontSize, FontOrder)  
@@ -218,7 +221,8 @@ namespace WebApplication.Application
                                 { "MainTextNumber", sample.MainTextNumber},
                                 { "SmallTextNumber", sample.SmallTextNumber},
                                 { "IfHasSmallText", sample.IfHasSmallText},
-                                { "Font", sample.Font}
+                                { "Font", sample.Font},
+                                { "Boarder", sample.Boarder}
                             };
                     contexto.AddParams(cmd, parameters);
                     int sampleId = int.Parse(cmd.ExecuteScalar().ToString());  //insert sample

@@ -23,7 +23,7 @@ namespace Models
         public List<ImageText> SmallText { get; set; } 
         public string Font { get; set; }
         public ImageFont ImageFont { get; set; }
-        public int Boarder { get; set; }
+        public float Boarder { get; set; }
     }
 
     public class ImageText

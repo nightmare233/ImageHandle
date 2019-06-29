@@ -15,23 +15,29 @@
                 <input id="Name" type="text" name="Name" class="form-control" required placeholder="样式名称" />
             </div>
             <div class="form-group">
-                <label for="ImageType" class="col-sm-1 control-label">印章类型</label>
-                <div class="col-sm-2">
-                    <select id="ImageType" name="ImageType" class="dropdown form-control">
-                        <option value="2" selected="selected">圆形章</option>
-                        <option value="3">方形章</option>
-                        <option value="4">扁章</option>
-                        <option value="5">闲章</option>
-                        <option value="6">儿童印章</option>
-                        <option value="7">个性签名章</option>
-                        <option value="8">光敏章</option>
-                    </select>
-                </div>
-                <div class="col-sm-6" id="sizeDiv" hidden="hidden">
-                    <label for="Size" class="col-sm-2 control-label">尺寸</label>
-                    <div class="col-sm-4">
+                <div class="col-sm-3">
+                    <label for="ImageType" class="col-sm-4 control-label">印章类型</label>
+                    <div class="col-sm-6">
+                        <select id="ImageType" name="ImageType" class="dropdown form-control">
+                            <option value="2" selected="selected">圆形章</option>
+                            <option value="3">方形章</option>
+                            <option value="4">扁章</option>
+                            <option value="5">闲章</option>
+                            <option value="6">儿童印章</option>
+                            <option value="7">个性签名章</option>
+                            <option value="8">光敏章</option>
+                        </select>
+                    </div>
+                </div> 
+                <div class="col-sm-3" id="sizeDiv" hidden="hidden">
+                    <label for="Size" class="col-sm-4 control-label">尺寸</label>
+                    <div class="col-sm-8">
                         <select id="Size" name="Size" class="dropdown form-control"></select>
                     </div>
+                </div>
+                <div class="col-sm-3" id="boarderDiv" hidden="hidden">
+                    <label for="ImageBoarder" class="col-sm-4 control-label">边框</label>
+                    <input id="ImageBoarder" type="text" name="ImageBoarder" class="col-sm-6 form-control" value="56" style="width:100px;" />
                 </div>
             </div>
             <div class="form-group">
@@ -128,6 +134,7 @@
         $("#ImageType").change(function () {
             $("#uploadDiv").hide();
             $("#sizeDiv").hide();
+            $("#boarderDiv").hide();
             var type = $("#ImageType").val();
             if (type == "2") {  //圆形章
                 
@@ -142,43 +149,52 @@
             }
             else if (type == "4") { //扁章
                 $("#sizeDiv").show();
-                $("#Size").empty();
-                $("#Size").prepend("<option value='165*71' selected='selected'>6 * 14mm</option>");
-                $("#Size").prepend("<option value='142*72'>4 * 12mm");
-                $("#Size").prepend("<option value='177*94'>8 * 15mm");
-                $("#Size").prepend("<option value='154*59'>5 * 13mm");
-                $("#Size").prepend("<option value='165*94'>8 * 14mm"); 
+                AddBianzhangSize();
+                $("#boarderDiv").show();//显示边框
             }
             else if (type == "7") { //个性签名章
               
             }
             else if (type == "8") { //光敏章
-                $("#Style").val(1); //光敏章只有阳文
-                $("#sizeDiv").show();
-                $("#Size").empty(); 
-                $("#Size").prepend("<option value='413*118' selected='selected'>10 * 35mm</option>");
-                $("#Size").prepend("<option value='591*118'>10 * 50mm</option>");
-                $("#Size").prepend("<option value='78*189'>16 * 32mm</option>");
-                $("#Size").prepend("<option value='354*236'>20 * 30mm</option>");
-                $("#Size").prepend("<option value='472*236'>20 * 40mm</option>");
-                $("#Size").prepend("<option value='591*236'>20 * 50mm</option>");
-                $("#Size").prepend("<option value='827*177'>15 * 70mm</option>");
-                $("#Size").prepend("<option value='768*295'>25 * 65mm</option>");
-                $("#Size").prepend("<option value='591*295'>25 * 50mm</option>");
-                $("#Size").prepend("<option value='591*354'>30 * 50mm</option>");
-                $("#Size").prepend("<option value='709*354'>30 * 60mm</option>");
-                $("#Size").prepend("<option value='827*236'>20 * 70mm</option>");
-                $("#Size").prepend("<option value='886*413'>35 * 75mm</option>");
-                $("#Size").prepend("<option value='945*591'>50 * 80mm</option>");
-                $("#Size").prepend("<option value='1240*413'>35 * 105mm</option>");
-                $("#Size").prepend("<option value='1063*709'>60 * 90mm</option>");
-                $("#Size").prepend("<option value='236*236'>20 * 20mm</option>");
-                $("#Size").prepend("<option value='295*295'>25 * 25mm</option>");
-                $("#Size").prepend("<option value='768*531'>45 * 65mm</option>");
-                $("#Size").prepend("<option value='1240*945'>80 * 105mm</option>");
+                $("#Style").val(1); //光敏章只有阳文 
+                $("#sizeDiv").show(); //显示尺寸
+                AddGuangminSize();
+                $("#boarderDiv").show();//显示边框
             }
         }); 
     });
+    function AddBianzhangSize() {
+        $("#Size").empty();
+        $("#Size").prepend("<option value='165*71' selected='selected'>6 * 14mm</option>");
+        $("#Size").prepend("<option value='142*72'>4 * 12mm");
+        $("#Size").prepend("<option value='177*94'>8 * 15mm");
+        $("#Size").prepend("<option value='154*59'>5 * 13mm");
+        $("#Size").prepend("<option value='165*94'>8 * 14mm"); 
+    }
+    function AddGuangminSize() {
+        $("#Size").empty();  
+        $("#Size").prepend("<option value='413*118' selected='selected'>10 * 35mm</option>");
+        $("#Size").prepend("<option value='591*118'>10 * 50mm</option>");
+        $("#Size").prepend("<option value='78*189'>16 * 32mm</option>");
+        $("#Size").prepend("<option value='354*236'>20 * 30mm</option>");
+        $("#Size").prepend("<option value='472*236'>20 * 40mm</option>");
+        $("#Size").prepend("<option value='591*236'>20 * 50mm</option>");
+        $("#Size").prepend("<option value='827*177'>15 * 70mm</option>");
+        $("#Size").prepend("<option value='768*295'>25 * 65mm</option>");
+        $("#Size").prepend("<option value='591*295'>25 * 50mm</option>");
+        $("#Size").prepend("<option value='591*354'>30 * 50mm</option>");
+        $("#Size").prepend("<option value='709*354'>30 * 60mm</option>");
+        $("#Size").prepend("<option value='827*236'>20 * 70mm</option>");
+        $("#Size").prepend("<option value='886*413'>35 * 75mm</option>");
+        $("#Size").prepend("<option value='945*591'>50 * 80mm</option>");
+        $("#Size").prepend("<option value='1240*413'>35 * 105mm</option>");
+        $("#Size").prepend("<option value='1063*709'>60 * 90mm</option>");
+        $("#Size").prepend("<option value='236*236'>20 * 20mm</option>");
+        $("#Size").prepend("<option value='295*295'>25 * 25mm</option>");
+        $("#Size").prepend("<option value='768*531'>45 * 65mm</option>");
+        $("#Size").prepend("<option value='1240*945'>80 * 105mm</option>");
+    }
+
     function AddMainText(preindex) {
         var aa = "addmainbtn" + preindex;
         var bb = "del_mainText" + preindex;

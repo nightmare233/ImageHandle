@@ -89,3 +89,8 @@ UPDATE sample s SET font = (SELECT font FROM imagetext WHERE sampleid = s.id ORD
 --2019-5-19
 ALTER TABLE orders ADD Font VARCHAR(50) NOT NULL DEFAULT '';
  
+ --2019-6-28
+ ALTER TABLE sample ADD COLUMN SmallTextNumber INT  NOT NULL DEFAULT 0;
+ UPDATE sample SET SmallTextNumber = 1 WHERE  IfHasSmallText = 1
+
+  ALTER TABLE sample ADD COLUMN Boarder float  NOT NULL DEFAULT 0;

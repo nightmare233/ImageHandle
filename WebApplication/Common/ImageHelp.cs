@@ -62,14 +62,19 @@ namespace Models
                         }
                     }
                     break;
-                case EnumImageType.扁章: //没有背景图 
+                case EnumImageType.扁章: //没有背景图,可以调整尺寸和边框
                     int sizeX = sample.ImageSizeX;
                     int sizeY = sample.ImageSizeY;
-                    imgBack = new System.Drawing.Bitmap(sizeX, sizeY);
+                    imgBack = new Bitmap(sizeX, sizeY);
                     g = Graphics.FromImage(imgBack);
                     if (sample.Style == EnumImageStyle.阳文)
                     {
-                        Pen pen = new Pen(Color.Red, 28.0F);
+                        float width = 28.0F;
+                        if (sample.Boarder != 0)
+                        {
+                            width = sample.Boarder;
+                        }
+                        Pen pen = new Pen(Color.Red, width);
                         g.DrawRectangle(pen, 0, 0, sizeX, sizeY);
                     }
                     else if (sample.Style == EnumImageStyle.阴文)
@@ -121,7 +126,7 @@ namespace Models
                         }
                     }
                     break;
-                case EnumImageType.光敏章:
+                case EnumImageType.光敏章: //可以调整尺寸和边框
                     if (!string.IsNullOrEmpty(sample.BgImage))
                     {
                         string bgImgPath = AppDomain.CurrentDomain.BaseDirectory + sample.BgImage;
@@ -137,6 +142,10 @@ namespace Models
                         if (sample.Style == EnumImageStyle.阳文)
                         {
                             float width = 56.0F;
+                            if (sample.Boarder != 0)
+                            {
+                                width = sample.Boarder;
+                            }
                             Pen pen = new Pen(Color.Red, width);
                             g.DrawRectangle(pen, 0, 0, sizeX, sizeY);
                         }
@@ -160,7 +169,7 @@ namespace Models
             {
                 throw new Exception("方案文字和预设文字数量不一致！");
             }
-            if (sample.SmallText.Count == sample.SmallTextNumber)
+            if (sample.SmallTextNumber > 0)
             {
                 for (int i = 0; i < sample.SmallTextNumber; i++)
                 {

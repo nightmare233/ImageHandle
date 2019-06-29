@@ -140,7 +140,6 @@ namespace WebApplication.Controllers
                         log.Error(ex.Message);
                         return Json(new { status = "Fail", message = ex.Message }, JsonRequestBehavior.AllowGet);
                     }
-
                 }
 
                 sample.Name = collection["Name"];
@@ -158,6 +157,11 @@ namespace WebApplication.Controllers
                 imageFont = imageFontService.GetById(fontId);
                 sample.Font = imageFont.name;//第一个字的字体作为sample的字体，用于搜索过滤。
                 sample.ImageFont = imageFont;
+                
+                float boarder = 0.0F;
+                float.TryParse(collection["ImageBoarder"], out boarder);
+                sample.Boarder = boarder;
+                
 
                 var mainTextArray = collection.AllKeys.Where(t => t.StartsWith("Text"));  //把所有Text开头的拿出来，遍历。
                 foreach (string str in mainTextArray)
