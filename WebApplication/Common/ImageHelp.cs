@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
+using WebApplication.Common;
 
 namespace Models
 {
@@ -189,14 +190,26 @@ namespace Models
             #endregion
 
             GC.Collect();
-            string filename =  ifSample ? sample.Name + "_" + ".png" : taobaoId +".png";
+            string filename =  ifSample ? sample.Name + "_" + Constants.ImageExtension : taobaoId + Constants.ImageExtension;
             string path = ifSample ? $"\\UploadFiles\\SampleImgs\\{filename}" : $"\\UploadFiles\\OutputImgs\\{filename}";
             string saveImagePath = AppDomain.CurrentDomain.BaseDirectory + path;
             if (System.IO.File.Exists(saveImagePath))
             {
                 System.IO.File.Delete(saveImagePath);
             }
-            imgBack.Save(saveImagePath, ImageFormat.Png);//save new image to file system.
+            if (Constants.ImageExtension == ".png")
+            {
+                imgBack.Save(saveImagePath, ImageFormat.Png);//save new image to file system.
+            }
+            else if (Constants.ImageExtension == ".bmp")
+            {
+                imgBack.Save(saveImagePath, ImageFormat.Bmp);//save new image to file system.
+            }
+            else if (Constants.ImageExtension == ".jpg" || Constants.ImageExtension == ".jpeg")
+            {
+                imgBack.Save(saveImagePath, ImageFormat.Jpeg);//save new image to file system.
+            }
+            
             return filename;
         }
         #region 
